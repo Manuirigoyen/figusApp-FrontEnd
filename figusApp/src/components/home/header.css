@@ -1,0 +1,145 @@
+.header-section {
+  margin-bottom: 0.5rem;
+  padding: 1.5rem 1rem !important;
+  text-align: center;
+}
+
+.navbar {
+  position: relative;
+}
+
+.navbar-brand {
+  padding: 0 !important;
+  line-height: 1;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.navbar-brand-hover {
+  transition: transform 0.2s ease;
+}
+
+.navbar-brand-hover:hover {
+  transform: scale(1.05);
+}
+
+.navbar-logo {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+}
+
+.navbar-title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1;
+  letter-spacing: 0.5px;
+}
+
+.navbar-nav .nav-link {
+  position: relative;
+  padding-bottom: 4px;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 400;
+  font-family: "Quicksand", sans-serif;
+}
+
+.navbar-nav .nav-link:not(.dropdown-toggle)::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 3px;
+  background-color: #ffffff;
+  transition: width 0.4s ease;
+}
+
+.navbar-nav .nav-link:not(.dropdown-toggle):hover::after {
+  width: 100%;
+}
+
+.navbar-nav .nav-link:not(.dropdown-toggle):hover,
+.navbar-nav .nav-link.dropdown-toggle:hover {
+  font-weight: 700;
+}
+
+.dropdown-menu {
+  min-width: 160px !important;
+  overflow: hidden;
+  padding: 0.75rem 0 !important;
+  border: none !important;
+  border-radius: 0.75rem !important;
+  background-color: #000 !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+}
+
+.dropdown-menu .dropdown-item {
+  width: 100%;
+  margin: 0 0.25rem !important;
+  padding: 0.75rem 1rem !important;
+  border-radius: 0.5rem !important;
+  color: #ffffff !important;
+  font-size: 15px !important;
+  font-family: "Quicksand", sans-serif !important;
+}
+
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu .dropdown-item.active {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  box-shadow: none !important;
+}
+
+.video-hero {
+  max-width: 85vw !important;
+  margin: 0 auto !important;
+  margin-top: -1.5rem !important;
+  overflow: hidden;
+  border-radius: 1.5rem;
+  background: transparent;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.video-hero video {
+  display: block;
+  width: 100%;
+  height: 40vh;
+  margin-bottom: 0 !important;
+  object-fit: cover;
+}
+
+.video-narrow {
+  width: 100% !important;
+  max-width: calc(100vw - 360px) !important;
+}
+
+@media (max-width: 991.98px) {
+  .navbar-brand,
+  .navbar-brand img {
+    height: 50px !important;
+  }
+
+  .navbar-brand h1 {
+    font-size: 1.7rem !important;
+  }
+
+  .navbar-collapse .navbar-nav {
+    text-align: center !important;
+  }
+
+  .navbar-collapse .dropdown-toggle,
+  .navbar-collapse [aria-labelledby="profileDropdown"] {
+    width: 100% !important;
+    text-align: center !important;
+  }
+
+  .video-narrow {
+    height: 250px !important;
+  }
+}

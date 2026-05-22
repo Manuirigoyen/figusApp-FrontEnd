@@ -1,0 +1,56 @@
+#footer img {
+  cursor: pointer;
+}
+
+#footer .captcha-wrapper {
+  width: 100%;
+  margin: 0.25rem auto 0.25rem auto;
+  padding: 0;
+}
+
+#footer .register-captcha-wrap {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#footer .register-captcha-host {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 0;
+}
+
+#footer .register-captcha-wrap .form-label {
+  display: block;
+  margin: 0 0 0.25rem 0 !important;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #ffffff;
+  text-align: center;
+  line-height: 1.1;
+}
+
+#footer .register-captcha-status {
+  margin: 0.25rem 0 0 0 !important;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.1;
+}
+
+#footer .register-captcha-status.is-ok {
+  color: white;
+  font-weight: 600;
+}
+
+#footer .register-captcha-status.is-error {
+  color: #ff8a8a;
+  font-weight: 600;
+}
+
+#footer .register-captcha-host > div {
+  margin: 0 auto;
+  padding: 0;
+}
