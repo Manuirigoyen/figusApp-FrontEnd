@@ -1,115 +1,101 @@
 // src/components/login/Login.tsx
-import React, { useState } from 'react';
+import { useCallback, useState } from 'react';
+import type { FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Turnstile } from '@marsidev/react-turnstile';
+
+import { TurnstileCaptcha } from '../captcha/TurnstileCaptcha';
+import { buildLoginPayload } from './utils/buildLoginPayload';
+import { loginUser } from './services/LoginUser';
+
 import './Login.css';
 
-export const Login: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [message, setMessage] = useState('');
-  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
-  const [turnstileVerified, setTurnstileVerified] = useState(false);
+export const Login = () => {
+  const [captchaToken, setCaptchaToken] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
-  const navigate = useNavigate();
-
-  // Estados para "Olvidé mi contraseña"
   const [showForgotModal, setShowForgotModal] = useState(false);
   const [forgotEmail, setForgotEmail] = useState('');
   const [forgotError, setForgotError] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [sentToEmail, setSentToEmail] = useState('');
 
-  const validEmails = ['manuirigoyen@hotmail.com', 'alexmartin9c@gmail.com'];
+  const navigate = useNavigate();
 
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // ACA ESTABA EL PROBLEMA: faltaba declarar esto
+  const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY as string;
 
-    setError('');
-    setMessage('');
+  const handleSubmit = useCallback(
+    async (event: FormEvent<HTMLFormElement>) => {
+      event.preventDefault();
+      setErrorMessage('');
+      setSuccessMessage('');
 
-    if (!email ||!password) {
-      setError('Por favor, ingresa tu email y contraseña.');
-      return;
-    }
+      const form = event.currentTarget;
 
-    if (!email.includes('@')) {
-      setError('Por favor, ingresa un email válido.');
-      return;
-    }
-
-    if (!turnstileToken) {
-      setError('Completá la verificación para continuar');
-      return;
-    }
-
-    try {
-      setIsSubmitting(true);
-      setError('');
-
-      const response = await fetch('http://localhost:3000/api/v1/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email,
-          password,
-          captcha_token: turnstileToken,
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Email o contraseña incorrectos.');
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
       }
 
-      // Guardás el token JWT
-      localStorage.setItem('token', data.access_token);
-      localStorage.setItem('user', JSON.stringify(data.user));
+      if (!captchaToken) {
+        setErrorMessage('Completá la verificación CAPTCHA.');
+        return;
+      }
 
-      setMessage('¡Inicio de sesión exitoso!');
+      try {
+        setIsSubmitting(true);
 
-      // Redirigís al user o admin segun el rol
-      setTimeout(() => {
-        navigate('/user');
-      }, 1000);
+        const formData = new FormData(form);
+        const payload = buildLoginPayload(formData, captchaToken);
 
-      setEmail('');
-      setPassword('');
-      setTurnstileToken(null);
-      setTurnstileVerified(false);
+        const data = await loginUser(payload);
 
-    } catch (err) {
-      setError(err instanceof Error? err.message : 'Error al iniciar sesión');
-      setTurnstileToken(null);
-      setTurnstileVerified(false);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+        localStorage.setItem('token', data.access_token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+
+        setSuccessMessage('¡Inicio de sesión exitoso!');
+
+        setTimeout(() => {
+          navigate(data.user.role === 'admin' ? '/admin' : '/user');
+        }, 1000);
+
+      } catch (error) {
+        console.error(error);
+        setErrorMessage(
+          error instanceof Error
+            ? error.message
+            : 'Error al iniciar sesión',
+        );
+        setCaptchaToken('');
+      } finally {
+        setIsSubmitting(false);
+      }
+    },
+    [captchaToken, navigate],
+  );
 
   const handleForgotPassword = (e: React.MouseEvent) => {
     e.preventDefault();
     setShowForgotModal(true);
     setForgotError('');
-    setForgotEmail(email);
   };
 
-  const handleSendResetEmail = () => {
+  const handleSendResetEmail = async () => {
     setForgotError('');
 
-    if (!forgotEmail ||!forgotEmail.includes('@')) {
+    if (!forgotEmail || !forgotEmail.includes('@')) {
       setForgotError('Ingresá un email válido.');
       return;
     }
 
-    if (validEmails.includes(forgotEmail.toLowerCase())) {
+    try {
+      // Cuando tengan el endpoint: await requestPasswordReset(forgotEmail);
       setSentToEmail(forgotEmail);
       setShowForgotModal(false);
       setShowSuccessModal(true);
-    } else {
+    } catch (error) {
       setForgotError('No encontramos una cuenta con ese email.');
     }
   };
@@ -126,80 +112,75 @@ export const Login: React.FC = () => {
   };
 
   return (
-    <div className="login-container">
+    <main className="login-container">
       <div className="login-box">
         <div className="login-logo">
           <img
-            src="src/assets/img/icons/logo.png"
+            src={new URL('../../assets/img/icons/logo.png', import.meta.url).href}
             alt="FigusApp Logo"
           />
         </div>
         <h2 className="login-title">Inicia Sesión</h2>
-        <form onSubmit={handleLogin} className="login-form">
+
+        {errorMessage && (
+          <p className="error-message">{errorMessage}</p>
+        )}
+        {successMessage && (
+          <p className="success-message">{successMessage}</p>
+        )}
+
+        <form onSubmit={handleSubmit} className="login-form">
           <div className="form-group">
             <label htmlFor="email">Email:</label>
             <input
               type="email"
               id="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              name="email"
+              className="form-control"
               placeholder="tu@email.com"
+              autoComplete="email"
+              maxLength={120}
               required
             />
           </div>
+
           <div className="form-group">
             <label htmlFor="password">Contraseña:</label>
             <input
               type="password"
               id="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="password"
+              className="form-control"
               placeholder="Contraseña"
+              autoComplete="current-password"
+              minLength={8}
+              maxLength={12}
               required
             />
           </div>
 
-          {error && <p className="error-message">{error}</p>}
-          {message && <p className="success-message">{message}</p>}
-
-          <div className="turnstile-container">
-            <label>Verificación</label>
-            <Turnstile
-              siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
-              onSuccess={(token) => {
-                setTurnstileToken(token);
-                setTurnstileVerified(true);
-                setError('');
-              }}
-              onError={() => {
-                setTurnstileToken(null);
-                setTurnstileVerified(false);
-                setError('Error en la verificación. Recargá la página.');
-              }}
-              onExpire={() => {
-                setTurnstileToken(null);
-                setTurnstileVerified(false);
-              }}
-              options={{
-                size: 'flexible',
-                theme: 'light'
-              }}
+          <div className="col-12 pt-2">
+            <TurnstileCaptcha 
+              siteKey={turnstileSiteKey}
+              onTokenChange={setCaptchaToken} 
             />
-            {turnstileVerified? (
-              <p className="turnstile-status success">Verificación completada</p>
-            ) : (
-              <p className="turnstile-status">Completá la verificación para continuar</p>
-            )}
           </div>
 
-          <button type="submit" className="login-button" disabled={isSubmitting}>
-            {isSubmitting? 'Iniciando sesión...' : 'Iniciar Sesión'}
+          <button 
+            type="submit" 
+            className="login-button" 
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Iniciando sesión...' : 'Iniciar Sesión'}
           </button>
 
           <p className="forgot-password-link">
-            <a href="#" onClick={handleForgotPassword}>¿Olvidaste tu contraseña?</a>
+            <a href="#" onClick={handleForgotPassword}>
+              ¿Olvidaste tu contraseña?
+            </a>
           </p>
         </form>
+
         <div className="register-section">
           <p>
             ¿No tenes una cuenta?{' '}
@@ -247,6 +228,6 @@ export const Login: React.FC = () => {
           </div>
         </div>
       )}
-    </div>
+    </main>
   );
 };
