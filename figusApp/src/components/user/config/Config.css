@@ -1,0 +1,39 @@
+.input-register {
+  height: 50px !important; 
+  border-radius: 12px !important; 
+  border: 2px solid #e9ecef !important;
+  padding: 1rem 1.25rem !important; 
+  font-size: 1.1rem !important; 
+  transition: all 0.3s ease;
+}
+
+.input-register:focus {
+  border-color: #0d6efd !important;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
+  transform: translateY(-1px); 
+}
+
+.input-register-wide {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin-bottom: 0 !important;
+}
+
+.input-register-wide .form-control,
+.input-register-wide .form-select {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+}
+
+.input-register-wide .btn {
+  flex: 0 0 auto !important; 
+  white-space: nowrap !important;
+  min-width: 55px !important; 
+  border-radius: 0 12px 12px 0 !important; 
+}
+
+input[type="file"].input-register {
+  padding: 1rem 1.25rem !important;
+  height: auto !important;
+  border-radius: 12px !important;
+}

@@ -1,0 +1,17 @@
+.profile-icon-config {
+  background: none !important;
+  border: none !important;
+  font-size: 18px;
+  position: absolute;
+  top: -8px;
+  right: -8px;
+}
+
+.profile-icon-config:hover {
+  transform: scale(1.2) !important;
+}
+
+.img-container {
+  position: relative;
+  display: inline-block;
+}

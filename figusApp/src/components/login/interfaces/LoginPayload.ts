@@ -4,8 +4,8 @@ export interface LoginPayload {
   captcha_token: string;
 }
 
+// El back ya NO devuelve access_token, solo el user o un mensaje
 export interface LoginResponse {
-  access_token: string;
   user: {
     id: number;
     email: string;
@@ -14,4 +14,5 @@ export interface LoginResponse {
     role: 'user' | 'admin';
     profile_picture?: string;
   };
+  message?: string;
 }

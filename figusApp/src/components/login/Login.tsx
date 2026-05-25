@@ -1,11 +1,12 @@
 // src/components/login/Login.tsx
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import type { FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { TurnstileCaptcha } from '../captcha/TurnstileCaptcha';
 import { buildLoginPayload } from './utils/buildLoginPayload';
 import { loginUser } from './services/LoginUser';
+import { useUserProfile } from '../user/hooks/useUserProfile'; // <- Import nuevo
 
 import './Login.css';
 
@@ -22,8 +23,15 @@ export const Login = () => {
   const [sentToEmail, setSentToEmail] = useState('');
 
   const navigate = useNavigate();
+  const { user, isLoading } = useUserProfile(); // <- Hook nuevo
 
-  // ACA ESTABA EL PROBLEMA: faltaba declarar esto
+  // Redirigir si ya está logueado
+  useEffect(() => {
+    if (!isLoading && user) {
+      navigate(user.role === 'admin' ? '/admin' : '/user');
+    }
+  }, [user, isLoading, navigate]);
+
   const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY as string;
 
   const handleSubmit = useCallback(
@@ -51,9 +59,6 @@ export const Login = () => {
         const payload = buildLoginPayload(formData, captchaToken);
 
         const data = await loginUser(payload);
-
-        localStorage.setItem('token', data.access_token);
-        localStorage.setItem('user', JSON.stringify(data.user));
 
         setSuccessMessage('¡Inicio de sesión exitoso!');
 
@@ -91,7 +96,6 @@ export const Login = () => {
     }
 
     try {
-      // Cuando tengan el endpoint: await requestPasswordReset(forgotEmail);
       setSentToEmail(forgotEmail);
       setShowForgotModal(false);
       setShowSuccessModal(true);
@@ -110,6 +114,10 @@ export const Login = () => {
     setForgotError('');
     setForgotEmail('');
   };
+
+  // Evitar flash del form si ya está logueado
+  if (isLoading) return <div className="text-center p-5">Cargando...</div>;
+  if (user) return null;
 
   return (
     <main className="login-container">

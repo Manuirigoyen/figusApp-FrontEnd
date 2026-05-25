@@ -8,7 +8,7 @@ export const loginUser = async (
     {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
+      credentials: 'include', // <- Ya lo tenías, perfecto
       body: JSON.stringify(payload),
     },
   );
@@ -20,5 +20,6 @@ export const loginUser = async (
     );
   }
 
-  return response.json();
+  // El back ya setea la cookie HttpOnly, no devolvemos token
+  return response.json(); // Solo devuelve user o message
 };
