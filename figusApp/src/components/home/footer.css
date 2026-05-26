@@ -54,3 +54,29 @@
   margin: 0 auto;
   padding: 0;
 }
+
+/* ========================= */
+/* RESPONSIVE MOBILE */
+/* ========================= */
+
+@media (max-width: 991px) {
+  #footer .payment-section,
+  #footer .tech-section,
+  #footer .footer-left-section {
+    text-align: center !important;
+  }
+
+  #footer .payment-section .row,
+  #footer .tech-section .d-flex,
+  #footer .footer-left-section .d-flex {
+    justify-content: center !important;
+  }
+
+  #footer .tech-section p {
+    text-align: center !important;
+  }
+
+  #footer .footer-left-section ul {
+    padding-left: 0;
+  }
+}

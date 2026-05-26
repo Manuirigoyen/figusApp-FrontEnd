@@ -76,7 +76,7 @@ export const Footer = () => {
     <footer id="footer" className="bg-primary text-white p-4">
       <div className="container">
         <div className="row gy-4 justify-content-between">
-          <div className="col-lg-4 col-md-6">
+          <div className="footer-left-section col-lg-4 col-md-6">
             <h6 className="fw-bold mt-4">Legal</h6>
             {getDivLegales()}
 
@@ -86,7 +86,7 @@ export const Footer = () => {
             {getDivRedesSociales()}
           </div>
 
-          <div className="col-lg-4 col-md-6">
+          <div className="footer-left-section col-lg-4 col-md-6">
             <form
               className="w-100 text-center"
               aria-labelledby="consultas-title"
@@ -163,7 +163,7 @@ export const Footer = () => {
             </form>
           </div>
 
-          <div className="col-lg-4 col-md-12">
+          <div className="col-lg-4 col-sm-12">
             {getMetodosDePago()}
             {getDivLenguages()}
           </div>
@@ -305,7 +305,7 @@ const getDivRedesSociales = () => (
  * Genera la sección de métodos de pago.
  */
 const getMetodosDePago = () => (
-  <div className="text-end mt-4">
+  <div className="payment-section text-end mt-4">
     <h6 className="fw-bold">Métodos de Pago</h6>
 
     <div className="row g-0 justify-content-end mt-4">
@@ -410,7 +410,7 @@ const getPagoItem = (
  * Genera la sección de tecnologías utilizadas.
  */
 const getDivLenguages = () => (
-  <div className="text-end pt-4">
+  <div className="tech-section text-end pt-4">
     <div>
       <h6 className="fw-bold">Tecnologías utilizadas</h6>
     </div>
