@@ -216,19 +216,25 @@ export const Admin = () => {
   }, []);
 
   const handleLogout = async () => {
-    try {
-      await fetch('http://localhost:3000/api/v1/auth/logout', {
-        method: 'POST',
-        credentials: 'include',
-      });
-    } catch {
-      setVistaActiva('home');
-    }
+  try {
+    await fetch('http://localhost:3000/api/v1/auth/logout', {
+      method: 'POST',
+      credentials: 'include',
+    });
+  } catch (error) {
+    console.error(error);
+  } finally {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
 
     setUser(null);
     setVistaActiva('home');
-    navigate('/');
-  };
+
+    window.dispatchEvent(new Event('auth-change'));
+
+    navigate('/login');
+  }
+};
 
   const closeSidebar = () => {
     setSidebarOpen(false);
