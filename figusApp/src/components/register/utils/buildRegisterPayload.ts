@@ -1,8 +1,13 @@
+/**
+ * Construye el payload de registro a partir del formulario y el token CAPTCHA.
+ */
 import type { RegisterPayload }
   from '../interfaces/RegisterPayload';
 
 export const buildRegisterPayload = (
+  /** Datos del formulario de registro. */
   formData: FormData,
+  /** Token generado por el servicio CAPTCHA. */
   captchaToken: string,
 ): FormData => {
 

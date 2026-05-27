@@ -1,188 +1,537 @@
+import { useEffect, useState } from 'react';
+import type { ReactElement } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
 import './admin.css';
 
-import { Link } from 'react-router-dom';
+import { AgregarAlbum } from './abm/crear/AgregarAlbum';
+import { AgregarFigurita } from './abm/crear/AgregarFigurita';
+import { AgregarProducto } from './abm/crear/AgregarProducto';
+import { AgregarSobre } from './abm/crear/AgregarSobre';
+import { AgregarUsuario } from './abm/crear/AgregarUsuario';
 
-/**
- * Componente principal del panel de administración.
- * Renderiza la interfaz completa con sidebar colapsable y área de presentación.
- */
-export const Admin = () => {
-  return (
-    <main id="mainContent" className="main-wrapper position-relative d-flex z-2">
-      {getDivAside()}
+import { EliminarAlbum } from './abm/delete/EliminarAlbum';
+import { EliminarFigurita } from './abm/delete/EliminarFigurita';
+import { EliminarProducto } from './abm/delete/EliminarProducto';
+import { EliminarSobre } from './abm/delete/EliminarSobre';
+import { EliminarUsuario } from './abm/delete/EliminarUsuario';
 
-      <div className="position-relative z-1 flex-grow-1">
-        {getDivPresentacion()}
-      </div>
-    </main>
-  );
+import { ListarAlbum } from './abm/listar/listarAlbum';
+import { ListarFigurita } from './abm/listar/listarFigurita';
+import { ListarProducto } from './abm/listar/listarProducto';
+import { ListarSobre } from './abm/listar/listarSobre';
+import { ListarUsuario } from './abm/listar/listarUsuario';
+
+import { ModificarAlbum } from './abm/update/ModificarAlbum';
+import { ModificarFigurita } from './abm/update/ModificarFigurita';
+import { ModificarProducto } from './abm/update/ModificarProducto';
+import { ModificarSobre } from './abm/update/ModificarSobre';
+import { ModificarUsuario } from './abm/update/ModificarUsuario';
+
+type AdminView =
+  | 'home'
+  | 'listar-figurita'
+  | 'listar-sobre'
+  | 'listar-album'
+  | 'listar-usuario'
+  | 'listar-producto'
+  | 'agregar-figurita'
+  | 'agregar-sobre'
+  | 'agregar-album'
+  | 'agregar-usuario'
+  | 'agregar-producto'
+  | 'modificar-figurita'
+  | 'modificar-sobre'
+  | 'modificar-album'
+  | 'modificar-usuario'
+  | 'modificar-producto'
+  | 'eliminar-figurita'
+  | 'eliminar-sobre'
+  | 'eliminar-album'
+  | 'eliminar-usuario'
+  | 'eliminar-producto';
+
+type LoggedUser = {
+  id: number;
+  email: string;
+  first_name?: string;
+  last_name?: string;
+  profile_picture?: string | null;
+  role: 'user' | 'admin';
 };
 
+const adminLogo = new URL(
+  '../../assets/img/icons/logo.png',
+  import.meta.url,
+).href;
 
-/**
- * Renderiza la sidebar de navegación administrativa completa.
- * Incluye perfil usuario, toggle, secciones CRUD colapsables y logout.
- *
- * @returns {JSX.Element} Panel lateral completo con menú responsive.
- */
-const getDivAside = () => (
-  <div className="d-flex panel-height">
-    <button id="toggleSidebar" className="sidebar-toggle-btn" aria-label="Abrir menú">
-      ⮜
-    </button>
-    <aside className="bg-white border-end px-3 py-3 pb-5 sidebar-width">
-      <div className="profile-wrapper text-center mb-4">
-        <div className="img-container">
-          <Link to="/album">
-            <button id="btn-album" className="profile-icon">📓</button>
-          </Link>
-          <img
-            src="assets/img/db/users/fotoPerfilDefault.png"
-            alt="Foto de perfil"
-            className="rounded-circle mb-2"
-          />
-          <Link to="/billetera">
-            <button id="btn-billetera" className="profile-icon">💼</button>
-          </Link>
-        </div>
-        <h6>admin@example.com</h6>
-        <button className="btn btn-danger btn-sm w-100">Cerrar sesión</button>
-      </div>
-      <h5 className="text-center mb-3">Administración</h5>
-      <ul className="list-unstyled">
-        <li className="mb-2">
-          <button
-            className="btn btn-outline-primary w-100"
-            data-bs-toggle="collapse"
-            data-bs-target="#submenuListar"
-          >
-            Listar
-          </button>
-          <div className="collapse" id="submenuListar">
-            <ul className="list-unstyled mt-2">
-              <li><button id="btn-listar-figuritas" className="btn btn-outline-primary w-100 mb-2">Listar figuritas</button></li>
-              <li><button id="btn-listar-sobres" className="btn btn-outline-primary w-100 mb-2">Listar sobres</button></li>
-              <li><button id="btn-listar-albumes" className="btn btn-outline-primary w-100 mb-2">Listar álbumes</button></li>
-              <li><button id="btn-listar-usuarios" className="btn btn-outline-primary w-100 mb-2">Listar usuarios</button></li>
-            </ul>
-          </div>
-        </li>
-        <li className="mb-2">
-          <button
-            className="btn btn-outline-primary w-100"
-            data-bs-toggle="collapse"
-            data-bs-target="#submenuAgregar"
-          >
-            Agregar
-          </button>
-          <div className="collapse" id="submenuAgregar">
-            <ul className="list-unstyled mt-2">
-              <li><button id="btn-agregar-figuritas" className="btn btn-outline-primary w-100 mb-2">Agregar figuritas</button></li>
-              <li><button id="btn-agregar-sobres" className="btn btn-outline-primary w-100 mb-2">Agregar sobres</button></li>
-              <li><button id="btn-agregar-albumes" className="btn btn-outline-primary w-100 mb-2">Agregar álbumes</button></li>
-              <li><button id="btn-agregar-usuarios" className="btn btn-outline-primary w-100 mb-2">Agregar usuarios</button></li>
-            </ul>
-          </div>
-        </li>
-        <li className="mb-2">
-          <button
-            className="btn btn-outline-primary w-100"
-            data-bs-toggle="collapse"
-            data-bs-target="#submenuModificar"
-          >
-            Modificar
-          </button>
-          <div className="collapse" id="submenuModificar">
-            <ul className="list-unstyled mt-2">
-              <li><button id="btn-modificar-figuritas" className="btn btn-outline-primary w-100 mb-2 px-0">Modificar figuritas</button></li>
-              <li><button id="btn-modificar-sobres" className="btn btn-outline-primary w-100 mb-2">Modificar sobres</button></li>
-              <li><button id="btn-modificar-albumes" className="btn btn-outline-primary w-100 mb-2 px-0">Modificar álbumes</button></li>
-              <li><button id="btn-modificar-usuarios" className="btn btn-outline-primary w-100 mb-2 px-0">Modificar usuarios</button></li>
-            </ul>
-          </div>
-        </li>
-        <li className="mb-2">
-          <button
-            className="btn btn-outline-primary w-100"
-            data-bs-toggle="collapse"
-            data-bs-target="#submenuEliminar"
-          >
-            Eliminar
-          </button>
-          <div className="collapse" id="submenuEliminar">
-            <ul className="list-unstyled mt-2">
-              <li><button id="btn-eliminar-figuritas" className="btn btn-outline-primary w-100 mb-2">Eliminar figuritas</button></li>
-              <li><button id="btn-eliminar-sobres" className="btn btn-outline-primary w-100 mb-2">Eliminar sobres</button></li>
-              <li><button id="btn-eliminar-albumes" className="btn btn-outline-primary w-100 mb-2">Eliminar álbumes</button></li>
-              <li><button id="btn-eliminar-usuarios" className="btn btn-outline-primary w-100 mb-2">Eliminar usuarios</button></li>
-            </ul>
-          </div>
-        </li>
-      </ul>
-    </aside>
-  </div>
-);
+function AdminPresentacion() {
+  return (
+    <div className="admin-welcome-shell">
+      <div className="admin-welcome-card">
+        <div className="admin-welcome-header text-center">
+          <img src={adminLogo} alt="FigusApp" className="admin-welcome-logo" />
 
+          <h1 className="admin-welcome-title">
+            Bienvenidos al panel de administración de FigusApp
+          </h1>
 
-/**
- * Renderiza la sección principal de presentación administrativa.
- * Incluye título, descripción introductoria y grid de tarjetas CRUD.
- *
- * @returns {JSX.Element} Contenido principal con presentación y cards informativas.
- */
-const getDivPresentacion = () => (
-  <div className="flex-grow-1 p-4">
-    <h4 className="mb-4 text-center">
-      Bienvenido al panel de administración de <strong>FigusApp</strong>
-    </h4>
-    <p className="intro-paragraph mb-5">
-      Desde esta interfaz, los administradores podrán gestionar las secciones
-      del sistema: figuritas, sobres, álbumes y usuarios. Cada sección incluye
-      herramientas que permiten agregar, listar, modificar y eliminar registros
-      en la base de datos para asegurar que la información se mantenga
-      actualizada y organizada.
-    </p>
-    <div className="row row-cols-1 row-cols-md-4 g-4">
-      <div className="col">
-        <div className="p-3 bg-light border rounded h-100 d-flex flex-column column-card">
-          <h5>Listar</h5>
-          <p className="mb-0">
-            Cuenta con formularios que permiten consultar los registros
-            existentes de Figuritas, Sobres, Álbumes y Usuarios, facilitando su
-            visualización y búsqueda.
+          <p className="admin-welcome-text">
+            Desde esta interfaz, los administradores pueden gestionar figuritas,
+            sobres, álbumes, usuarios y productos desde secciones separadas y
+            componentes independientes.
           </p>
         </div>
-      </div>
-      <div className="col">
-        <div className="p-3 bg-light border rounded h-100 d-flex flex-column column-card">
-          <h5>Agregar</h5>
-          <p className="mb-0">
-            Cuenta con formularios que permiten crear nuevos registros de
-            Figuritas, Sobres, Álbumes y Usuarios, asegurando que la información
-            se mantenga completa y actualizada.
-          </p>
-        </div>
-      </div>
-      <div className="col">
-        <div className="p-3 bg-light border rounded h-100 d-flex flex-column column-card">
-          <h5>Modificar</h5>
-          <p className="mb-0">
-            Cuenta con formularios que permiten actualizar los registros
-            existentes en la base de datos, como Figuritas, Sobres, Álbumes y
-            Usuarios, de manera rápida y segura.
-          </p>
-        </div>
-      </div>
-      <div className="col">
-        <div className="p-3 bg-light border rounded h-100 d-flex flex-column column-card">
-          <h5>Eliminar</h5>
-          <p className="mb-0">
-            Cuenta con formularios que permiten eliminar registros existentes en
-            la base de datos, como Figuritas, Sobres, Álbumes y Usuarios,
-            manteniendo la base de datos limpia y organizada.
+
+        <div className="row row-cols-1 row-cols-md-2 row-cols-xl-4 g-4 mt-2">
+          <div className="col">
+            <div className="admin-feature-card h-100">
+              <h5 className="admin-feature-title">Listar</h5>
+              <p className="admin-feature-text mb-0">
+                Consultar registros existentes de figuritas, sobres, álbumes,
+                usuarios y productos.
+              </p>
+            </div>
+          </div>
+
+          <div className="col">
+            <div className="admin-feature-card h-100">
+              <h5 className="admin-feature-title">Agregar</h5>
+              <p className="admin-feature-text mb-0">
+                Crear nuevos registros de forma ordenada y consistente.
+              </p>
+            </div>
+          </div>
+
+          <div className="col">
+            <div className="admin-feature-card h-100">
+              <h5 className="admin-feature-title">Modificar</h5>
+              <p className="admin-feature-text mb-0">
+                Actualizar datos existentes desde formularios dedicados.
+              </p>
+            </div>
+          </div>
+
+          <div className="col">
+            <div className="admin-feature-card h-100">
+              <h5 className="admin-feature-title">Eliminar</h5>
+              <p className="admin-feature-text mb-0">
+                Quitar registros obsoletos o incorrectos del sistema.
+              </p>
+            </div>
+          </div>
+          <p className="admin-feature-text mb-0">
+             //anuncio horizontal
           </p>
         </div>
       </div>
     </div>
-  </div>
-);
+  );
+}
+
+function renderAdminContent(vista: AdminView): ReactElement {
+  switch (vista) {
+    case 'listar-figurita':
+      return <ListarFigurita />;
+    case 'listar-sobre':
+      return <ListarSobre />;
+    case 'listar-album':
+      return <ListarAlbum />;
+    case 'listar-usuario':
+      return <ListarUsuario />;
+    case 'listar-producto':
+      return <ListarProducto />;
+
+    case 'agregar-figurita':
+      return <AgregarFigurita />;
+    case 'agregar-sobre':
+      return <AgregarSobre />;
+    case 'agregar-album':
+      return <AgregarAlbum />;
+    case 'agregar-usuario':
+      return <AgregarUsuario />;
+    case 'agregar-producto':
+      return <AgregarProducto />;
+
+    case 'modificar-figurita':
+      return <ModificarFigurita />;
+    case 'modificar-sobre':
+      return <ModificarSobre />;
+    case 'modificar-album':
+      return <ModificarAlbum />;
+    case 'modificar-usuario':
+      return <ModificarUsuario />;
+    case 'modificar-producto':
+      return <ModificarProducto />;
+
+    case 'eliminar-figurita':
+      return <EliminarFigurita />;
+    case 'eliminar-sobre':
+      return <EliminarSobre />;
+    case 'eliminar-album':
+      return <EliminarAlbum />;
+    case 'eliminar-usuario':
+      return <EliminarUsuario />;
+    case 'eliminar-producto':
+      return <EliminarProducto />;
+
+    case 'home':
+    default:
+      return <AdminPresentacion />;
+  }
+}
+
+export const Admin = () => {
+  const navigate = useNavigate();
+
+  const [vistaActiva, setVistaActiva] = useState<AdminView>('home');
+  const [listarAbierto, setListarAbierto] = useState(false);
+  const [agregarAbierto, setAgregarAbierto] = useState(false);
+  const [modificarAbierto, setModificarAbierto] = useState(false);
+  const [eliminarAbierto, setEliminarAbierto] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const [user, setUser] = useState<LoggedUser | null>(null);
+
+  useEffect(() => {
+    const loadUser = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/v1/auth/me', {
+          credentials: 'include',
+        });
+
+        if (!response.ok) {
+          setUser(null);
+          return;
+        }
+
+        const data = (await response.json()) as LoggedUser;
+        setUser(data);
+      } catch {
+        setUser(null);
+      }
+    };
+
+    loadUser();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      await fetch('http://localhost:3000/api/v1/auth/logout', {
+        method: 'POST',
+        credentials: 'include',
+      });
+    } catch {
+      setVistaActiva('home');
+    }
+
+    setUser(null);
+    setVistaActiva('home');
+    navigate('/');
+  };
+
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
+
+  const toggleSidebar = () => {
+    setSidebarOpen((prev) => !prev);
+  };
+
+  const profileImageSrc = user?.profile_picture
+    ? user.profile_picture.startsWith('http')
+      ? user.profile_picture
+      : `http://localhost:3000${user.profile_picture.startsWith('/') ? '' : '/'}${user.profile_picture}`
+    : '/assets/img/db/users/fotoPerfilDefault.png';
+
+  const profileName = user
+    ? `${user.first_name ?? ''} ${user.last_name ?? ''}`.trim() || user.email
+    : 'Administrador';
+
+  const mostrarVista = (vista: AdminView) => {
+    setVistaActiva(vista);
+    closeSidebar();
+  };
+
+  const toggleListar = () => setListarAbierto((prev) => !prev);
+  const toggleAgregar = () => setAgregarAbierto((prev) => !prev);
+  const toggleModificar = () => setModificarAbierto((prev) => !prev);
+  const toggleEliminar = () => setEliminarAbierto((prev) => !prev);
+
+  return (
+    <main id="mainContent" className="main-wrapper admin-page position-relative">
+      <button
+        id="toggleSidebar"
+        className="sidebar-toggle-btn"
+        aria-label={sidebarOpen ? 'Cerrar menú' : 'Abrir menú'}
+        type="button"
+        onClick={toggleSidebar}
+      >
+        {sidebarOpen ? '⮞' : '⮜'}
+      </button>
+
+      {sidebarOpen && <div className="sidebar-overlay" onClick={closeSidebar} />}
+
+      <aside className={`admin-sidebar ${sidebarOpen ? 'is-open' : ''}`}>
+        <div className="admin-profile text-center">
+          <div className="admin-profile-actions">
+            <Link
+              to="/album"
+              className="admin-profile-icon"
+              aria-label="Ir al álbum"
+              onClick={closeSidebar}
+            >
+              📓
+            </Link>
+
+            <img
+              src={profileImageSrc}
+              alt={profileName}
+              className="admin-profile-image"
+            />
+
+            <Link
+              to="/billetera"
+              className="admin-profile-icon"
+              aria-label="Ir a billetera"
+              onClick={closeSidebar}
+            >
+              💼
+            </Link>
+          </div>
+
+          <h6 className="admin-email">{user?.email ?? 'Cargando...'}</h6>
+
+          <button
+            className="btn btn-danger btn-sm w-100 admin-logout-btn"
+            type="button"
+            onClick={handleLogout}
+          >
+            Cerrar sesión
+          </button>
+        </div>
+
+        <h5 className="admin-sidebar-title text-center">Administración</h5>
+
+        <nav className="admin-menu" aria-label="Navegación administrativa">
+          <div className="admin-menu-group">
+            <button
+              className="admin-menu-btn"
+              type="button"
+              onClick={toggleListar}
+              aria-expanded={listarAbierto}
+              aria-controls="submenu-listar"
+            >
+              Listar
+            </button>
+
+            <div
+              id="submenu-listar"
+              className={`admin-submenu ${listarAbierto ? 'is-open' : ''}`}
+            >
+              <button
+                className="admin-submenu-btn"
+                type="button"
+                onClick={() => mostrarVista('listar-figurita')}
+              >
+                Listar figuritas
+              </button>
+              <button
+                className="admin-submenu-btn"
+                type="button"
+                onClick={() => mostrarVista('listar-sobre')}
+              >
+                Listar sobres
+              </button>
+              <button
+                className="admin-submenu-btn"
+                type="button"
+                onClick={() => mostrarVista('listar-album')}
+              >
+                Listar álbumes
+              </button>
+              <button
+                className="admin-submenu-btn"
+                type="button"
+                onClick={() => mostrarVista('listar-usuario')}
+              >
+                Listar usuarios
+              </button>
+              <button
+                className="admin-submenu-btn"
+                type="button"
+                onClick={() => mostrarVista('listar-producto')}
+              >
+                Listar productos
+              </button>
+            </div>
+          </div>
+
+          <div className="admin-menu-group">
+            <button
+              className="admin-menu-btn"
+              type="button"
+              onClick={toggleAgregar}
+              aria-expanded={agregarAbierto}
+              aria-controls="submenu-agregar"
+            >
+              Agregar
+            </button>
+
+            <div
+              id="submenu-agregar"
+              className={`admin-submenu ${agregarAbierto ? 'is-open' : ''}`}
+            >
+              <button
+                className="admin-submenu-btn"
+                type="button"
+                onClick={() => mostrarVista('agregar-figurita')}
+              >
+                Agregar figuritas
+              </button>
+              <button
+                className="admin-submenu-btn"
+                type="button"
+                onClick={() => mostrarVista('agregar-sobre')}
+              >
+                Agregar sobres
+              </button>
+              <button
+                className="admin-submenu-btn"
+                type="button"
+                onClick={() => mostrarVista('agregar-album')}
+              >
+                Agregar álbumes
+              </button>
+              <button
+                className="admin-submenu-btn"
+                type="button"
+                onClick={() => mostrarVista('agregar-usuario')}
+              >
+                Agregar usuarios
+              </button>
+              <button
+                className="admin-submenu-btn"
+                type="button"
+                onClick={() => mostrarVista('agregar-producto')}
+              >
+                Agregar productos
+              </button>
+            </div>
+          </div>
+
+          <div className="admin-menu-group">
+            <button
+              className="admin-menu-btn"
+              type="button"
+              onClick={toggleModificar}
+              aria-expanded={modificarAbierto}
+              aria-controls="submenu-modificar"
+            >
+              Modificar
+            </button>
+
+            <div
+              id="submenu-modificar"
+              className={`admin-submenu ${modificarAbierto ? 'is-open' : ''}`}
+            >
+              <button
+                className="admin-submenu-btn"
+                type="button"
+                onClick={() => mostrarVista('modificar-figurita')}
+              >
+                Modificar figuritas
+              </button>
+              <button
+                className="admin-submenu-btn"
+                type="button"
+                onClick={() => mostrarVista('modificar-sobre')}
+              >
+                Modificar sobres
+              </button>
+              <button
+                className="admin-submenu-btn"
+                type="button"
+                onClick={() => mostrarVista('modificar-album')}
+              >
+                Modificar álbumes
+              </button>
+              <button
+                className="admin-submenu-btn"
+                type="button"
+                onClick={() => mostrarVista('modificar-usuario')}
+              >
+                Modificar usuarios
+              </button>
+              <button
+                className="admin-submenu-btn"
+                type="button"
+                onClick={() => mostrarVista('modificar-producto')}
+              >
+                Modificar productos
+              </button>
+            </div>
+          </div>
+
+          <div className="admin-menu-group">
+            <button
+              className="admin-menu-btn"
+              type="button"
+              onClick={toggleEliminar}
+              aria-expanded={eliminarAbierto}
+              aria-controls="submenu-eliminar"
+            >
+              Eliminar
+            </button>
+
+            <div
+              id="submenu-eliminar"
+              className={`admin-submenu ${eliminarAbierto ? 'is-open' : ''}`}
+            >
+              <button
+                className="admin-submenu-btn"
+                type="button"
+                onClick={() => mostrarVista('eliminar-figurita')}
+              >
+                Eliminar figuritas
+              </button>
+              <button
+                className="admin-submenu-btn"
+                type="button"
+                onClick={() => mostrarVista('eliminar-sobre')}
+              >
+                Eliminar sobres
+              </button>
+              <button
+                className="admin-submenu-btn"
+                type="button"
+                onClick={() => mostrarVista('eliminar-album')}
+              >
+                Eliminar álbumes
+              </button>
+              <button
+                className="admin-submenu-btn"
+                type="button"
+                onClick={() => mostrarVista('eliminar-usuario')}
+              >
+                Eliminar usuarios
+              </button>
+              <button
+                className="admin-submenu-btn"
+                type="button"
+                onClick={() => mostrarVista('eliminar-producto')}
+              >
+                Eliminar productos
+              </button>
+            </div>
+          </div>
+        </nav>
+      </aside>
+
+      <section className="admin-content">
+        {renderAdminContent(vistaActiva)}
+      </section>
+    </main>
+  );
+};
+

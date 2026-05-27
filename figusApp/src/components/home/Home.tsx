@@ -11,14 +11,14 @@ export const Home = () => {
       <div className="main-content-content position-relative z-1">
         <div className="ad-left">
           {getDivAnuncio(
-            "src/assets/img/adds/dymatize.jpeg",
+            "src/assets/img/add/home/argentina.png",
             "https://www.dymatize.com"
           )}
         </div>
 
         <div className="ad-right">
           {getDivAnuncio(
-            "src/assets/img/adds/vitamin.jpeg",
+            "src/assets/img/add/home/local.png",
             "https://www.suweb.com.ar"
           )}
         </div>

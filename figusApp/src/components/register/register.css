@@ -1,18 +1,57 @@
+.main-wrapper {
+  flex: 1;
+
+  min-height: 100vh;
+
+  background-image:
+    linear-gradient(
+      rgba(15, 23, 42, 0.50),
+      rgba(15, 23, 42, 0.50)
+    ),
+    url("../src/assets/img/fonts/fondoEstadioDesktop.png");
+
+  background-size:
+    cover;
+
+  background-position:
+    center;
+
+  background-repeat:
+    no-repeat;
+
+  background-attachment:
+    fixed;
+}
+
 .register-page {
   position: relative;
+
   display: flex;
   align-items: center;
+  justify-content: center;
+
   min-height: 100vh;
+
   overflow: hidden;
 }
 
 .register-overlay {
   position: absolute;
   inset: 0;
+
   pointer-events: none;
+
   background:
-    linear-gradient(135deg, rgba(59, 130, 246, 0.08), transparent 35%),
-    linear-gradient(225deg, rgba(236, 72, 153, 0.06), transparent 28%);
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.04),
+      transparent 35%
+    ),
+    linear-gradient(
+      225deg,
+      rgba(255, 255, 255, 0.03),
+      transparent 30%
+    );
 }
 
 .register-shell {
@@ -21,36 +60,60 @@
 }
 
 .register-card {
-  padding: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 1.75rem;
+
+  border:
+    1px solid rgba(255, 255, 255, 0.08);
+
   border-radius: 24px;
-  background: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(10px);
+
+  background:
+    rgba(255, 255, 255, 0.96);
+
+  backdrop-filter:
+    blur(12px);
+
+  box-shadow:
+    0 18px 45px rgba(0, 0, 0, 0.24);
 }
 
 .register-header {
-  padding-top: 0.5rem;
+  padding-top: 0.25rem;
+
   margin-bottom: 1.5rem;
+
+  text-align: center;
 }
 
 .register-logo {
   width: 110px;
   max-width: 42vw;
+
   height: auto;
+
   margin-bottom: 1rem;
+
   object-fit: contain;
 }
 
 .register-title {
-  color: #111827;
-  font-size: clamp(1.7rem, 3vw, 2.3rem);
-  font-weight: 800;
+  color:
+    #111827;
+
+  font-size:
+    clamp(1.7rem, 3vw, 2.3rem);
+
+  font-weight: 700;
+
   line-height: 1.1;
 }
 
 .register-subtitle {
-  color: #6b7280;
+  color:
+    #6b7280;
+
   font-size: 0.98rem;
+
   line-height: 1.5;
 }
 
@@ -60,25 +123,36 @@
 
 .form-label {
   margin-bottom: 0.45rem;
-  color: #1f2937;
+
+  color:
+    #1f2937;
+
   font-weight: 600;
 }
 
 .register-optional {
-  color: #6b7280;
+  color:
+    #6b7280;
+
   font-weight: 500;
 }
 
 .register-input {
-  display: block;
   width: 100%;
+
   min-height: 52px;
-  box-sizing: border-box;
-  padding-right: 0.95rem;
-  padding-left: 0.95rem;
-  border: 1px solid #d1d5db;
+
+  padding:
+    0 0.95rem;
+
+  border:
+    1px solid #d1d5db;
+
   border-radius: 14px;
-  background-color: #ffffff;
+
+  background:
+    #ffffff;
+
   transition:
     border-color 0.2s ease,
     box-shadow 0.2s ease,
@@ -86,8 +160,11 @@
 }
 
 .register-input:focus {
-  border-color: #0d6efd;
-  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.12);
+  border-color:
+    #0f172a;
+
+  box-shadow:
+    0 0 0 0.2rem rgba(15, 23, 42, 0.12);
 }
 
 select.register-input {
@@ -97,96 +174,108 @@ select.register-input {
 .register-input[type='file'] {
   display: flex;
   align-items: center;
-  width: 100%;
-  min-height: 52px;
-  padding: 0.55rem 0.75rem;
+
+  padding:
+    0.55rem 0.75rem;
+
   overflow: hidden;
+
   cursor: pointer;
-  color: #4b5563;
+
+  color:
+    #4b5563;
 }
 
 .register-input[type='file']::file-selector-button {
   margin-right: 0.85rem;
-  border: 1px solid #d1d5db;
+
+  padding:
+    0.48rem 0.85rem;
+
+  border:
+    1px solid #d1d5db;
+
   border-radius: 8px;
-  background: #f3f4f6;
-  color: #374151;
-  padding: 0.48rem 0.85rem;
+
+  background:
+    #f3f4f6;
+
+  color:
+    #374151;
+
   font-weight: 500;
+
+  cursor: pointer;
+
   transition:
     background-color 0.2s ease,
     border-color 0.2s ease;
-  cursor: pointer;
 }
 
 .register-input[type='file']::file-selector-button:hover {
-  background: #e5e7eb;
-  border-color: #cbd5e1;
+  background:
+    #e5e7eb;
+
+  border-color:
+    #cbd5e1;
 }
 
-.register-captcha-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.5rem;
-  width: 100%;
-  padding-top: 0.5rem;
+.register-captcha-wrap .form-label,
+.register-captcha-status {
+  display: none !important;
 }
 
 .register-captcha-host {
   display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  justify-content: center;
+
   width: 100%;
-  min-height: 78px;
-  overflow: visible;
-}
-
-.register-captcha-status {
-  margin: 0;
-  min-height: 1.1rem;
-  color: #6b7280;
-  font-size: 0.9rem;
-  text-align: left;
-}
-
-.register-captcha-status.is-ok {
-  color: #059669;
-}
-
-.register-captcha-status.is-error {
-  color: #dc2626;
 }
 
 .register-btn {
   min-height: 54px;
+
   border: none;
   border-radius: 14px;
-  background: #0d6efd;
-  color: #ffffff;
+
+  background:
+    linear-gradient(
+      to right,
+      rgba(15, 23, 42, 0.96),
+      rgba(30, 41, 59, 0.96)
+    );
+
+  color:
+  #ffffff !important;
+
   font-size: 1rem;
   font-weight: 700;
+
   transition:
     transform 0.15s ease,
     opacity 0.2s ease,
-    box-shadow 0.2s ease,
-    background-color 0.2s ease;
+    box-shadow 0.2s ease;
 }
 
 .register-btn:hover {
-  background: #0b5ed7;
   opacity: 0.98;
-  transform: translateY(-1px);
-  box-shadow: 0 12px 24px rgba(13, 110, 253, 0.22);
+
+  transform:
+    translateY(-1px);
+
+  box-shadow:
+    0 12px 24px rgba(15, 23, 42, 0.24);
 }
 
 .register-btn:active {
-  transform: translateY(0);
+  transform:
+    translateY(0);
 }
 
 @media (max-width: 575.98px) {
   .register-card {
     padding: 1.1rem;
+
     border-radius: 20px;
   }
 
@@ -204,11 +293,13 @@ select.register-input {
 
   .register-input {
     min-height: 48px;
+
     border-radius: 12px;
   }
 
   .register-btn {
     min-height: 50px;
+
     border-radius: 12px;
   }
 }

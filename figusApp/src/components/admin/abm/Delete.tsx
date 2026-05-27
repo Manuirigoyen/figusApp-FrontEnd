@@ -1,123 +1,198 @@
-export const Baja = () => {
+import '../../register/register.css';
+import './abm.css';
+
+const adminLogo = new URL(
+  '../../../assets/img/icons/logo.png',
+  import.meta.url,
+).href;
+
+type DeleteFormCardProps = {
+  title: string;
+  description: string;
+  formName: string;
+  inputId: string;
+  label: string;
+  responseId: string;
+};
+
+type DeleteFieldProps = {
+  htmlFor: string;
+  label: string;
+};
+
+const DeleteField = ({
+  htmlFor,
+  label,
+}: DeleteFieldProps) => (
+  <div className="col-12 abm-field">
+    <label htmlFor={htmlFor} className="form-label">
+      {label}
+    </label>
+
+    <input
+      type="number"
+      id={htmlFor}
+      name="id"
+      min={1}
+      defaultValue={1}
+      required
+      className="form-control register-input abm-input"
+    />
+  </div>
+);
+
+const DeleteButton = () => (
+  <button
+    type="submit"
+    className="btn abm-btn abm-btn-danger w-100"
+  >
+    Eliminar
+  </button>
+);
+
+const DeleteFormCard = ({
+  title,
+  description,
+  formName,
+  inputId,
+  label,
+  responseId,
+}: DeleteFormCardProps) => (
+  <section className="register-card abm-card shadow-lg">
+    <header className="register-header abm-header text-center">
+      <img
+        src={adminLogo}
+        alt="FigusApp"
+        className="register-logo abm-logo img-fluid"
+      />
+
+      <h2 className="register-title abm-title mb-2">
+        {title}
+      </h2>
+
+      <p className="register-subtitle abm-subtitle mb-0">
+        {description}
+      </p>
+    </header>
+
+    <div className="register-body abm-body">
+      <form name={formName} className="abm-form">
+        <div className="row g-3">
+          <DeleteField
+            htmlFor={inputId}
+            label={label}
+          />
+        </div>
+
+        <div className="abm-actions pt-2">
+          <DeleteButton />
+        </div>
+      </form>
+    </div>
+
+    <div id={responseId} className="abm-response" />
+  </section>
+);
+
+/**
+ * Renderiza formularios de eliminación administrativa del sistema.
+ *
+ * @returns {JSX.Element} Colección de formularios de eliminación.
+ */
+export const Delete = () => {
   return (
-    <>
-      {eliminarAlbum()}
-    </>
+    <main className="abm-page">
+      <div className="abm-overlay" />
+
+      <section className="abm-shell container py-4 py-md-5">
+        <div className="abm-forms-wrapper">
+          <EliminarAlbum />
+          <EliminarFigurita />
+          <EliminarSobre />
+          <EliminarUsuario />
+          <EliminarProducto />
+        </div>
+      </section>
+    </main>
   );
 };
 
-const eliminarAlbum = () => (
-  <div className="card bg-light border rounded p-4 mb-4">
-    <h5 className="card-title mb-3">Eliminar Álbum</h5>
-    <p className="card-text mb-3">Se pueden eliminar álbumes por ID.</p>
-
-    <form name="eliminar_album" className="form_eliminar">
-      <div className="mb-3">
-        <label htmlFor="inputEliminarAlbumId" className="form-label">
-          ID del álbum
-        </label>
-        <input
-          type="number"
-          id="inputEliminarAlbumId"
-          name="id"
-          className="form-control w-100"
-          required
-          defaultValue={1}
-        />
-      </div>
-
-      <button type="submit" className="btn btn-danger mt-2 btn-eliminar">
-        Eliminar
-      </button>
-    </form>
-
-    <div id="respuesta_eliminar_album" className="mt-2"></div>
-  </div>
+/**
+ * Renderiza el formulario de eliminación de álbumes.
+ *
+ * @returns {JSX.Element}
+ */
+export const EliminarAlbum = () => (
+  <DeleteFormCard
+    title="Eliminar Álbum"
+    description="Se pueden eliminar álbumes existentes mediante su identificador."
+    formName="eliminar_album"
+    inputId="inputEliminarAlbumId"
+    label="ID del álbum"
+    responseId="respuesta_eliminar_album"
+  />
 );
 
-const eliminarFigurita = () => (
-  <div className="card bg-light border rounded p-4 mb-4">
-    <h5 className="card-title mb-3">Eliminar Figurita</h5>
-    <p className="card-text mb-3">Se pueden eliminar figuritas por ID.</p>
-
-    <form name="eliminar_figurita" className="form_eliminar">
-      <div className="mb-3">
-        <label htmlFor="inputEliminarFiguritaId" className="form-label">
-          ID de la figurita
-        </label>
-        <input
-          type="number"
-          id="inputEliminarFiguritaId"
-          name="id"
-          className="form-control w-100"
-          required
-          defaultValue={1}
-        />
-      </div>
-
-      <button type="submit" className="btn btn-danger mt-2 btn-eliminar">
-        Eliminar
-      </button>
-    </form>
-
-    <div id="respuesta_eliminar_figurita" className="mt-2"></div>
-  </div>
+/**
+ * Renderiza el formulario de eliminación de figuritas.
+ *
+ * @returns {JSX.Element}
+ */
+export const EliminarFigurita = () => (
+  <DeleteFormCard
+    title="Eliminar Figurita"
+    description="Se pueden eliminar figuritas existentes mediante su identificador."
+    formName="eliminar_figurita"
+    inputId="inputEliminarFiguritaId"
+    label="ID de la figurita"
+    responseId="respuesta_eliminar_figurita"
+  />
 );
 
-const eliminarSobre = () => (
-  <div className="card bg-light border rounded p-4 mb-4">
-    <h5 className="card-title mb-3">Eliminar Sobre</h5>
-    <p className="card-text mb-3">Se pueden eliminar sobres por ID.</p>
-
-    <form name="eliminar_sobre" className="form_eliminar">
-      <div className="mb-3">
-        <label htmlFor="inputEliminarSobreId" className="form-label">
-          ID del sobre
-        </label>
-        <input
-          type="number"
-          id="inputEliminarSobreId"
-          name="id"
-          className="form-control w-100"
-          required
-          defaultValue={1}
-        />
-      </div>
-
-      <button type="submit" className="btn btn-danger mt-2 btn-eliminar">
-        Eliminar
-      </button>
-    </form>
-
-    <div id="respuesta_eliminar_sobre" className="mt-2"></div>
-  </div>
+/**
+ * Renderiza el formulario de eliminación de sobres.
+ *
+ * @returns {JSX.Element}
+ */
+export const EliminarSobre = () => (
+  <DeleteFormCard
+    title="Eliminar Sobre"
+    description="Se pueden eliminar sobres existentes mediante su identificador."
+    formName="eliminar_sobre"
+    inputId="inputEliminarSobreId"
+    label="ID del sobre"
+    responseId="respuesta_eliminar_sobre"
+  />
 );
 
-const eliminarUsuario = () => (
-  <div className="card bg-light border rounded p-4 mb-4">
-    <h5 className="card-title mb-3">Eliminar Usuario</h5>
-    <p className="card-text mb-3">Se pueden eliminar usuarios por ID.</p>
+/**
+ * Renderiza el formulario de eliminación de usuarios.
+ *
+ * @returns {JSX.Element}
+ */
+export const EliminarUsuario = () => (
+  <DeleteFormCard
+    title="Eliminar Usuario"
+    description="Se pueden eliminar usuarios existentes mediante su identificador."
+    formName="eliminar_usuario"
+    inputId="inputEliminarUsuarioId"
+    label="ID del usuario"
+    responseId="respuesta_eliminar_usuario"
+  />
+);
 
-    <form name="eliminar_usuario" className="form_eliminar">
-      <div className="mb-3">
-        <label htmlFor="inputEliminarUsuarioId" className="form-label">
-          ID del usuario
-        </label>
-        <input
-          type="number"
-          id="inputEliminarUsuarioId"
-          name="id"
-          className="form-control w-100"
-          required
-          defaultValue={1}
-        />
-      </div>
-
-      <button type="submit" className="btn btn-danger mt-2 btn-eliminar">
-        Eliminar
-      </button>
-    </form>
-
-    <div id="respuesta_eliminar_usuario" className="mt-2"></div>
-  </div>
+/**
+ * Renderiza el formulario de eliminación de productos.
+ *
+ * @returns {JSX.Element}
+ */
+export const EliminarProducto = () => (
+  <DeleteFormCard
+    title="Eliminar Producto"
+    description="Se pueden eliminar productos de tienda mediante su identificador."
+    formName="eliminar_producto"
+    inputId="inputEliminarProductoId"
+    label="ID del producto"
+    responseId="respuesta_eliminar_producto"
+  />
 );

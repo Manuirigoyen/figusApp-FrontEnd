@@ -1,39 +1,87 @@
-.input-register {
-  height: 50px !important; 
-  border-radius: 12px !important; 
-  border: 2px solid #e9ecef !important;
-  padding: 1rem 1.25rem !important; 
-  font-size: 1.1rem !important; 
-  transition: all 0.3s ease;
+.config-shell {
+  width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
-.input-register:focus {
-  border-color: #0d6efd !important;
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25) !important;
-  transform: translateY(-1px); 
+.user-content .register-card {
+  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.24);
+  backdrop-filter: none;
 }
 
-.input-register-wide {
-  width: 100% !important;
-  max-width: 100% !important;
-  margin-bottom: 0 !important;
+.config-card {
+  width: 100%;
+  padding: 1.75rem;
+  margin: 0;
 }
 
-.input-register-wide .form-control,
-.input-register-wide .form-select {
-  flex: 1 1 auto !important;
-  min-width: 0 !important;
+.config-logo {
+  width: 110px;
+  max-width: 42vw;
 }
 
-.input-register-wide .btn {
-  flex: 0 0 auto !important; 
-  white-space: nowrap !important;
-  min-width: 55px !important; 
-  border-radius: 0 12px 12px 0 !important; 
+.config-section-title {
+  color: #111827;
+  font-size: clamp(1.4rem, 2vw, 1.8rem);
+  font-weight: 700;
+  margin-bottom: 1rem;
 }
 
-input[type="file"].input-register {
-  padding: 1rem 1.25rem !important;
-  height: auto !important;
-  border-radius: 12px !important;
+.config-input-group {
+  width: 100%;
+}
+
+.config-input-group .config-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.config-action-btn {
+  min-width: 56px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  font-weight: 700;
+}
+
+.config-action-btn:hover {
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12);
+  transform: translateY(-1px);
+}
+
+.config-note,
+.config-status {
+  color: #6b7280;
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.config-delete-btn {
+  min-height: 54px;
+  border-radius: 14px;
+  font-weight: 700;
+}
+
+@media (max-width: 575.98px) {
+  .config-card {
+    padding: 1.1rem;
+    border-radius: 20px;
+  }
+
+  .config-logo {
+    width: 92px;
+  }
+
+  .config-section-title {
+    font-size: 1.25rem;
+  }
+
+  .config-delete-btn {
+    min-height: 50px;
+    border-radius: 12px;
+  }
 }

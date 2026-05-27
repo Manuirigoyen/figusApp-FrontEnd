@@ -1,0 +1,126 @@
+import { useState } from 'react';
+
+import '../../../register/register.css';
+import '../abm.css';
+
+import { deleteSticker } from '../services/stickersService';
+
+const adminLogo = new URL(
+  '../../../../assets/img/icons/logo.png',
+  import.meta.url,
+).href;
+
+/**
+ * Renderiza el formulario de eliminación de figuritas.
+ *
+ * @returns {JSX.Element}
+ */
+export const EliminarFigurita = () => {
+  const [loading, setLoading] = useState(false);
+
+  const [error, setError] = useState('');
+
+  const [success, setSuccess] = useState('');
+
+  const handleSubmit = async (
+    e: React.SyntheticEvent<HTMLFormElement>,
+  ) => {
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const formData = new FormData(e.currentTarget);
+
+      const id = Number(formData.get('id'));
+
+      await deleteSticker(id);
+
+      setSuccess(
+        `Figurita con ID ${id} eliminada correctamente`,
+      );
+
+      e.currentTarget.reset();
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : 'Error inesperado',
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <section className="register-card abm-card shadow-lg">
+      <header className="register-header abm-header text-center">
+        <img
+          src={adminLogo}
+          alt="FigusApp"
+          className="register-logo abm-logo img-fluid"
+        />
+
+        <h2 className="register-title abm-title mb-2">
+          Eliminar Figurita
+        </h2>
+
+        <p className="register-subtitle abm-subtitle mb-0">
+          Elimina figuritas mediante su identificador.
+        </p>
+      </header>
+
+      <div className="register-body abm-body">
+        <form
+          onSubmit={handleSubmit}
+          className="abm-form"
+        >
+          <div className="row g-3">
+            <div className="col-12 abm-field">
+              <label
+                htmlFor="inputEliminarFiguritaId"
+                className="form-label"
+              >
+                ID de la figurita
+              </label>
+
+              <input
+                type="number"
+                id="inputEliminarFiguritaId"
+                name="id"
+                min={1}
+                placeholder="1"
+                required
+                className="form-control register-input abm-input"
+              />
+            </div>
+          </div>
+
+          <div className="abm-actions pt-2">
+            <button
+              type="submit"
+              className="btn abm-btn abm-btn-danger w-100"
+              disabled={loading}
+            >
+              {loading
+                ? 'Eliminando...'
+                : 'Eliminar'}
+            </button>
+          </div>
+        </form>
+
+        {success && (
+          <div className="text-success mt-3">
+            {success}
+          </div>
+        )}
+
+        {error && (
+          <div className="text-danger mt-3">
+            {error}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};

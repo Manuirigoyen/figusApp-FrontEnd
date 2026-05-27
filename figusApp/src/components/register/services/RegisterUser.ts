@@ -1,4 +1,8 @@
+/**
+ * Envía datos de registro al backend para crear un nuevo usuario.
+ */
 export const registerUser = async (
+  /** FormData con los campos del registro y CAPTCHA. */
   payload: FormData,
 ): Promise<void> => {
   const response = await fetch(

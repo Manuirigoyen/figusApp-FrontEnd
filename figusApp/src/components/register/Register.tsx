@@ -1,40 +1,16 @@
 import { useCallback, useMemo, useState } from 'react';
-import type { FormEvent } from 'react';
+import type { SubmitEvent } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 
 import { TurnstileCaptcha } from '../captcha/TurnstileCaptcha';
 
+import { COUNTRIES } from '../../constants/countries';
+
 import { buildRegisterPayload } from './utils/buildRegisterPayload';
 import { registerUser } from './services/RegisterUser';
 
 import './register.css';
-
-const COUNTRIES = [
-  { code: 'AR', name: 'Argentina' },
-  { code: 'BO', name: 'Bolivia' },
-  { code: 'BR', name: 'Brasil' },
-  { code: 'CL', name: 'Chile' },
-  { code: 'CO', name: 'Colombia' },
-  { code: 'CR', name: 'Costa Rica' },
-  { code: 'CU', name: 'Cuba' },
-  { code: 'DO', name: 'República Dominicana' },
-  { code: 'EC', name: 'Ecuador' },
-  { code: 'SV', name: 'El Salvador' },
-  { code: 'ES', name: 'España' },
-  { code: 'GT', name: 'Guatemala' },
-  { code: 'GQ', name: 'Guinea Ecuatorial' },
-  { code: 'HN', name: 'Honduras' },
-  { code: 'MX', name: 'México' },
-  { code: 'NI', name: 'Nicaragua' },
-  { code: 'PA', name: 'Panamá' },
-  { code: 'PY', name: 'Paraguay' },
-  { code: 'PE', name: 'Perú' },
-  { code: 'PR', name: 'Puerto Rico' },
-  { code: 'PT', name: 'Portugal' },
-  { code: 'UY', name: 'Uruguay' },
-  { code: 'VE', name: 'Venezuela' },
-];
 
 /**
  * Pantalla de registro de usuarios.
@@ -62,21 +38,10 @@ export const Register = () => {
   }, []);
 
   /**
-   * Opciones del select de países.
-   */
-  const countryOptions = useMemo(() => {
-    return COUNTRIES.map((country) => (
-      <option key={country.code} value={country.code}>
-        {country.name}
-      </option>
-    ));
-  }, []);
-
-  /**
    * Maneja el envío del formulario.
    */
   const handleSubmit = useCallback(
-    async (event: FormEvent<HTMLFormElement>) => {
+    async (event: SubmitEvent<HTMLFormElement>) => {
       event.preventDefault();
       setErrorMessage('');
 
@@ -126,7 +91,7 @@ export const Register = () => {
   );
 
   return (
-    <main className="register-page">
+     <main id="mainContent" className="main-wrapper position-relative">
       <div className="register-overlay" />
 
       <section className="register-shell container py-4 py-md-5">
@@ -229,7 +194,11 @@ export const Register = () => {
                           Seleccioná un país
                         </option>
 
-                        {countryOptions}
+                        {COUNTRIES.map((country) => (
+                          <option key={country.code} value={country.code}>
+                            {country.name}
+                          </option>
+                        ))}
                       </select>
                     </div>
 

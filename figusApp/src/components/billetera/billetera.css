@@ -1,0 +1,295 @@
+@import "../album/variables.css";
+
+.billetera-page {
+  min-height: calc(100vh - 80px);
+
+  background-image:
+    linear-gradient(
+      rgba(15, 23, 42, 0.50),
+      rgba(15, 23, 42, 0.50)
+    ),
+    url("../../assets/img/fonts/fondoEstadioDesktop.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+
+  padding: var(--spacing-3xl) 1rem;
+}
+
+.billetera-section {
+  max-width: 1050px;
+  margin: 0 auto;
+  padding: var(--spacing-3xl);
+
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(5px);
+
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+
+  font-family: var(--font-family);
+  text-align: center;
+}
+
+.billetera-section h2 {
+  font-size: 34px;
+  color: var(--color-secondary-brown);
+  margin-bottom: var(--spacing-lg);
+  font-weight: bold;
+}
+
+.billetera-section h3 {
+  font-size: 30px;
+  color: var(--color-secondary-brown);
+  margin-bottom: var(--spacing-lg);
+  font-weight: 700;
+}
+
+.empty-billetera {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 1rem 1.5rem;
+  color: #111827;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+.figus-repetidas {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--spacing-lg);
+}
+
+.billetera-item-wrapper {
+  position: relative;
+  width: 80px;
+  height: 100px;
+  margin: 10px;
+  margin-bottom: 40px;
+}
+
+.billetera-item-wrapper::after {
+  content: "";
+  position: absolute;
+  bottom: -55px;
+  left: 51%;
+  transform: translateX(-50%) scale(1.4);
+
+  width: 80px;
+  height: 72px;
+
+  background-image: url("../../assets/img/fonts/fondoEstadioDesktop.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  filter: drop-shadow(2px 2px 1px rgba(0, 0, 0, 0.9));
+
+  z-index: 1;
+  pointer-events: none;
+}
+
+.contador {
+  position: absolute;
+  top: 4px;
+  right: 4px;
+
+  background-color: var(--color-bg-black-semi);
+  color: #fff;
+
+  font-size: 14px;
+  padding: var(--spacing-xs) 6px;
+
+  border-radius: var(--radius-sm);
+
+  z-index: 4;
+}
+
+.botones-billetera {
+  position: absolute;
+  bottom: 4px;
+  left: 4px;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-xs);
+
+  z-index: 4;
+}
+
+.btn-eliminar,
+.btn-intercambiar {
+  font-size: 10px;
+  padding: var(--spacing-xs) 6px;
+
+  border: none;
+  border-radius: var(--radius-sm);
+
+  cursor: pointer;
+
+  color: #fff;
+
+  transition: opacity var(--transition-fast);
+}
+
+.btn-eliminar {
+  background-color: var(--color-danger-dark-red);
+}
+
+.btn-eliminar:hover {
+  opacity: 0.85;
+}
+
+.btn-intercambiar {
+  background-color: var(--color-info-blue);
+}
+
+.btn-intercambiar:hover {
+  opacity: 0.85;
+}
+.ad-left-billetera,
+.ad-right-billetera {
+  position: absolute;
+  top: 50px;
+  width: 180px;
+  height: 600px;
+
+  z-index: 2;
+
+  overflow: hidden;
+
+  border-radius: 0.5rem;
+}
+
+.billetera-page .ad-left-billetera {
+  left: 15px;
+}
+
+.billetera-page .ad-right-billetera {
+  right: 15px;
+}
+
+.ad-left-billetera a,
+.ad-right-billetera a {
+  display: block;
+  width: 100%;
+  height: 70%;
+}
+
+.ad-left-billetera img,
+.ad-right-billetera img,
+.ad-unit-image-billetera {
+  width: 100% !important;
+  height: 100% !important;
+
+  object-fit: cover !important;
+
+  display: block;
+
+  border-radius: 0.5rem;
+}
+
+@media (max-width: 992px) {
+  .ad-left-billetera,
+  .ad-right-billetera {
+    display: none;
+  }
+}
+
+@media (max-width: 630px) {
+  .billetera-page {
+    padding: var(--spacing-lg) 1rem;
+  }
+
+  .billetera-section {
+    padding: var(--spacing-lg);
+  }
+
+  .billetera-section h2 {
+    font-size: 30px;
+  }
+
+  .billetera-section h3 {
+    font-size: 20px;
+  }
+
+  .figus-repetidas {
+    gap: var(--spacing-sm);
+  }
+
+  .billetera-item-wrapper {
+    width: 70px;
+    height: 90px;
+    margin: 8px;
+    margin-bottom: 32px;
+  }
+
+  .billetera-item-wrapper::after {
+    bottom: -45px;
+    transform: translateX(-50%) scale(1.2);
+    width: 70px;
+    height: 62px;
+  }
+
+  .btn-eliminar,
+  .btn-intercambiar {
+    font-size: 9px;
+    padding: 2px 4px;
+  }
+
+  .contador {
+    font-size: 12px;
+    padding: 2px 4px;
+  }
+}
+
+@media (max-width: 460px) {
+  .billetera-page {
+    padding: var(--spacing-md) 0.75rem;
+  }
+
+  .billetera-section {
+    padding: var(--spacing-md);
+  }
+
+  .billetera-section h2 {
+    font-size: 22px;
+  }
+
+  .billetera-section h3 {
+    font-size: 15px;
+  }
+
+  .figus-repetidas {
+    gap: var(--spacing-xs);
+  }
+
+  .billetera-item-wrapper {
+    width: 60px;
+    height: 80px;
+    margin: 10px;
+    margin-bottom: 20px;
+  }
+
+  .billetera-item-wrapper::after {
+    bottom: -24px;
+    transform: translateX(-50%) scale(1.1);
+    width: 60px;
+    height: 54px;
+  }
+
+  .btn-eliminar,
+  .btn-intercambiar {
+    font-size: 8px;
+    padding: 0.2px 3px;
+  }
+
+  .contador {
+    font-size: 11px;
+    padding: 1px 3px;
+  }
+}

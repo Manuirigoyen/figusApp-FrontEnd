@@ -1,14 +1,14 @@
-// src/components/login/Login.tsx
-import { useCallback, useState, useEffect } from 'react';
-import type { FormEvent } from 'react';
+import { useCallback, useState } from 'react';
+import type { SubmitEvent } from 'react';
+
 import { Link, useNavigate } from 'react-router-dom';
 
 import { TurnstileCaptcha } from '../captcha/TurnstileCaptcha';
+
 import { buildLoginPayload } from './utils/buildLoginPayload';
 import { loginUser } from './services/LoginUser';
-import { useUserProfile } from '../user/hooks/useUserProfile'; // <- Import nuevo
 
-import './Login.css';
+import './login.css';
 
 export const Login = () => {
   const [captchaToken, setCaptchaToken] = useState('');
@@ -23,20 +23,14 @@ export const Login = () => {
   const [sentToEmail, setSentToEmail] = useState('');
 
   const navigate = useNavigate();
-  const { user, isLoading } = useUserProfile(); // <- Hook nuevo
 
-  // Redirigir si ya está logueado
-  useEffect(() => {
-    if (!isLoading && user) {
-      navigate(user.role === 'admin' ? '/admin' : '/user');
-    }
-  }, [user, isLoading, navigate]);
-
-  const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY as string;
+  const turnstileSiteKey = import.meta.env
+    .VITE_TURNSTILE_SITE_KEY as string;
 
   const handleSubmit = useCallback(
-    async (event: FormEvent<HTMLFormElement>) => {
+    async (event: SubmitEvent<HTMLFormElement>) => {
       event.preventDefault();
+
       setErrorMessage('');
       setSuccessMessage('');
 
@@ -60,19 +54,26 @@ export const Login = () => {
 
         const data = await loginUser(payload);
 
+        localStorage.setItem('token', data.access_token);
+        localStorage.setItem('user', JSON.stringify(data.user));
+
+        window.dispatchEvent(new Event('auth-change'));
+
         setSuccessMessage('¡Inicio de sesión exitoso!');
 
-        setTimeout(() => {
-          navigate(data.user.role === 'admin' ? '/admin' : '/user');
-        }, 1000);
+        const role = data.user?.role?.trim().toLowerCase();
+        const redirectPath = role === 'admin' ? '/admin' : '/user';
 
+        navigate(redirectPath, { replace: true });
       } catch (error) {
         console.error(error);
+
         setErrorMessage(
           error instanceof Error
             ? error.message
             : 'Error al iniciar sesión',
         );
+
         setCaptchaToken('');
       } finally {
         setIsSubmitting(false);
@@ -81,157 +82,153 @@ export const Login = () => {
     [captchaToken, navigate],
   );
 
-  const handleForgotPassword = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setShowForgotModal(true);
-    setForgotError('');
-  };
-
-  const handleSendResetEmail = async () => {
-    setForgotError('');
-
-    if (!forgotEmail || !forgotEmail.includes('@')) {
-      setForgotError('Ingresá un email válido.');
-      return;
-    }
-
-    try {
-      setSentToEmail(forgotEmail);
-      setShowForgotModal(false);
-      setShowSuccessModal(true);
-    } catch (error) {
-      setForgotError('No encontramos una cuenta con ese email.');
-    }
-  };
-
-  const handleCloseSuccessModal = () => {
-    setShowSuccessModal(false);
-    setSentToEmail('');
-  };
-
-  const closeForgotModal = () => {
-    setShowForgotModal(false);
-    setForgotError('');
-    setForgotEmail('');
-  };
-
-  // Evitar flash del form si ya está logueado
-  if (isLoading) return <div className="text-center p-5">Cargando...</div>;
-  if (user) return null;
-
   return (
-    <main className="login-container">
-      <div className="login-box">
-        <div className="login-logo">
-          <img
-            src={new URL('../../assets/img/icons/logo.png', import.meta.url).href}
-            alt="FigusApp Logo"
-          />
+    <main id="mainContent" className="main-wrapper position-relative">
+      <div className="login-overlay" />
+
+      <section className="login-shell container py-4 py-md-5">
+        <div className="row justify-content-center">
+          <div className="col-12 col-sm-11 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
+            <div className="login-card shadow-lg">
+
+              {/* HEADER (igual estilo Register) */}
+              <div className="login-header text-center">
+                <img
+                  src={new URL('../../assets/img/icons/logo.png', import.meta.url).href}
+                  alt="FigusApp"
+                  className="login-logo img-fluid"
+                />
+
+                <h1 className="login-title mb-2">
+                  Iniciar sesión
+                </h1>
+
+                <p className="login-subtitle mb-0">
+                  Accedé a tu cuenta para seguir coleccionando, intercambiando y descubriendo figuritas.
+                </p>
+
+                {errorMessage && (
+                  <p className="text-danger mt-3 mb-0">{errorMessage}</p>
+                )}
+
+                {successMessage && (
+                  <p className="text-success mt-3 mb-0">{successMessage}</p>
+                )}
+              </div>
+
+              {/* BODY */}
+              <div className="login-body">
+                <form className="login-form" onSubmit={handleSubmit}>
+                  <div className="row g-3">
+
+                    <div className="col-12">
+                      <label htmlFor="email" className="form-label">
+                        Email
+                      </label>
+
+                      <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        className="form-control login-input"
+                        placeholder="usuario@gmail.com"
+                        autoComplete="email"
+                        required
+                      />
+                    </div>
+
+                    <div className="col-12">
+                      <label htmlFor="password" className="form-label">
+                        Contraseña
+                      </label>
+
+                      <input
+                        type="password"
+                        id="password"
+                        name="password"
+                        className="form-control login-input"
+                        placeholder="Tu contraseña"
+                        autoComplete="current-password"
+                        required
+                      />
+                    </div>
+
+                    <div className="col-12 pt-2">
+                      <TurnstileCaptcha
+                        siteKey={turnstileSiteKey}
+                        onTokenChange={setCaptchaToken}
+                      />
+                    </div>
+
+                    <div className="col-12 pt-2">
+                      <button
+                        type="submit"
+                        className="btn login-btn w-100"
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? 'Ingresando...' : 'Ingresar'}
+                      </button>
+                    </div>
+
+                    <div className="col-12 text-center pt-2">
+                      <button
+                        type="button"
+                        className="btn btn-link login-link p-0"
+                        onClick={() => setShowForgotModal(true)}
+                      >
+                        ¿Olvidaste tu contraseña?
+                      </button>
+                    </div>
+
+                    <div className="col-12 text-center">
+                      <p className="mb-0">
+                        ¿No tenés una cuenta?{' '}
+                        <Link to="/register" className="login-link">
+                          Crear cuenta
+                        </Link>
+                      </p>
+                    </div>
+
+                  </div>
+                </form>
+              </div>
+
+            </div>
+          </div>
         </div>
-        <h2 className="login-title">Inicia Sesión</h2>
-
-        {errorMessage && (
-          <p className="error-message">{errorMessage}</p>
-        )}
-        {successMessage && (
-          <p className="success-message">{successMessage}</p>
-        )}
-
-        <form onSubmit={handleSubmit} className="login-form">
-          <div className="form-group">
-            <label htmlFor="email">Email:</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className="form-control"
-              placeholder="tu@email.com"
-              autoComplete="email"
-              maxLength={120}
-              required
-            />
-          </div>
-
-          <div className="form-group">
-            <label htmlFor="password">Contraseña:</label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className="form-control"
-              placeholder="Contraseña"
-              autoComplete="current-password"
-              minLength={8}
-              maxLength={12}
-              required
-            />
-          </div>
-
-          <div className="col-12 pt-2">
-            <TurnstileCaptcha 
-              siteKey={turnstileSiteKey}
-              onTokenChange={setCaptchaToken} 
-            />
-          </div>
-
-          <button 
-            type="submit" 
-            className="login-button" 
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Iniciando sesión...' : 'Iniciar Sesión'}
-          </button>
-
-          <p className="forgot-password-link">
-            <a href="#" onClick={handleForgotPassword}>
-              ¿Olvidaste tu contraseña?
-            </a>
-          </p>
-        </form>
-
-        <div className="register-section">
-          <p>
-            ¿No tenes una cuenta?{' '}
-            <Link to="/register" className="create-account-link">
-              Crear cuenta
-            </Link>
-          </p>
-        </div>
-      </div>
+      </section>
 
       {showForgotModal && (
-        <div className="modal-overlay" onClick={closeForgotModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={closeForgotModal}>×</button>
-            <h3>Restablecer contraseña</h3>
-            <p>Ingresá el email de tu cuenta y te enviaremos un enlace para restablecer tu contraseña.</p>
-            <div className="form-group">
-              <input
-                type="email"
-                value={forgotEmail}
-                onChange={(e) => setForgotEmail(e.target.value)}
-                placeholder="tu@email.com"
-                autoFocus
-              />
-              {forgotError && <p className="error-message">{forgotError}</p>}
-            </div>
-            <button onClick={handleSendResetEmail} className="modal-button">
-              Enviar enlace
+        <div className="modal-overlay" onClick={() => setShowForgotModal(false)}>
+          <div className="login-card forgot-card" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="modal-close"
+              type="button"
+              onClick={() => setShowForgotModal(false)}
+            >
+              ×
             </button>
-          </div>
-        </div>
-      )}
 
-      {showSuccessModal && (
-        <div className="modal-overlay" onClick={handleCloseSuccessModal}>
-          <div className="modal-content success-modal" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close" onClick={handleCloseSuccessModal}>×</button>
-            <h3>Email sent</h3>
-            <p>
-              Hemos enviado un correo electrónico a <strong>{sentToEmail}</strong> con un enlace para que recuperes el acceso a tu cuenta.
-            </p>
-            <button onClick={handleCloseSuccessModal} className="modal-button">
-              Aceptar
+            <h3 className="modal-title">Restablecer contraseña</h3>
+
+            <input
+              type="email"
+              value={forgotEmail}
+              onChange={(e) => setForgotEmail(e.target.value)}
+              className="form-control login-input"
+              placeholder="tu@email.com"
+            />
+
+            {forgotError && (
+              <p className="error-message mt-2">{forgotError}</p>
+            )}
+
+            <button
+              type="button"
+              className="btn login-btn w-100 mt-3"
+              onClick={() => {}}
+            >
+              Enviar enlace
             </button>
           </div>
         </div>

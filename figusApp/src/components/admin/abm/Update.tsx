@@ -1,416 +1,670 @@
+import type { ReactNode } from 'react';
+
+import { COUNTRIES } from '../../../constants/countries';
+
+import '../../register/register.css';
+import './abm.css';
+
+const updateLogo = new URL(
+  '../../../assets/img/icons/logo.png',
+  import.meta.url,
+).href;
+
+type UpdateFormCardProps = {
+  title: string;
+  description: string;
+  formName: string;
+  responseId: string;
+  children: ReactNode;
+};
+
+type UpdateFieldProps = {
+  id: string;
+  label: string;
+  name: string;
+  type?: string;
+  min?: number;
+  max?: number;
+  step?: string;
+  defaultValue?: string | number;
+  required?: boolean;
+  placeholder?: string;
+  accept?: string;
+};
+
+type UpdateTextareaProps = {
+  id: string;
+  label: string;
+  name: string;
+  rows?: number;
+  placeholder?: string;
+  required?: boolean;
+  defaultValue?: string;
+};
+
+type UpdateSelectProps = {
+  id: string;
+  label: string;
+  name: string;
+  options: { value: string; text: string }[];
+  defaultValue?: string;
+  required?: boolean;
+};
+
+const countryOptions = COUNTRIES.map((country) => (
+  <option key={country.code} value={country.code}>
+    {country.name}
+  </option>
+));
+
+const roleOptions = [
+  { value: 'user', text: 'Usuario' },
+  { value: 'admin', text: 'Administrador' },
+];
+
+const productTypeOptions = [
+  { value: 'pack', text: 'Pack' },
+  { value: 'combo', text: 'Combo' },
+];
+
+/**
+ * Renderiza formularios de modificación administrativa del sistema.
+ *
+ * @returns {JSX.Element} Colección de formularios de modificación.
+ */
 export const Update = () => {
   return (
-    <>
-      {modificarAlbum()}
-    </>
+    <main className="abm-page">
+      <div className="abm-overlay" />
+
+      <section className="abm-shell container py-4 py-md-5">
+        <div className="abm-forms-wrapper">
+          <ModificarAlbum />
+          <ModificarFigurita />
+          <ModificarSobre />
+          <ModificarUsuario />
+          <ModificarProducto />
+        </div>
+      </section>
+    </main>
   );
 };
 
-const modificarAlbum = () => (
-  <div className="card bg-light border rounded p-4 mb-4">
-    <h5 className="card-title mb-3">Modificar Álbum</h5>
-    <p className="card-text mb-3">Se pueden modificar álbumes.</p>
+/**
+ * Contenedor reutilizable para formularios administrativos de modificación.
+ *
+ * @returns {JSX.Element} Tarjeta de formulario administrativa.
+ */
+const UpdateFormCard = ({
+  title,
+  description,
+  formName,
+  responseId,
+  children,
+}: UpdateFormCardProps) => (
+  <section className="register-card abm-card shadow-lg">
+    <header className="register-header abm-header text-center">
+      <img
+        src={updateLogo}
+        alt="FigusApp"
+        className="register-logo abm-logo img-fluid"
+      />
 
-    <form name="modificar_album" className="form_modificar">
-      <div className="mb-3">
-        <label htmlFor="inputModificarAlbumId" className="form-label">
-          ID del álbum
-        </label>
-        <input
-          type="number"
-          id="inputModificarAlbumId"
-          name="id"
-          className="form-control w-100"
-          required
-          min={1}
-          defaultValue={1}
-        />
-      </div>
+      <h2 className="register-title abm-title mb-2">{title}</h2>
 
-      <div className="mb-3">
-        <label htmlFor="selectModificarPais" className="form-label">
-          Nuevo país
-        </label>
-        <select
-          id="selectModificarPais"
-          name="pais"
-          className="form-select w-100 cls_pais"
-        ></select>
-      </div>
+      <p className="register-subtitle abm-subtitle mb-0">{description}</p>
+    </header>
 
-      <div className="mb-3">
-        <label htmlFor="selectModificarClase" className="form-label">
-          Nueva clase de álbum
-        </label>
-        <select
-          id="selectModificarClase"
-          name="claseAlbum"
-          className="form-select w-100 cls_album"
-        ></select>
-      </div>
+    <div className="register-body abm-body">
+      <form name={formName} className="abm-form form_modificar">
+        <div className="row g-3">{children}</div>
 
-      <div className="mb-3">
-        <label htmlFor="inputModificarPrecio" className="form-label">
-          Nuevo precio
-        </label>
-        <input
-          type="number"
-          id="inputModificarPrecio"
-          name="precio"
-          className="form-control w-100"
-          required
-          min={0}
-          defaultValue={0}
-        />
-      </div>
+        <div className="abm-actions pt-2">
+          <button type="submit" className="btn register-btn abm-btn w-100">
+            Modificar
+          </button>
+        </div>
+      </form>
+    </div>
 
-      <div className="mb-3">
-        <label htmlFor="inputModificarStock" className="form-label">
-          Nuevo stock disponible
-        </label>
-        <input
-          type="range"
-          id="inputModificarStock"
-          name="stock"
-          className="form-range w-100"
-          min={0}
-          max={100}
-          defaultValue={0}
-        />
-      </div>
+    <div id={responseId} className="abm-response" />
+  </section>
+);
 
-      <div className="mb-3">
-        <label htmlFor="inputModificarImagen" className="form-label">
-          Nueva imagen
-        </label>
-        <input
-          type="file"
-          id="inputModificarImagen"
-          name="imagen"
-          accept="image/*"
-          className="form-control w-100"
-        />
-      </div>
+/**
+ * Campo reutilizable de formulario de modificación.
+ *
+ * @returns {JSX.Element} Grupo de campo.
+ */
+const UpdateField = ({
+  id,
+  label,
+  name,
+  type = 'text',
+  min,
+  max,
+  step,
+  defaultValue,
+  required = false,
+  placeholder,
+  accept,
+}: UpdateFieldProps) => (
+  <div className="col-12 col-md-6 abm-field">
+    <label htmlFor={id} className="form-label">
+      {label}
+    </label>
 
-      <button type="submit" className="btn btn-primary">
-        Modificar
-      </button>
-    </form>
-
-    <div id="respuesta_modificar_album" className="mt-2"></div>
+    <input
+      type={type}
+      id={id}
+      name={name}
+      className="form-control register-input abm-input"
+      min={min}
+      max={max}
+      step={step}
+      defaultValue={defaultValue}
+      required={required}
+      placeholder={placeholder}
+      accept={accept}
+    />
   </div>
 );
 
-const modificarFigurita = () => (
-  <div className="card bg-light border rounded p-4 mb-4">
-    <h5 className="card-title mb-3">Modificar Figurita</h5>
-    <p className="card-text mb-3">Se pueden modificar figuritas.</p>
+/**
+ * Textarea reutilizable de formulario de modificación.
+ *
+ * @returns {JSX.Element} Grupo de textarea.
+ */
+const UpdateTextarea = ({
+  id,
+  label,
+  name,
+  rows = 4,
+  placeholder,
+  required = false,
+  defaultValue,
+}: UpdateTextareaProps) => (
+  <div className="col-12 abm-field abm-field-full">
+    <label htmlFor={id} className="form-label">
+      {label}
+    </label>
 
-    <form name="modificar_figurita" className="form_modificar">
-      <div className="mb-3">
-        <label htmlFor="inputModificarFiguId" className="form-label">
-          ID de la figurita
-        </label>
-        <input
-          type="number"
-          id="inputModificarFiguId"
-          name="id"
-          className="form-control w-100"
-          required
-          min={1}
-          defaultValue={1}
-        />
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="selectModificarSobre" className="form-label">
-          Clase del sobre seleccionado
-        </label>
-        <select
-          id="selectModificarSobre"
-          name="idSobre"
-          className="form-select w-100 cls_sobre"
-        ></select>
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="inputModificarNombre" className="form-label">
-          Nuevo nombre
-        </label>
-        <input
-          type="text"
-          id="inputModificarNombre"
-          name="nombre"
-          className="form-control w-100"
-          required
-          placeholder="(nombre del jugador)"
-        />
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="selectModificarClaseFig" className="form-label">
-          Nueva clase de figurita
-        </label>
-        <select
-          id="selectModificarClaseFig"
-          name="claseFigurita"
-          className="form-select w-100 cls_figurita"
-        ></select>
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="inputModificarPrecioFigu" className="form-label">
-          Nuevo precio
-        </label>
-        <input
-          type="number"
-          id="inputModificarPrecioFigu"
-          name="precio"
-          className="form-control w-100"
-          required
-          min={0}
-          defaultValue={0}
-        />
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="inputModificarStockFigu" className="form-label">
-          Nuevo stock disponible
-        </label>
-        <input
-          type="range"
-          id="inputModificarStockFigu"
-          name="stock"
-          className="form-range w-100"
-          min={0}
-          max={100}
-          defaultValue={0}
-        />
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="inputModificarImagenFigu" className="form-label">
-          Nueva imagen
-        </label>
-        <input
-          type="file"
-          id="inputModificarImagenFigu"
-          name="imagen"
-          accept="image/*"
-          className="form-control w-100"
-        />
-      </div>
-
-      <button type="submit" className="btn btn-primary">
-        Modificar
-      </button>
-    </form>
-
-    <div id="respuesta_modificar_figurita" className="mt-2"></div>
+    <textarea
+      id={id}
+      name={name}
+      className="form-control register-input abm-input abm-textarea"
+      rows={rows}
+      placeholder={placeholder}
+      required={required}
+      defaultValue={defaultValue}
+    />
   </div>
 );
 
-const modificarSobre = () => (
-  <div className="card bg-light border rounded p-4 mb-4">
-    <h5 className="card-title mb-3">Modificar Sobre</h5>
-    <p className="card-text mb-3">Se pueden modificar sobres.</p>
+/**
+ * Select reutilizable de formulario de modificación.
+ *
+ * @returns {JSX.Element} Grupo de select.
+ */
+const UpdateSelect = ({
+  id,
+  label,
+  name,
+  options,
+  defaultValue = '',
+  required = false,
+}: UpdateSelectProps) => (
+  <div className="col-12 col-md-6 abm-field">
+    <label htmlFor={id} className="form-label">
+      {label}
+    </label>
 
-    <form name="modificar_sobre" className="form_modificar">
-      <div className="mb-3">
-        <label htmlFor="inputModificarSobreId" className="form-label">
-          ID del sobre
-        </label>
-        <input
-          type="number"
-          id="inputModificarSobreId"
-          name="id"
-          className="form-control w-100"
-          required
-          min={1}
-          defaultValue={1}
-        />
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="selectModificarAlbum" className="form-label">
-          Clase del álbum seleccionado
-        </label>
-        <select
-          id="selectModificarAlbum"
-          name="idAlbum"
-          className="form-select w-100 cls_album"
-        ></select>
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="selectModificarClaseSobre" className="form-label">
-          Nueva clase de sobre
-        </label>
-        <select
-          id="selectModificarClaseSobre"
-          name="claseSobre"
-          className="form-select w-100 cls_sobre"
-        ></select>
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="inputModificarStockSobre" className="form-label">
-          Nuevo stock disponible
-        </label>
-        <input
-          type="range"
-          id="inputModificarStockSobre"
-          name="stock"
-          className="form-range w-100"
-          min={0}
-          max={100}
-          defaultValue={0}
-        />
-      </div>
-
-      <div className="mb-3">
-        <label htmlFor="inputModificarImagenSobre" className="form-label">
-          Nueva imagen
-        </label>
-        <input
-          type="file"
-          id="inputModificarImagenSobre"
-          name="imagen"
-          accept="image/*"
-          className="form-control w-100"
-        />
-      </div>
-
-      <button type="submit" className="btn btn-primary">
-        Modificar
-      </button>
-    </form>
-
-    <div id="respuesta_modificar_sobre" className="mt-2"></div>
+    <select
+      id={id}
+      name={name}
+      className="form-select register-input abm-input"
+      defaultValue={defaultValue}
+      required={required}
+    >
+      {options.map((option) => (
+        <option key={option.value} value={option.value}>
+          {option.text}
+        </option>
+      ))}
+    </select>
   </div>
 );
 
-const modificarUsuario = () => (
-  <div className="card bg-light border rounded p-4 mb-4">
-    <h5 className="card-title mb-3">Modificar Usuario</h5>
-    <p className="card-text mb-3">Se pueden modificar usuarios.</p>
+/**
+ * Select reutilizable de países.
+ *
+ * @returns {JSX.Element} Opciones de país.
+ */
+const CountrySelect = () => (
+  <>
+    <option value="" disabled>
+      Seleccioná un país
+    </option>
 
-    <form name="modificar_usuario" className="form_modificar">
-      <div className="mb-3">
-        <label htmlFor="inputModificarUsuarioId" className="form-label">
-          ID del usuario
-        </label>
-        <input
-          type="number"
-          id="inputModificarUsuarioId"
-          name="id"
-          className="form-control w-100"
-          required
-          min={1}
-          defaultValue={1}
-        />
-      </div>
+    {countryOptions}
+  </>
+);
 
-      <div className="mb-3">
-        <label htmlFor="inputModificarNombreUsuario" className="form-label">
-          Nuevo nombre de usuario
-        </label>
-        <input
-          type="text"
-          id="inputModificarNombreUsuario"
-          name="nombreUsuario"
-          className="form-control w-100"
-          placeholder="(nombre de usuario)"
-          required
-        />
-      </div>
+/**
+ * Renderiza el formulario de modificación de álbumes.
+ *
+ * @returns {JSX.Element} Formulario de modificación de álbum.
+ */
+export const ModificarAlbum = () => (
+  <UpdateFormCard
+    title="Modificar Álbum"
+    description="Se pueden modificar álbumes existentes del sistema."
+    formName="modificar_album"
+    responseId="respuesta_modificar_album"
+  >
+    <UpdateField
+      id="inputModificarAlbumId"
+      label="ID del álbum"
+      name="id"
+      type="number"
+      min={1}
+      defaultValue={1}
+      required
+    />
 
-      <div className="mb-3">
-        <label htmlFor="inputModificarPassword" className="form-label">
-          Nueva contraseña
-        </label>
-        <input
-          type="password"
-          id="inputModificarPassword"
-          name="password"
-          className="form-control w-100"
-          placeholder="*******"
-          required
-        />
-      </div>
+    <UpdateField
+      id="inputModificarNombreAlbum"
+      label="Nuevo nombre"
+      name="name"
+      required
+      placeholder="Nombre del álbum"
+    />
 
-      <div className="mb-3">
-        <label htmlFor="inputModificarEmail" className="form-label">
-          Nuevo correo electrónico
-        </label>
-        <input
-          type="email"
-          id="inputModificarEmail"
-          name="email"
-          className="form-control w-100"
-          placeholder="figusApp@gmail.com"
-          required
-        />
-      </div>
+    <UpdateSelect
+      id="selectModificarClaseAlbum"
+      label="Nueva clase"
+      name="class"
+      options={[]}
+      defaultValue=""
+      required
+    />
 
-      <div className="mb-3">
-        <label htmlFor="inputModificarTelefono" className="form-label">
-          Nuevo número de teléfono
-        </label>
-        <input
-          type="tel"
-          id="inputModificarTelefono"
-          name="telefono"
-          className="form-control w-100"
-          placeholder="+5492983547677"
-          required
-        />
-      </div>
+    <UpdateSelect
+      id="selectModificarNacionalidadAlbum"
+      label="Nueva nacionalidad"
+      name="nationality"
+      options={[
+        { value: '', text: 'Seleccioná un país' },
+        ...COUNTRIES.map((country) => ({
+          value: country.code,
+          text: country.name,
+        })),
+      ]}
+      defaultValue=""
+      required
+    />
 
-      <div className="mb-3">
-        <label htmlFor="selectModificarPais" className="form-label">
-          Nuevo país de origen
-        </label>
-        <select
-          id="selectModificarPais"
-          name="pais"
-          className="form-select w-100 cls_pais"
-        ></select>
-      </div>
+    <UpdateTextarea
+      id="inputModificarDescripcionAlbum"
+      label="Nueva descripción"
+      name="description"
+      placeholder="Descripción del álbum"
+    />
 
-      <div className="mb-3">
-        <label htmlFor="inputModificarFechaNacimiento" className="form-label">
-          Nueva fecha de nacimiento
-        </label>
-        <input
-          type="date"
-          id="inputModificarFechaNacimiento"
-          name="fechaNacimiento"
-          className="form-control w-100"
-          required
-          min="1875-12-02"
-          max="2013-12-02"
-        />
-      </div>
+    <UpdateField
+      id="inputModificarCapacidadAlbum"
+      label="Nueva capacidad"
+      name="capacity"
+      type="number"
+      min={1}
+      defaultValue={100}
+    />
 
-      <div className="mb-3">
-        <label htmlFor="inputModificarFotoPerfil" className="form-label">
-          Nueva foto de perfil
-        </label>
-        <input
-          type="file"
-          id="inputModificarFotoPerfil"
-          name="fotoPerfil"
-          accept="image/*"
-          className="form-control w-100"
-        />
-      </div>
+    <UpdateField
+      id="inputModificarImagenAlbum"
+      label="Nueva imagen de portada"
+      name="cover_image"
+      type="file"
+      accept="image/*"
+    />
+  </UpdateFormCard>
+);
 
-      <button type="submit" className="btn btn-primary">
-        Modificar
-      </button>
-    </form>
+/**
+ * Renderiza el formulario de modificación de figuritas.
+ *
+ * @returns {JSX.Element} Formulario de modificación de figurita.
+ */
+export const ModificarFigurita = () => (
+  <UpdateFormCard
+    title="Modificar Figurita"
+    description="Se pueden modificar figuritas existentes del sistema."
+    formName="modificar_figurita"
+    responseId="respuesta_modificar_figurita"
+  >
+    <UpdateField
+      id="inputModificarFiguId"
+      label="ID de la figurita"
+      name="id"
+      type="number"
+      min={1}
+      defaultValue={1}
+      required
+    />
 
-    <div id="respuesta_modificar_usuario" className="mt-2"></div>
-  </div>
+    <UpdateField
+      id="inputModificarAlbumFigurita"
+      label="ID del álbum"
+      name="album_id"
+      type="number"
+      min={1}
+      defaultValue={1}
+      required
+    />
+
+    <UpdateSelect
+      id="selectModificarClaseFigurita"
+      label="Nueva clase"
+      name="class"
+      options={[]}
+      defaultValue=""
+      required
+    />
+
+    <UpdateField
+      id="inputModificarNombreFigurita"
+      label="Nuevo nombre"
+      name="name"
+      required
+      placeholder="Nombre de la figurita"
+    />
+
+    <UpdateSelect
+      id="selectModificarNacionalidadFigurita"
+      label="Nueva nacionalidad"
+      name="nationality"
+      options={COUNTRIES.map((country) => ({
+        value: country.code,
+        text: country.name,
+      }))}
+      defaultValue=""
+      required
+    />
+
+    <UpdateField
+      id="inputModificarImagenFigurita"
+      label="Nueva imagen"
+      name="cover_image"
+      type="file"
+      accept="image/*"
+    />
+  </UpdateFormCard>
+);
+
+/**
+ * Renderiza el formulario de modificación de sobres.
+ *
+ * @returns {JSX.Element} Formulario de modificación de sobre.
+ */
+export const ModificarSobre = () => (
+  <UpdateFormCard
+    title="Modificar Sobre"
+    description="Se pueden modificar sobres existentes del sistema."
+    formName="modificar_sobre"
+    responseId="respuesta_modificar_sobre"
+  >
+    <UpdateField
+      id="inputModificarSobreId"
+      label="ID del sobre"
+      name="id"
+      type="number"
+      min={1}
+      defaultValue={1}
+      required
+    />
+
+    <UpdateField
+      id="inputModificarAlbumSobre"
+      label="ID del álbum"
+      name="album_id"
+      type="number"
+      min={1}
+      defaultValue={1}
+      required
+    />
+
+    <UpdateSelect
+      id="selectModificarClaseSobre"
+      label="Nueva clase"
+      name="class"
+      options={[]}
+      defaultValue=""
+      required
+    />
+
+    <UpdateField
+      id="inputModificarPrecioSobre"
+      label="Nuevo precio"
+      name="price"
+      type="number"
+      min={0}
+      step="0.01"
+      defaultValue={0}
+      required
+    />
+
+    <UpdateField
+      id="inputModificarStockSobre"
+      label="Nuevo stock"
+      name="stock"
+      type="number"
+      min={0}
+      defaultValue={0}
+    />
+
+    <UpdateField
+      id="inputModificarCapacidadSobre"
+      label="Nueva capacidad"
+      name="capacity"
+      type="number"
+      min={1}
+      defaultValue={7}
+    />
+
+    <UpdateField
+      id="inputModificarImagenSobre"
+      label="Nueva imagen"
+      name="cover_image"
+      type="file"
+      accept="image/*"
+    />
+  </UpdateFormCard>
+);
+
+/**
+ * Renderiza el formulario de modificación de usuarios.
+ *
+ * @returns {JSX.Element} Formulario de modificación de usuario.
+ */
+export const ModificarUsuario = () => (
+  <UpdateFormCard
+    title="Modificar Usuario"
+    description="Se pueden modificar usuarios existentes del sistema."
+    formName="modificar_usuario"
+    responseId="respuesta_modificar_usuario"
+  >
+    <UpdateField
+      id="inputModificarUsuarioId"
+      label="ID del usuario"
+      name="id"
+      type="number"
+      min={1}
+      defaultValue={1}
+      required
+    />
+
+    <UpdateField
+      id="inputModificarNombre"
+      label="Nuevo nombre"
+      name="first_name"
+      required
+      placeholder="Nombre"
+    />
+
+    <UpdateField
+      id="inputModificarApellido"
+      label="Nuevo apellido"
+      name="last_name"
+      required
+      placeholder="Apellido"
+    />
+
+    <UpdateField
+      id="inputModificarEmail"
+      label="Nuevo correo electrónico"
+      name="email"
+      type="email"
+      required
+      placeholder="usuario@gmail.com"
+    />
+
+    <UpdateField
+      id="inputModificarTelefono"
+      label="Nuevo número de teléfono"
+      name="phone_number"
+      type="tel"
+      placeholder="+5492230000000"
+    />
+
+    <UpdateField
+      id="inputModificarNacimiento"
+      label="Nueva fecha de nacimiento"
+      name="date_of_birth"
+      type="date"
+      required
+    />
+
+    <UpdateSelect
+      id="selectModificarNacionalidad"
+      label="Nueva nacionalidad"
+      name="nationality"
+      options={COUNTRIES.map((country) => ({
+        value: country.code,
+        text: country.name,
+      }))}
+      defaultValue=""
+      required
+    />
+
+    <UpdateSelect
+      id="selectModificarRol"
+      label="Nuevo rol"
+      name="role"
+      options={roleOptions}
+      defaultValue="user"
+      required
+    />
+
+    <UpdateField
+      id="inputModificarFotoPerfil"
+      label="Nueva foto de perfil"
+      name="profile_picture"
+      type="file"
+      accept="image/*"
+    />
+  </UpdateFormCard>
+);
+
+/**
+ * Renderiza el formulario de modificación de productos.
+ *
+ * @returns {JSX.Element} Formulario de modificación de producto.
+ */
+export const ModificarProducto = () => (
+  <UpdateFormCard
+    title="Modificar Producto"
+    description="Se pueden modificar productos existentes de la tienda."
+    formName="modificar_producto"
+    responseId="respuesta_modificar_producto"
+  >
+    <UpdateField
+      id="inputModificarProductoId"
+      label="ID del producto"
+      name="id"
+      type="number"
+      min={1}
+      defaultValue={1}
+      required
+    />
+
+    <UpdateField
+      id="inputModificarCodigoProducto"
+      label="Nuevo código"
+      name="product_code"
+      required
+      placeholder="PACK-001"
+    />
+
+    <UpdateField
+      id="inputModificarNombreProducto"
+      label="Nuevo nombre"
+      name="name"
+      required
+      placeholder="Nombre del producto"
+    />
+
+    <UpdateTextarea
+      id="textareaModificarDescripcionProducto"
+      label="Nueva descripción"
+      name="description"
+      placeholder="Descripción del producto"
+    />
+
+    <UpdateField
+      id="inputModificarPrecioProducto"
+      label="Nuevo precio"
+      name="price_usd"
+      type="number"
+      min={0}
+      step="0.01"
+      defaultValue={0}
+      required
+    />
+
+    <UpdateField
+      id="inputModificarDescuentoProducto"
+      label="Nuevo descuento"
+      name="discount_usd"
+      type="number"
+      min={0}
+      step="0.01"
+      defaultValue={0}
+    />
+
+    <UpdateField
+      id="inputModificarStockProducto"
+      label="Nuevo stock"
+      name="stock_available"
+      type="number"
+      min={0}
+      defaultValue={0}
+    />
+
+    <UpdateSelect
+      id="selectModificarTipoProducto"
+      label="Nuevo tipo de producto"
+      name="product_type"
+      options={productTypeOptions}
+      defaultValue="pack"
+      required
+    />
+
+    <UpdateField
+      id="inputModificarImagenProducto"
+      label="Nueva imagen"
+      name="cover_image"
+      type="file"
+      accept="image/*"
+    />
+  </UpdateFormCard>
 );

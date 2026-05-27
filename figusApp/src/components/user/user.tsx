@@ -1,109 +1,162 @@
-import './user.css';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useMemo, useState } from 'react'; // <- FALTABA ESTO
-import { Config } from './config/Config.tsx';
-import { useUserProfile } from './hooks/useUserProfile';
-import type { UserProfile } from './interfaces/UserProfile';
 
+import './user.css';
+
+import { Config } from './config/Config';
+
+import {
+  getAuthenticatedUser,
+  logout,
+  type LoggedUser,
+} from './services/authService';
+
+import { resolveImageUrl } from './utils/resolveImageUrl';
+
+/**
+ * Página principal de usuario autenticado.
+ *
+ * Responsabilidades:
+ * - Obtener datos del usuario autenticado
+ * - Renderizar layout de navegación lateral
+ * - Gestionar sesión (logout)
+ * - Renderizar módulo de configuración de cuenta
+ */
 export const User = () => {
-  const { user, isLoading, error } = useUserProfile();
   const navigate = useNavigate();
 
-  if (isLoading) {
-    return <div className="text-center p-5">Cargando perfil...</div>;
-  }
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [user, setUser] = useState<LoggedUser | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
 
-  if (error) {
+  useEffect(() => {
+    let mounted = true;
+
+    const loadUser = async () => {
+      try {
+        const data = await getAuthenticatedUser();
+
+        if (mounted) {
+          setUser(data);
+        }
+      } catch (error) {
+        console.error(error);
+
+        if (mounted) {
+          setUser(null);
+        }
+      } finally {
+        if (mounted) {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    void loadUser();
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
+
+  const toggleSidebar = () => {
+    setSidebarOpen((prev) => !prev);
+  };
+
+  const closeSidebar = () => {
+    setSidebarOpen(false);
+  };
+
+  const handleLogout = async () => {
+  try {
+    await logout();
+  } catch (error) {
+    console.error(error);
+  } finally {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+
+    setUser(null);
+
+    window.dispatchEvent(new Event('auth-change'));
+
+    navigate('/login');
+  }
+};
+
+  const profileImageSrc = resolveImageUrl(user?.profile_picture);
+
+  if (isLoading) {
     return (
-      <div className="text-center p-5">
-        <p className="text-danger">{error}</p>
-        <button className="btn btn-primary" onClick={() => navigate('/login')}>
-          Ir a Login
-        </button>
-      </div>
+      <main className="main-wrapper user-page">
+        <div className="text-center p-5">
+          Cargando usuario...
+        </div>
+      </main>
     );
   }
 
   return (
-    <main id="mainContent" className="main-wrapper position-relative d-flex z-2">
-      <UserAside user={user} />
-      <div className="position-relative z-1 flex-grow-1">
-        <Config />
-      </div>
-    </main>
-  );
-};
-
-const UserAside = ({ user }: { user: UserProfile | null }) => {
-  const [imgError, setImgError] = useState(false); // <- ESTADO PARA EVITAR LOOP
-
-  const handleLogout = async () => {
-    await fetch('http://localhost:3000/api/v1/auth/logout', {
-      method: 'POST',
-      credentials: 'include',
-    });
-    window.location.href = '/login';
-  };
-
-  // useMemo evita que la URL cambie en cada render
-  const avatarUrl = useMemo(() => {
-    if (!user || imgError) return '/assets/img/db/users/fotoPerfilDefault.png';
-    return `http://localhost:3000/api/v1/users/me/avatar?v=${user.profile_picture}`;
-  }, [user?.id, user?.profile_picture, imgError]);
-
-  return (
-    <div className="d-flex panel-height">
-      <button id="toggleSidebar" className="sidebar-toggle-btn" aria-label="Abrir menú">
-        ⮜
+    <main id="mainContent" className="main-wrapper user-page position-relative">
+      <button
+        type="button"
+        className="sidebar-toggle-btn"
+        onClick={toggleSidebar}
+        aria-label="toggle sidebar"
+        aria-expanded={sidebarOpen}
+      >
+        {sidebarOpen ? '⮞' : '⮜'}
       </button>
-      <aside className="bg-light border-end px-3 py-3 pb-5 sidebar-width z-2">
-        <div className="profile-wrapper text-center mb-4">
-          <div className="img-container position-relative">
-            <Link to="/user">
-              <button id="btn-config" className="profile-icon-config" title="Configuración">
-                ⚙
-              </button>
-            </Link>
-            <img
-              id="profilePhoto"
-              src={avatarUrl}
-              alt="Foto de perfil"
-              className="rounded-circle mb-2"
-              style={{ width: '100px', height: '100px', objectFit: 'cover' }}
-              crossOrigin="use-credentials"
-              onError={() => {
-                // Solo setea una vez, corta el loop
-                if (!imgError) {
-                  setImgError(true);
-                }
-              }}
-            />
-          </div>
-          <h6 id="profileEmail">{user?.email || 'usuario@example.com'}</h6>
+
+      {sidebarOpen && <div className="sidebar-overlay" onClick={closeSidebar} />}
+
+      <aside className={`user-sidebar ${sidebarOpen ? 'is-open' : ''}`}>
+        <div className="user-profile text-center">
+          <img
+            src={profileImageSrc}
+            alt="perfil"
+            className="user-profile-image"
+          />
+
+          <h6 className="user-email">
+            {user?.email ?? 'Sin usuario'}
+          </h6>
+
           <button
-            id="btn-logout"
-            className="btn btn-danger btn-sm w-100 mb-3"
+            type="button"
+            className="btn btn-danger btn-sm w-100 user-logout-btn"
             onClick={handleLogout}
           >
             Cerrar sesión
           </button>
         </div>
-        <h5 className="text-center mb-3">Mi cuenta</h5>
-        <ul className="list-unstyled">
-          <li className="mb-2">
-            <Link to="/album">
-              <button className="btn btn-outline-primary w-100 d-flex align-items-center justify-content-between mb-2">
-                Mis álbumes <span>📓</span>
-              </button>
-            </Link>
-            <Link to="/billetera">
-              <button className="btn btn-outline-primary w-100 d-flex align-items-center justify-content-between">
-                Mis Figuritas <span>💼</span>
-              </button>
-            </Link>
-          </li>
-        </ul>
+
+        <h5 className="user-sidebar-title text-center">
+          Mi cuenta
+        </h5>
+
+        <nav className="user-menu">
+          <Link to="/album" className="user-menu-btn" onClick={closeSidebar}>
+            📓 Mis álbumes
+          </Link>
+
+          <Link to="/billetera" className="user-menu-btn" onClick={closeSidebar}>
+            💼 Mis figuritas
+          </Link>
+
+          <Link to="/intercambios" className="user-menu-btn" onClick={closeSidebar}>
+            🔁 Mis intercambios
+          </Link>
+
+          <Link to="/compras" className="user-menu-btn" onClick={closeSidebar}>
+            🛒 Mis compras
+          </Link>
+        </nav>
       </aside>
-    </div>
+
+      <section className="user-content">
+        {user && <Config user={user} setUser={setUser} />}
+      </section>
+    </main>
   );
 };

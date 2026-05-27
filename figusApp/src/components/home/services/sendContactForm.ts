@@ -1,36 +1,29 @@
 import type { FooterContactPayload } from '../utils/buildContactPayload';
 
-const parseResponseError = async (response: Response) => {
-  const contentType = response.headers.get('content-type');
-
-  const raw = contentType?.includes('application/json')
-    ? await response.json().catch(() => null)
-    : await response.text().catch(() => null);
-
-  if (!raw) return 'No fue posible enviar la consulta, disculpe las molestias.';
-
-  if (typeof raw === 'string') return raw;
-
-  return raw.message || 'No fue posible enviar la consulta, disculpe las molestias.';
-};
-
 export const sendContactForm = async (
   payload: FooterContactPayload,
   endpoint: string,
 ) => {
+  console.log('ENDPOINT:', endpoint);
+  console.log('PAYLOAD:', payload);
+
   const response = await fetch(endpoint, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    credentials: 'include',
     body: JSON.stringify(payload),
   });
 
+  console.log('STATUS:', response.status);
+
+  const text = await response.text();
+
+  console.log('RESPONSE:', text);
+
   if (!response.ok) {
-    const message = await parseResponseError(response);
-    throw new Error(message);
+    throw new Error(text || 'Error enviando formulario');
   }
 
-  return response.json();
+  return text ? JSON.parse(text) : null;
 };

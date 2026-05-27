@@ -1,25 +1,27 @@
-import type { LoginPayload, LoginResponse } from '../interfaces/LoginPayload';
+import type { LoginPayload } from '../interfaces/LoginPayload';
+import type { LoginResponse } from '../interfaces/LoginResponse';
+
+const API_BASE = import.meta.env.VITE_API_BASE;
 
 export const loginUser = async (
   payload: LoginPayload,
 ): Promise<LoginResponse> => {
-  const response = await fetch(
-    'http://localhost:3000/api/v1/auth/login',
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include', // <- Ya lo tenías, perfecto
-      body: JSON.stringify(payload),
+  const response = await fetch(`${API_BASE}/auth/login`, {
+    method: 'POST',
+    credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
     },
-  );
+    body: JSON.stringify(payload),
+  });
+
+  const data = await response.json().catch(() => null);
 
   if (!response.ok) {
-    const error = await response.json();
     throw new Error(
-      error.message || 'Email o contraseña incorrectos.'
+      data?.message || 'No fue posible iniciar sesión ahora mismo.',
     );
   }
 
-  // El back ya setea la cookie HttpOnly, no devolvemos token
-  return response.json(); // Solo devuelve user o message
+  return data as LoginResponse;
 };

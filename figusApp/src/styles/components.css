@@ -1,0 +1,36 @@
+.app-surface {
+  background: linear-gradient(
+    to right,
+    var(--app-surface),
+    var(--app-surface-alt)
+  );
+
+  border: 1px solid var(--app-border);
+  box-shadow: var(--app-shadow);
+}
+
+.app-card {
+  background: var(--app-card);
+  border: 1px solid var(--app-border);
+  box-shadow: var(--app-shadow);
+  backdrop-filter: blur(12px);
+}
+
+.app-heading {
+  color: var(--app-text-strong);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.app-muted {
+  color: var(--app-muted);
+}
+
+.app-hover {
+  transition: all 0.2s ease-in-out;
+}
+
+.app-hover:hover {
+  background: var(--app-hover);
+}
