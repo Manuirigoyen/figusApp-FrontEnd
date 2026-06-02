@@ -1,21 +1,21 @@
 @import "../album/variables.css";
 
+/* =========================
+   Página principal
+========================= */
+
 .billetera-page {
   min-height: calc(100vh - 80px);
+  padding: var(--spacing-3xl) 1rem;
 
   background-image:
-    linear-gradient(
-      rgba(15, 23, 42, 0.50),
-      rgba(15, 23, 42, 0.50)
-    ),
+    linear-gradient(rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.5)),
     url("../../assets/img/fonts/fondoEstadioDesktop.png");
 
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   background-attachment: fixed;
-
-  padding: var(--spacing-3xl) 1rem;
 }
 
 .billetera-section {
@@ -23,8 +23,7 @@
   margin: 0 auto;
   padding: var(--spacing-3xl);
 
-  background: rgba(255, 255, 255, 0.65);
-  backdrop-filter: blur(5px);
+  background: rgba(20, 29, 48, 0.8);
 
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-lg);
@@ -34,104 +33,164 @@
 }
 
 .billetera-section h2 {
-  font-size: 34px;
-  color: var(--color-secondary-brown);
   margin-bottom: var(--spacing-lg);
+
+  color: #fff;
+
+  font-size: 40px;
   font-weight: bold;
 }
 
 .billetera-section h3 {
-  font-size: 30px;
-  color: var(--color-secondary-brown);
   margin-bottom: var(--spacing-lg);
+
+  color: whitesmoke;
+
+  font-size: 30px;
   font-weight: 700;
 }
 
+/* =========================
+   Estado vacío
+========================= */
+
 .empty-billetera {
+  grid-column: 1 / -1;
+  justify-self: center;
+
   display: inline-block;
   margin-top: 1rem;
   padding: 1rem 1.5rem;
+
   color: #111827;
   background: rgba(255, 255, 255, 0.95);
+
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
 }
 
+/* =========================
+   Grilla de figuritas
+========================= */
+
 .figus-repetidas {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--spacing-lg);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 3rem;
+
+  justify-items: center;
+  align-items: start;
+
+  margin-top: 2rem;
 }
 
 .billetera-item-wrapper {
   position: relative;
-  width: 80px;
-  height: 100px;
-  margin: 10px;
-  margin-bottom: 40px;
+
+  width: 230px;
+  min-height: 310px;
+
+  margin: 0;
 }
 
-.billetera-item-wrapper::after {
-  content: "";
-  position: absolute;
-  bottom: -55px;
-  left: 51%;
-  transform: translateX(-50%) scale(1.4);
+.figurita-billetera-card {
+  position: relative;
 
-  width: 80px;
-  height: 72px;
+  width: 230px;
+  padding: 0.7rem;
 
-  background-image: url("../../assets/img/fonts/fondoEstadioDesktop.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
+  overflow: hidden;
 
-  filter: drop-shadow(2px 2px 1px rgba(0, 0, 0, 0.9));
+  background: #bdefff;
 
-  z-index: 1;
-  pointer-events: none;
+  border-radius: 18px;
+  box-shadow: var(--shadow-lg);
+
+  text-align: center;
 }
+
+.figurita-billetera-img {
+  display: block;
+
+  width: 100%;
+  height: 270px;
+
+  object-fit: cover;
+
+  border-radius: 14px;
+}
+
+.figurita-billetera-card h4 {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.figurita-billetera-card p {
+  display: none;
+}
+
+/* =========================
+   Contador
+========================= */
 
 .contador {
   position: absolute;
-  top: 4px;
-  right: 4px;
+  top: 8px;
+  left: 8px;
 
-  background-color: var(--color-bg-black-semi);
+  z-index: 20;
+
+  padding: 4px 8px;
+
   color: #fff;
+  background: rgba(0, 0, 0, 0.8);
 
-  font-size: 14px;
-  padding: var(--spacing-xs) 6px;
-
-  border-radius: var(--radius-sm);
-
-  z-index: 4;
+  border-radius: 8px;
 }
+
+/* =========================
+   Botones hover
+========================= */
 
 .botones-billetera {
   position: absolute;
-  bottom: 4px;
-  left: 4px;
+  inset: 0;
+
+  z-index: 10;
 
   display: flex;
-  flex-direction: column;
-  gap: var(--spacing-xs);
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
 
-  z-index: 4;
+  opacity: 0;
+
+  background: rgba(20, 29, 48, 0.55);
+
+  border-radius: 18px;
+
+  transition: opacity 0.25s ease;
+}
+
+.billetera-item-wrapper:hover .botones-billetera {
+  opacity: 1;
 }
 
 .btn-eliminar,
 .btn-intercambiar {
-  font-size: 10px;
-  padding: var(--spacing-xs) 6px;
+  padding: 5px 8px;
+
+  color: #fff;
 
   border: none;
   border-radius: var(--radius-sm);
 
-  cursor: pointer;
+  font-size: 11px;
 
-  color: #fff;
+  cursor: pointer;
 
   transition: opacity var(--transition-fast);
 }
@@ -140,25 +199,28 @@
   background-color: var(--color-danger-dark-red);
 }
 
-.btn-eliminar:hover {
-  opacity: 0.85;
-}
-
 .btn-intercambiar {
   background-color: var(--color-info-blue);
 }
 
+.btn-eliminar:hover,
 .btn-intercambiar:hover {
   opacity: 0.85;
 }
+
+/* =========================
+   Publicidades laterales
+========================= */
+
 .ad-left-billetera,
 .ad-right-billetera {
   position: absolute;
   top: 50px;
-  width: 180px;
-  height: 600px;
 
   z-index: 2;
+
+  width: 180px;
+  height: 600px;
 
   overflow: hidden;
 
@@ -176,6 +238,7 @@
 .ad-left-billetera a,
 .ad-right-billetera a {
   display: block;
+
   width: 100%;
   height: 70%;
 }
@@ -183,20 +246,106 @@
 .ad-left-billetera img,
 .ad-right-billetera img,
 .ad-unit-image-billetera {
+  display: block;
+
   width: 100% !important;
   height: 100% !important;
 
   object-fit: cover !important;
 
-  display: block;
-
   border-radius: 0.5rem;
+}
+
+/* =========================
+   Responsive
+========================= */
+
+@media (max-width: 1240px) {
+  .billetera-section {
+    max-width: 820px;
+  }
+
+  .figus-repetidas {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .billetera-item-wrapper,
+  .figurita-billetera-card {
+    width: 200px;
+  }
+
+  .figurita-billetera-img {
+    height: 240px;
+  }
+}
+
+@media (max-width: 1127px) {
+  .billetera-section {
+    max-width: 720px;
+  }
+
+  .figus-repetidas {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .billetera-item-wrapper,
+  .figurita-billetera-card {
+    width: 180px;
+  }
+
+  .figurita-billetera-img {
+    height: 220px;
+  }
+
+  .billetera-section h2 {
+    font-size: 34px;
+  }
+
+  .billetera-section h3 {
+    font-size: 26px;
+  }
 }
 
 @media (max-width: 992px) {
   .ad-left-billetera,
   .ad-right-billetera {
     display: none;
+  }
+
+  .billetera-section {
+    max-width: 850px;
+  }
+
+  .figus-repetidas {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+  }
+
+  .billetera-item-wrapper,
+  .figurita-billetera-card {
+    width: 210px;
+  }
+
+  .figurita-billetera-img {
+    height: 250px;
+  }
+}
+
+@media (max-width: 820px) {
+  .figus-repetidas {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .billetera-item-wrapper,
+  .figurita-billetera-card {
+    width: 210px;
+  }
+
+  .figurita-billetera-img {
+    height: 250px;
   }
 }
 
@@ -217,33 +366,26 @@
     font-size: 20px;
   }
 
-  .figus-repetidas {
-    gap: var(--spacing-sm);
+  .billetera-item-wrapper,
+  .figurita-billetera-card {
+    width: 180px;
   }
 
-  .billetera-item-wrapper {
-    width: 70px;
-    height: 90px;
-    margin: 8px;
-    margin-bottom: 32px;
-  }
-
-  .billetera-item-wrapper::after {
-    bottom: -45px;
-    transform: translateX(-50%) scale(1.2);
-    width: 70px;
-    height: 62px;
+  .figurita-billetera-img {
+    height: 220px;
   }
 
   .btn-eliminar,
   .btn-intercambiar {
-    font-size: 9px;
     padding: 2px 4px;
+
+    font-size: 9px;
   }
 
   .contador {
-    font-size: 12px;
     padding: 2px 4px;
+
+    font-size: 12px;
   }
 }
 
@@ -265,31 +407,29 @@
   }
 
   .figus-repetidas {
-    gap: var(--spacing-xs);
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
   }
 
-  .billetera-item-wrapper {
-    width: 60px;
-    height: 80px;
-    margin: 10px;
-    margin-bottom: 20px;
+  .billetera-item-wrapper,
+  .figurita-billetera-card {
+    width: 160px;
   }
 
-  .billetera-item-wrapper::after {
-    bottom: -24px;
-    transform: translateX(-50%) scale(1.1);
-    width: 60px;
-    height: 54px;
+  .figurita-billetera-img {
+    height: 200px;
   }
 
   .btn-eliminar,
   .btn-intercambiar {
+    padding: 2px 3px;
+
     font-size: 8px;
-    padding: 0.2px 3px;
   }
 
   .contador {
-    font-size: 11px;
     padding: 1px 3px;
+
+    font-size: 11px;
   }
 }
