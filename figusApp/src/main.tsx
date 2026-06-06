@@ -8,11 +8,13 @@ import App from "./App";
 import "./styles/fonts.css";
 import "./styles/variables.css";
 import "./styles/layout.css";
-import "./styles/components.css";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 
+/**
+ * Punto de entrada principal de la aplicación.
+ */
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );

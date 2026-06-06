@@ -1,14 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 
 import type { UpdateUserPayload } from '../interfaces/UpdateUserPayload';
-import type { UserConfig } from '../interfaces/UserConfig';
+import type { UserConfig } from '../types/UserConfig';
 import type { ConfigDataField } from '../types/ConfigDataField';
 
 import {
   getCurrentUser,
   updateUser,
   deleteUser,
-} from '../services/userService';
+} from '../../services/userService';
 
 import { useFieldStatus } from './useFieldStatus';
 import { useLoadingFields } from './useLoadingFields';
@@ -25,6 +25,7 @@ const emptyUser: UserConfig = {
   email: '',
   phone_number: '',
   profile_picture: null,
+  role: 'user',
 };
 
 /**

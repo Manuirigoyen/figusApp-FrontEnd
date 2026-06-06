@@ -1,9 +1,5 @@
 @import "../album/variables.css";
 
-/* =========================
-   Página principal
-========================= */
-
 .billetera-page {
   min-height: calc(100vh - 80px);
   padding: var(--spacing-3xl) 1rem;
@@ -50,10 +46,6 @@
   font-weight: 700;
 }
 
-/* =========================
-   Estado vacío
-========================= */
-
 .empty-billetera {
   grid-column: 1 / -1;
   justify-self: center;
@@ -68,10 +60,6 @@
   border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
 }
-
-/* =========================
-   Grilla de figuritas
-========================= */
 
 .figus-repetidas {
   display: grid;
@@ -132,10 +120,6 @@
   display: none;
 }
 
-/* =========================
-   Contador
-========================= */
-
 .contador {
   position: absolute;
   top: 8px;
@@ -150,10 +134,6 @@
 
   border-radius: 8px;
 }
-
-/* =========================
-   Botones hover
-========================= */
 
 .botones-billetera {
   position: absolute;
@@ -208,10 +188,6 @@
   opacity: 0.85;
 }
 
-/* =========================
-   Publicidades laterales
-========================= */
-
 .ad-left-billetera,
 .ad-right-billetera {
   position: absolute;
@@ -255,10 +231,6 @@
 
   border-radius: 0.5rem;
 }
-
-/* =========================
-   Responsive
-========================= */
 
 @media (max-width: 1240px) {
   .billetera-section {

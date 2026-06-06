@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_BASE;
+const API_BASE = import.meta.env.VITE_API_BASE ?? '';
 
 /**
  * Resuelve URLs de imágenes locales/remotas.
@@ -6,22 +6,20 @@ const API_BASE = import.meta.env.VITE_API_BASE;
 export const resolveImageUrl = (
   path?: string | null,
 ): string => {
+  const defaultImage = '/assets/img/db/users/fotoPerfilDefault.png';
+
   if (!path) {
-    return '/assets/img/db/users/fotoPerfilDefault.png';
+    return defaultImage;
   }
 
   if (path.startsWith('http')) {
     return path;
   }
 
-  const baseUrl = API_BASE.replace(
-    '/api/v1',
-    '',
-  );
+  const baseUrl = API_BASE.replace('/api/v1', '');
 
-  return `${baseUrl}/${
-    path.startsWith('/')
-      ? path.slice(1)
-      : path
-  }`;
+  const cleanBase = baseUrl.replace(/\/$/, '');
+  const cleanPath = path.replace(/^\//, '');
+
+  return `${cleanBase}/${cleanPath}`;
 };

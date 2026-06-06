@@ -1,12 +1,23 @@
+const API_BASE =
+  import.meta.env.VITE_API_BASE;
+
 /**
- * Envía datos de registro al backend para crear un nuevo usuario.
+ * Registra un nuevo usuario en el sistema.
+ *
+ * Envía los datos del formulario junto
+ * al token CAPTCHA utilizando FormData.
+ *
+ * @param payload Datos multipart del registro.
+ *
+ * @returns Promise resuelta cuando el registro finaliza.
+ *
+ * @throws Error cuando el backend responde con error.
  */
 export const registerUser = async (
-  /** FormData con los campos del registro y CAPTCHA. */
   payload: FormData,
 ): Promise<void> => {
   const response = await fetch(
-    'http://localhost:3000/api/v1/users',
+    `${API_BASE}/users`,
     {
       method: 'POST',
       credentials: 'include',
@@ -15,11 +26,22 @@ export const registerUser = async (
   );
 
   if (!response.ok) {
-    const error = await response.json();
+    let message =
+      'No fue posible crear la cuenta ahora mismo.';
 
-    throw new Error(
-      error.message ||
-        'No fue posible crear la cuenta ahora mismo.',
-    );
+    try {
+      const error =
+        (await response.json()) as {
+          message?: string;
+        };
+
+      message =
+        error.message ??
+        message;
+    } catch {
+      
+    }
+
+    throw new Error(message);
   }
 };

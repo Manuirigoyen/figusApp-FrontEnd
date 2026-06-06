@@ -15,7 +15,7 @@ export const buildRegisterPayload = (
     first_name: String(
       formData.get('first_name'),
     ).trim(),
-
+ 
     last_name: String(
       formData.get('last_name'),
     ).trim(),

@@ -1,20 +1,22 @@
-import type { UserConfig } from '../config/interfaces/UserConfig';
+import type { UserConfig } from '../config/types/UserConfig';
 
-const API_BASE = import.meta.env.VITE_API_BASE;
-
-export type LoggedUser = Pick<
-  UserConfig,
-  | 'id'
-  | 'email'
-  | 'first_name'
-  | 'last_name'
-  | 'profile_picture'
-> & {
-  role: 'user' | 'admin';
-};
+const API_BASE =
+  import.meta.env.VITE_API_BASE;
 
 /**
- * Obtiene el usuario autenticado.
+ * Usuario autenticado del sistema.
+ */
+export type LoggedUser = UserConfig;
+
+/**
+ * Obtiene el usuario autenticado actual.
+ *
+ * Realiza una petición autenticada utilizando
+ * cookies de sesión HTTP.
+ *
+ * @returns Datos completos del usuario autenticado.
+ * @throws Error cuando la sesión es inválida
+ * o la petición falla.
  */
 export const getAuthenticatedUser =
   async (): Promise<LoggedUser> => {
@@ -36,7 +38,12 @@ export const getAuthenticatedUser =
   };
 
 /**
- * Cierra sesión del usuario.
+ * Finaliza la sesión del usuario actual.
+ *
+ * Elimina la sesión autenticada del backend.
+ *
+ * @returns Promise de finalización.
+ * @throws Error cuando el logout falla.
  */
 export const logout =
   async (): Promise<void> => {

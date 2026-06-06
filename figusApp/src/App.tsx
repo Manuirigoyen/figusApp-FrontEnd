@@ -2,13 +2,18 @@ import { Header } from "./components/home/Header";
 import { Footer } from "./components/home/Footer";
 import { AppRoutes } from "./routes/AppRoutes";
 
+/**
+ * Componente raíz de la aplicación.
+ * 
+ * @returns Layout principal de la aplicación.
+ */
 function App() {
   return (
     <>
       <Header />
-      <main className="main-content">
+      <div>
         <AppRoutes />
-      </main>
+      </div>
       <Footer />
     </>
   );

@@ -1,4 +1,4 @@
-import './error.css';
+import './Err_404.css';
 
 import error404 from '../../assets/img/error/error404.png';
 

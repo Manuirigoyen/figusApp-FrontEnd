@@ -8,33 +8,45 @@ import { Config } from './config/Config';
 import {
   getAuthenticatedUser,
   logout,
-  type LoggedUser,
 } from './services/authService';
 
 import { resolveImageUrl } from './utils/resolveImageUrl';
 
+import type { UserConfig } from './config/types/UserConfig';
+
 /**
- * Página principal de usuario autenticado.
+ * Página principal del usuario autenticado.
  *
  * Responsabilidades:
- * - Obtener datos del usuario autenticado
- * - Renderizar layout de navegación lateral
- * - Gestionar sesión (logout)
- * - Renderizar módulo de configuración de cuenta
+ * - Obtener información del usuario autenticado.
+ * - Gestionar navegación lateral.
+ * - Administrar cierre de sesión.
+ * - Renderizar configuración de cuenta.
+ *
+ * @returns Vista principal del panel de usuario.
  */
 export const User = () => {
   const navigate = useNavigate();
 
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [user, setUser] = useState<LoggedUser | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [sidebarOpen, setSidebarOpen] =
+    useState<boolean>(false);
+
+  const [user, setUser] =
+    useState<UserConfig | null>(null);
+
+  const [isLoading, setIsLoading] =
+    useState<boolean>(true);
 
   useEffect(() => {
     let mounted = true;
 
-    const loadUser = async () => {
+    /**
+     * Obtiene el usuario autenticado actual.
+     */
+    const loadUser = async (): Promise<void> => {
       try {
-        const data = await getAuthenticatedUser();
+        const data =
+          await getAuthenticatedUser();
 
         if (mounted) {
           setUser(data);
@@ -59,32 +71,39 @@ export const User = () => {
     };
   }, []);
 
-  const toggleSidebar = () => {
+  /**
+   * Alterna visualmente el sidebar.
+   */
+  const toggleSidebar = (): void => {
     setSidebarOpen((prev) => !prev);
   };
 
-  const closeSidebar = () => {
+  /**
+   * Cierra el sidebar lateral.
+   */
+  const closeSidebar = (): void => {
     setSidebarOpen(false);
   };
 
-  const handleLogout = async () => {
-  try {
-    await logout();
-  } catch (error) {
-    console.error(error);
-  } finally {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
+  /**
+   * Finaliza la sesión actual.
+   */
+  const handleLogout = async (): Promise<void> => {
+    try {
+      await logout();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setUser(null);
 
-    setUser(null);
+      navigate('/login');
+    }
+  };
 
-    window.dispatchEvent(new Event('auth-change'));
-
-    navigate('/login');
-  }
-};
-
-  const profileImageSrc = resolveImageUrl(user?.profile_picture);
+  const profileImageSrc =
+    resolveImageUrl(
+      user?.profile_picture ?? null,
+    );
 
   if (isLoading) {
     return (
@@ -97,7 +116,10 @@ export const User = () => {
   }
 
   return (
-    <main id="mainContent" className="main-wrapper user-page position-relative">
+    <main
+      id="mainContent"
+      className="main-wrapper user-page position-relative"
+    >
       <button
         type="button"
         className="sidebar-toggle-btn"
@@ -108,9 +130,18 @@ export const User = () => {
         {sidebarOpen ? '⮞' : '⮜'}
       </button>
 
-      {sidebarOpen && <div className="sidebar-overlay" onClick={closeSidebar} />}
+      {sidebarOpen && (
+        <div
+          className="sidebar-overlay"
+          onClick={closeSidebar}
+        />
+      )}
 
-      <aside className={`user-sidebar ${sidebarOpen ? 'is-open' : ''}`}>
+      <aside
+        className={`user-sidebar ${
+          sidebarOpen ? 'is-open' : ''
+        }`}
+      >
         <div className="user-profile text-center">
           <img
             src={profileImageSrc}
@@ -136,26 +167,47 @@ export const User = () => {
         </h5>
 
         <nav className="user-menu">
-          <Link to="/album" className="user-menu-btn" onClick={closeSidebar}>
+          <Link
+            to="/album"
+            className="user-menu-btn"
+            onClick={closeSidebar}
+          >
             📓 Mis álbumes
           </Link>
 
-          <Link to="/billetera" className="user-menu-btn" onClick={closeSidebar}>
+          <Link
+            to="/billetera"
+            className="user-menu-btn"
+            onClick={closeSidebar}
+          >
             💼 Mis figuritas
           </Link>
 
-          <Link to="/intercambios" className="user-menu-btn" onClick={closeSidebar}>
+          <Link
+            to="/intercambios"
+            className="user-menu-btn"
+            onClick={closeSidebar}
+          >
             🔁 Mis intercambios
           </Link>
 
-          <Link to="/compras" className="user-menu-btn" onClick={closeSidebar}>
+          <Link
+            to="/compras"
+            className="user-menu-btn"
+            onClick={closeSidebar}
+          >
             🛒 Mis compras
           </Link>
         </nav>
       </aside>
 
       <section className="user-content">
-        {user && <Config user={user} setUser={setUser} />}
+        {user && (
+          <Config
+            user={user}
+            setUser={setUser}
+          />
+        )}
       </section>
     </main>
   );

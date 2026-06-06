@@ -1,43 +1,37 @@
 import { useEffect, useState } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 
-export function ProtectedRoute({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  const [auth, setAuth] =
-    useState<
-      null | boolean
-    >(null);
+const API_BASE = import.meta.env.VITE_API_BASE;
+
+/**
+ * Protege rutas autenticadas.
+ * Usa /auth/validate como verificación de sesión.
+ */
+export function ProtectedRoute() {
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   useEffect(() => {
-    fetch(
-      "http://localhost:3000/api/v1/auth/validate",
-      {
-        method: "GET",
-        credentials:
-          "include",
+    const validateSession = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/auth/validate`, {
+          method: "GET",
+          credentials: "include",
+        });
+
+        setIsAuthenticated(response.ok);
+      } catch {
+        setIsAuthenticated(false);
       }
-    )
-      .then((res) => {
-        setAuth(res.ok);
-      })
-      .catch(() => {
-        setAuth(false);
-      });
+    };
+
+    void validateSession();
   }, []);
 
-  if (auth === null)
-    return null;
+  if (isAuthenticated === null) return null;
 
-  if (!auth)
-    return (
-      <Navigate
-        to="/login"
-        replace
-      />
-    );
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
 
-  return <>{children}</>;
+  return <Outlet />;
 }

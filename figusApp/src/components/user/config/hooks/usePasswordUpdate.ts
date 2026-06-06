@@ -5,7 +5,7 @@ import {
   useState,
 } from 'react';
 
-import { updateUser } from '../services/userService';
+import { updateUser } from '../../services/userService';
 
 import { useFieldStatus } from './useFieldStatus';
 import { useLoadingFields } from './useLoadingFields';

@@ -1,61 +1,59 @@
 import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 
+const API_BASE = import.meta.env.VITE_API_BASE;
+
 type Role = "admin" | "user";
 
-export function RoleRoute({
-  children,
-  role,
-}: {
+interface AuthUser {
+  role: Role;
+}
+
+interface RoleRouteProps {
   children: React.ReactNode;
   role: Role;
-}) {
-  const [user, setUser] = useState<any>(null);
+}
+
+/**
+ * Protege rutas por rol.
+ */
+export function RoleRoute({ children, role }: RoleRouteProps) {
+  const [user, setUser] = useState<AuthUser | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(
-      "http://localhost:3000/api/v1/auth/me",
-      {
-        credentials: "include",
-      }
-    )
-      .then(async (res) => {
-        if (!res.ok) {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`${API_BASE}/auth/me`, {
+          credentials: "include",
+        });
+
+        if (!response.ok) {
           setUser(null);
           return;
         }
 
-        const data =
-          await res.json();
-
+        const data: AuthUser = await response.json();
         setUser(data);
-      })
-      .catch(() => {
+      } catch {
         setUser(null);
-      })
-      .finally(() => {
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    void fetchUser();
   }, []);
 
   if (loading) return null;
 
-  if (!user)
-    return (
-      <Navigate
-        to="/login"
-        replace
-      />
-    );
+  if (!user) {
+    return <Navigate to="/login" replace />;
+  }
 
-  if (user.role !== role)
-    return (
-      <Navigate
-        to="/403"
-        replace
-      />
-    );
+  if (user.role !== role) {
+    return <Navigate to="/403" replace />;
+  }
 
   return <>{children}</>;
 }

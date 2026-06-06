@@ -1,0 +1,102 @@
+.home-hero-header {
+  padding-top: 3rem; 
+}
+
+.home-kicker {
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.95rem;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.4rem;
+  font-weight: 400 !important; 
+}
+
+.home-title {
+  color: #ffffff;
+  font-size: clamp(2rem, 4.5vw, 3.8rem);
+  line-height: 1.05;
+  margin-bottom: 0.6rem;
+}
+
+.home-subtitle {
+  max-width: 800px;
+  color: rgba(255, 255, 255, 0.95);
+  font-size: clamp(1rem, 1.4vw, 1.25rem);
+  margin-bottom: 0.5rem; 
+}
+
+.home-main-grid {
+  width: 100%;
+}
+
+.home-ad-wrapper,
+.home-video-container {
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  display: block;
+}
+
+.home-video-container {
+  background-color: transparent;
+}
+
+.home-ad-img {
+  width: 100%;
+  height: 310px;
+  border-radius: 20px;
+  transition: transform 0.25s ease;
+}
+
+.home-video-element {
+  width: 100%;
+  height: 310px;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.home-section-title {
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+}
+
+.home-benefit-card {
+  background-color: #ffffff !important;
+  color: #0f172a;
+  border-radius: 20px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.home-benefit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12) !important;
+}
+
+.home-benefit-icon {
+  font-size: 2.5rem;
+  color: #2563eb;
+  margin-bottom: 1rem;
+}
+
+.home-benefit-title {
+  color: #0f172a;
+  margin-bottom: 0.75rem;
+}
+
+.home-benefit-text {
+  color: #475569;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+@media (max-width: 767.98px) {
+  .home-ad-wrapper,
+  .home-video-container {
+    max-width: 100%;
+    aspect-ratio: auto;
+    height: auto;
+  }
+  
+  .home-video-element {
+    max-height: 320px;
+  }
+}

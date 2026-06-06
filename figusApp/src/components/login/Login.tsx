@@ -19,13 +19,11 @@ export const Login = () => {
   const [showForgotModal, setShowForgotModal] = useState(false);
   const [forgotEmail, setForgotEmail] = useState('');
   const [forgotError, setForgotError] = useState('');
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
-  const [sentToEmail, setSentToEmail] = useState('');
+  const [isForgotSubmitting, setIsForgotSubmitting] = useState(false);
 
   const navigate = useNavigate();
 
-  const turnstileSiteKey = import.meta.env
-    .VITE_TURNSTILE_SITE_KEY as string;
+  const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY as string;
 
   const handleSubmit = useCallback(
     async (event: SubmitEvent<HTMLFormElement>) => {
@@ -59,28 +57,49 @@ export const Login = () => {
 
         window.dispatchEvent(new Event('auth-change'));
 
-        setSuccessMessage('¡Inicio de sesión exitoso!');
+        setSuccessMessage('Inicio de sesión correcto');
 
         const role = data.user?.role?.trim().toLowerCase();
         const redirectPath = role === 'admin' ? '/admin' : '/user';
 
         navigate(redirectPath, { replace: true });
       } catch (error) {
-        console.error(error);
-
         setErrorMessage(
-          error instanceof Error
-            ? error.message
-            : 'Error al iniciar sesión',
+          error instanceof Error ? error.message : 'Error al iniciar sesión'
         );
-
         setCaptchaToken('');
       } finally {
         setIsSubmitting(false);
       }
     },
-    [captchaToken, navigate],
+    [captchaToken, navigate]
   );
+
+  const handleForgotPassword = async () => {
+    setForgotError('');
+
+    if (!forgotEmail.trim()) {
+      setForgotError('Ingresá un email válido');
+      return;
+    }
+
+    try {
+      setIsForgotSubmitting(true);
+
+      await fetch(`${import.meta.env.VITE_API_BASE}/auth/forgot-password`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: forgotEmail }),
+      });
+
+      setShowForgotModal(false);
+      setForgotEmail('');
+    } catch {
+      setForgotError('No se pudo enviar el enlace');
+    } finally {
+      setIsForgotSubmitting(false);
+    }
+  };
 
   return (
     <main id="mainContent" className="main-wrapper position-relative">
@@ -91,7 +110,6 @@ export const Login = () => {
           <div className="col-12 col-sm-11 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
             <div className="login-card shadow-lg">
 
-              {/* HEADER (igual estilo Register) */}
               <div className="login-header text-center">
                 <img
                   src={new URL('../../assets/img/icons/logo.png', import.meta.url).href}
@@ -99,36 +117,24 @@ export const Login = () => {
                   className="login-logo img-fluid"
                 />
 
-                <h1 className="login-title mb-2">
-                  Iniciar sesión
-                </h1>
+                <h1 className="login-title mb-2">Iniciar sesión</h1>
 
                 <p className="login-subtitle mb-0">
-                  Accedé a tu cuenta para seguir coleccionando, intercambiando y descubriendo figuritas.
+                  Accedé a tu cuenta para continuar.
                 </p>
 
-                {errorMessage && (
-                  <p className="text-danger mt-3 mb-0">{errorMessage}</p>
-                )}
-
-                {successMessage && (
-                  <p className="text-success mt-3 mb-0">{successMessage}</p>
-                )}
+                {errorMessage && <p className="text-danger mt-3">{errorMessage}</p>}
+                {successMessage && <p className="text-success mt-3">{successMessage}</p>}
               </div>
 
-              {/* BODY */}
               <div className="login-body">
                 <form className="login-form" onSubmit={handleSubmit}>
                   <div className="row g-3">
 
                     <div className="col-12">
-                      <label htmlFor="email" className="form-label">
-                        Email
-                      </label>
-
+                      <label className="form-label">Email</label>
                       <input
                         type="email"
-                        id="email"
                         name="email"
                         className="form-control login-input"
                         placeholder="usuario@gmail.com"
@@ -138,13 +144,9 @@ export const Login = () => {
                     </div>
 
                     <div className="col-12">
-                      <label htmlFor="password" className="form-label">
-                        Contraseña
-                      </label>
-
+                      <label className="form-label">Contraseña</label>
                       <input
                         type="password"
-                        id="password"
                         name="password"
                         className="form-control login-input"
                         placeholder="Tu contraseña"
@@ -182,7 +184,7 @@ export const Login = () => {
 
                     <div className="col-12 text-center">
                       <p className="mb-0">
-                        ¿No tenés una cuenta?{' '}
+                        ¿No tenés cuenta?{' '}
                         <Link to="/register" className="login-link">
                           Crear cuenta
                         </Link>
@@ -192,7 +194,6 @@ export const Login = () => {
                   </div>
                 </form>
               </div>
-
             </div>
           </div>
         </div>
@@ -201,11 +202,8 @@ export const Login = () => {
       {showForgotModal && (
         <div className="modal-overlay" onClick={() => setShowForgotModal(false)}>
           <div className="login-card forgot-card" onClick={(e) => e.stopPropagation()}>
-            <button
-              className="modal-close"
-              type="button"
-              onClick={() => setShowForgotModal(false)}
-            >
+
+            <button className="modal-close" onClick={() => setShowForgotModal(false)}>
               ×
             </button>
 
@@ -216,20 +214,20 @@ export const Login = () => {
               value={forgotEmail}
               onChange={(e) => setForgotEmail(e.target.value)}
               className="form-control login-input"
-              placeholder="tu@email.com"
+              placeholder="user@email.com"
             />
 
-            {forgotError && (
-              <p className="error-message mt-2">{forgotError}</p>
-            )}
+            {forgotError && <p className="error-message mt-2">{forgotError}</p>}
 
             <button
               type="button"
               className="btn login-btn w-100 mt-3"
-              onClick={() => {}}
+              onClick={handleForgotPassword}
+              disabled={isForgotSubmitting}
             >
               Enviar enlace
             </button>
+
           </div>
         </div>
       )}

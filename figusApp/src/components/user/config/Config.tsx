@@ -16,7 +16,22 @@ const configLogo = new URL(
   import.meta.url,
 ).href;
 
-export const Config = ({ user, setUser }: ConfigProps) => {
+/**
+ * Panel de configuración de usuario.
+ *
+ * Permite:
+ * - Actualizar datos personales.
+ * - Cambiar contraseña.
+ * - Modificar foto de perfil.
+ * - Eliminar la cuenta.
+ *
+ * @param props Datos y estado del usuario autenticado.
+ * @returns Vista de configuración de cuenta.
+ */
+export const Config = ({
+  user,
+  setUser,
+}: ConfigProps) => {
   const {
     isLoading,
     updateField,
@@ -25,12 +40,14 @@ export const Config = ({ user, setUser }: ConfigProps) => {
     fieldStatus,
   } = useUserConfig();
 
-  const passwordHook = usePasswordUpdate(user.id);
+  const passwordHook =
+    usePasswordUpdate(user.id);
 
-  const profilePictureHook = useProfilePicture({
-    user,
-    setUser,
-  });
+  const profilePictureHook =
+    useProfilePicture({
+      user,
+      setUser,
+    });
 
   if (isLoading) {
     return (
@@ -43,7 +60,6 @@ export const Config = ({ user, setUser }: ConfigProps) => {
   return (
     <section className="config-shell">
       <div className="register-card shadow-lg config-card">
-
         <header className="register-header text-center">
           <img
             src={configLogo}
@@ -56,7 +72,8 @@ export const Config = ({ user, setUser }: ConfigProps) => {
           </h1>
 
           <p className="register-subtitle mb-0">
-            Administrá tus datos personales, seguridad y cuenta.
+            Administrá tus datos personales,
+            seguridad y cuenta.
           </p>
         </header>
 
@@ -71,9 +88,6 @@ export const Config = ({ user, setUser }: ConfigProps) => {
 
           <hr className="config-divider" />
 
-          <ProfilePictureSection
-            {...profilePictureHook}
-          />
 
           <hr className="config-divider" />
 
@@ -85,8 +99,12 @@ export const Config = ({ user, setUser }: ConfigProps) => {
 
           <DeleteAccountSection
             removeAccount={removeAccount}
-            loading={loadingFields.delete_account}
-            status={fieldStatus.delete_account}
+            loading={
+              loadingFields.delete_account
+            }
+            status={
+              fieldStatus.delete_account
+            }
           />
         </div>
       </div>

@@ -9,7 +9,7 @@ import type { UseProfilePictureProps } from '../interfaces/UseProfilePictureProp
 
 import type { UseProfilePictureReturn } from '../interfaces/UseProfilePictureReturn';
 
-import { updateUserProfilePicture } from '../services/userService';
+import { updateUserProfilePicture } from '../../services/userService';
 
 import {
   validateImageFile,

@@ -7,9 +7,8 @@ import type { ConfigDataField } from '../types/ConfigDataField';
 /**
  * Sección de datos personales del usuario.
  *
- * Renderiza un conjunto de campos editables (nombre, apellido, fecha de nacimiento y nacionalidad),
- * integrados con el sistema de actualización individual por campo, incluyendo estados de carga
- * y mensajes de feedback por campo.
+ * Renderiza campos editables (nombre, apellido, fecha de nacimiento, nacionalidad, email y archivo),
+ * con actualización individual por campo, estados de carga y feedback por campo.
  */
 export const PersonalDataSection = ({
   user,
@@ -26,6 +25,8 @@ export const PersonalDataSection = ({
       { key: 'last_name', label: 'Apellido', type: 'text' },
       { key: 'date_of_birth', label: 'Fecha de nacimiento', type: 'date' },
       { key: 'nationality', label: 'Nacionalidad', type: 'select' },
+      { key: 'email', label: 'Correo electrónico', type: 'email' },
+      { key: 'profile_file', label: 'Foto de perfil', type: 'file' },
     ] as const,
     []
   );
@@ -37,6 +38,7 @@ export const PersonalDataSection = ({
       <div className="row g-3">
         {fields.map((field) => {
           const key = field.key as ConfigDataField;
+          const isFile = field.type === 'file';
 
           return (
             <div key={field.key} className="col-12 col-md-6">
@@ -60,6 +62,17 @@ export const PersonalDataSection = ({
                       </option>
                     ))}
                   </select>
+                ) : isFile ? (
+                  <input
+                    type="file"
+                    className="form-control register-input config-input"
+                    onChange={(e) =>
+                      setUser((prev) => ({
+                        ...prev,
+                        profile_file: e.target.files?.[0] ?? null,
+                      }))
+                    }
+                  />
                 ) : (
                   <input
                     type={field.type}
@@ -79,18 +92,14 @@ export const PersonalDataSection = ({
                   type="button"
                   className="btn register-btn config-action-btn"
                   disabled={loadingFields[key]}
-                  onClick={() =>
-                    updateField(key, user[field.key])
-                  }
+                  
                 >
                   ✓
                 </button>
               </div>
 
               {fieldStatus[key] ? (
-                <div className="config-status">
-                  {fieldStatus[key]}
-                </div>
+                <div className="config-status">{fieldStatus[key]}</div>
               ) : null}
             </div>
           );

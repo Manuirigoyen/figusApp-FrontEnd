@@ -1,14 +1,11 @@
 @import "./variables.css";
 
 h1.main-title {
-  padding: 10px;
-  font-family: var(--font-family);
-  color: var(--color-primary-gold);
-  text-shadow: 4px 4px 0 #000;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  margin-bottom: var(--spacing-lg);
+  color: #fff;
+  font-size: 40px;
   font-weight: bold;
-  text-align: center;
+  margin-top: 30px;
 }
 
 .album {
@@ -17,10 +14,21 @@ h1.main-title {
   align-items: center;
   gap: 40px;
   padding-bottom: 50px;
+
+  background-image:
+    linear-gradient(rgba(15, 23, 42, 0.50),
+      rgba(15, 23, 42, 0.50)),
+    url("../../assets/img/fonts/fondoEstadioDesktop.png");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
 }
 
 .team {
-  background: var(--color-bg-white-translucent);
+  background: rgba(20, 29, 48, 0.8);
   padding: 20px;
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-md);
@@ -137,101 +145,39 @@ h1.main-title {
 }
 
 .promo-final {
-  position: relative;
   width: 100%;
-  /* Cambiá esta línea */
-  min-height: clamp(480px, 55vh, 550px); /* Bajé un poco el vh para que no sea tan alta */
-  margin-top: 30px;
-  background-image: url(/assets/img/fonts/pelotapremio.png);
-  /* Cambiá esta línea: 100% de ancho, alto automático */
-  background-size: 100% auto; 
-  background-position: center;
-  background-repeat: no-repeat;
-  padding: clamp(30px, 8vw, 60px) 0; /* Saqué padding lateral para que llene bien */
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: clamp(4px, 1.5vw, 10px);
+  margin: 40px auto;
+
+  background: transparent;
+  border-radius: 16px;
+  overflow: hidden;
+
+  box-shadow:
+    0 10px 35px rgba(0, 0, 0, 0.35),
+    0 0 20px rgba(0, 140, 255, 0.15);
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-.promo-final h4,
-.promo-final h3,
-.promo-final h2 {
-  font-family: var(--font-family);
-  color: #fff;
-  text-shadow: 3px 3px 2px #636363, -3px 3px 2px #636363, -3px -3px 0 #636363, 3px -3px 0 #636363;
-  margin: 0;
-  line-height: 1.1;
-  z-index: 2;
-}
-
-/* FELICIDADES!! */
-.promo-final h4 {
-  font-size: clamp(24px, 5vw, 38px); /* 24px mobile -> 38px desktop */
-  order: 1;
-}
-
-/* AQUÍ - el botón */
-.boton-viaje {
-  position: static;
-  width: auto;
-  height: auto;
-  border-radius: 0;
-  background-color: transparent;
-  color: #fff;
-  text-shadow: 3px 3px 2px #636363, -3px 3px 2px #636363, -3px -3px 0 #636363, 3px -3px 0 #636363;
-  font-size: clamp(20px, 4vw, 32px); /* 20px mobile -> 32px desktop */
-  font-weight: bold;
-  text-decoration: none;
-  box-shadow: none;
+.promo-final img {
   display: block;
-  order: 2;
-  margin: 0;
-  z-index: 2;
-  transition: color var(--transition-fast), transform var(--transition-fast);
+  width: 100%;
+  height: auto;
 }
 
-.boton-viaje:hover {
-  color: var(--color-primary-gold);
-  transform: scale(1.05);
+.promo-final.completo {
+  cursor: pointer;
 }
 
-/* Completaste el álbum! */
-.promo-final h3 {
-  margin-bottom: clamp(30px, 8vw, 80px); /* Más espacio */
-}
-
-/* PARA ELEGIR SU VIAJE */
-.promo-final h2 {
-  font-size: clamp(28px, 6vw, 60px); /* 28px mobile -> 60px desktop */
-  order: 4;
-  margin-top: clamp(5px, 1vw, 10px);
-}
-
-/* Texto de abajo */
-.promo-final p {
-  font-family: var(--font-family);
-  margin: clamp(15px, 3vw, 20px) 0 0 0;
-  font-size: clamp(14px, 2.5vw, 24px); /* 14px mobile -> 24px desktop */
-  color: black;
-  font-weight: bold;
-  position: relative;
-  z-index: 2;
-  order: 5;
-  max-width: 90%;
+.promo-final.completo:hover img {
+  filter: brightness(0.84);
+  transition: filter 180ms ease;
 }
 
 .mensaje {
   font-style: italic;
   padding: 10px;
   grid-column: 1 / -1;
-}
-
-/* Clase para ocultar elementos */
-.oculto {
-  display: none;
 }
 
 /* --- Media Queries --- */
@@ -254,13 +200,6 @@ h1.main-title {
   }
   .progress-container {
     width: 96%;
-  }
-}
-
-@media (max-width: 1024px) {
-  .promo-final {
-    min-height: clamp(350px, 50vh, 500px);
-    background-size: 100% auto; /* Mantiene el ancho completo */
   }
 }
 
@@ -343,32 +282,7 @@ h1.main-title {
   }
 }
 
-@media (max-width: 768px) {
-  .promo-final {
-    min-height: 250px;
-    background-size: 110%;
-    gap: 6px;
-  }
-  
-  .promo-final h4,
-  .promo-final h3,
-  .promo-final h2 {
-    text-shadow: 2px 2px 1px #636363, -2px 2px 1px #636363, -2px -2px 0 #636363, 2px -2px 0 #636363;
-  }
-}
-
 @media (max-width: 480px) {
-  .promo-final {
-    min-height: 250px;
-    padding: 30px 15px;
-    background-size: 140%;
-  }
-
-  .promo-final p {
-    font-size: 14px;
-    max-width: 95%;
-  }
-
   .bandera {
     margin: 10px;
     width: 130px;
@@ -388,15 +302,6 @@ h1.main-title {
 
 /* Mobile muy chico */
 @media (max-width: 360px) {
-  .promo-final {
-    min-height: 340px;
-    gap: 4px;
-  }
-  
-  .promo-final h4 { font-size: 22px; }
-  .boton-viaje { font-size: 18px; }
-  .promo-final h3 { font-size: 20px; }
-  .promo-final h2 { font-size: 24px; }
 
   .bandera {
     margin: 15px;
@@ -412,8 +317,4 @@ h1.main-title {
     width: 110%;
     height: 80px;
   }
-
-  .promo-final h3 {
-  margin-bottom: clamp(5px, 8vw, 80px); /* Más espacio */
-}
 }

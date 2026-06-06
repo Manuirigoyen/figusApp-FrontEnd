@@ -1,92 +1,144 @@
-// src/components/Album.tsx
-// Componente principal que muestra el álbum de figuritas organizado por equipos
-import { useEffect, useState, useCallback, useMemo } from 'react';
-
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import FiguritaCard from './FiguritaCard';
 import './album.css';
 import './FiguritaCard.css';
-import { ALL_FIGURITAS } from './data/figuritasData';
-import type { Figurita } from './data/figuritasData';
+import jugadorSorpresa from '../../assets/img/icons/album/jugadorSorpresa.jpeg';
+import pelotaPremio from "../../assets/img/fonts/pelotapremio.png";
+import pelotaPremioCompleto from "../../assets/img/fonts/pelotaPremioGanador.png";
+import { getAllAlbums, getAlbumProgress } from './services/albumService';
 import { TEAMS_INFO } from './data/teamsData';
-import { calculateProgress, getProgressBarColor, isTeamComplete } from './utils/albumUtils';
-import type { Billetera, BilleteraItem } from './types/index';
-import { useLocalStorage } from './hooks/useLocalStorage';
-import { STORAGE_KEYS } from './constants/storageKeys';
+import { ROUTES } from '../../routes/routes.constants';
+import type { Figurita } from './data/figuritasData';
+import {
+  calculateProgress,
+  getProgressBarColor,
+  isTeamComplete,
+} from './utils/albumUtils';
 
-/**
- * Componente Album - Muestra todas las figuritas organizadas por equipos
- *
- * Funcionalidades:
- * - Muestra figuritas agrupadas por equipo (Argentina, Brasil, Francia)
- * - Permite hacer click en figuritas para completarlas o agregar repetidas
- * - Muestra barra de progreso por equipo
- * - Guarda estado en localStorage
- *
- * @returns Componente React con el álbum completo
- */
+const API_BASE = import.meta.env.VITE_API_BASE;
+
+type BackendSticker = {
+  id: number;
+  name: string;
+  class: string;
+  nationality: string;
+  cover_image: string;
+  album_id: number;
+  obtained: boolean;
+};
+
+type AlbumData = {
+  id: number;
+  name: string;
+  class: string;
+  nationality: string;
+  description: string;
+  capacity: number;
+  cover_image: string;
+};
+
+type AlbumProgress = {
+  album: AlbumData;
+  stickers: BackendSticker[];
+};
+
+function getUserFromToken() {
+  const token = localStorage.getItem('token');
+
+  if (!token) return null;
+
+  try {
+    return JSON.parse(atob(token.split('.')[1]));
+  } catch {
+    return null;
+  }
+}
+
+function getAlbumKey(album: AlbumData) {
+  const name = album.name.toLowerCase();
+
+  if (name.includes('argentina')) return 'argentina';
+  if (name.includes('brasil')) return 'brasil';
+  if (name.includes('franc')) return 'francia';
+
+  return 'argentina';
+}
+
+function resolveImageUrl(path: string) {
+  if (!path) return '';
+
+  if (path.startsWith('http')) {
+    return path;
+  }
+
+  const uploadsIndex = path.indexOf('/uploads/');
+
+  if (uploadsIndex !== -1) {
+    return `${API_BASE.replace('/api/v1', '')}${path.substring(uploadsIndex)}`;
+  }
+
+  return path;
+}
+
 function Album() {
-  const [figuritas, setFiguritas] = useState<Figurita[]>([]);
-  const [figuritasCompletas, setFiguritasCompletas] = useLocalStorage<string[]>(STORAGE_KEYS.FIGURITAS_COMPLETAS, []);
-  const [billetera, setBilletera] = useLocalStorage<Billetera>(STORAGE_KEYS.BILLETERA, {});
+  const navigate = useNavigate();
+
+  const [albumsProgress, setAlbumsProgress] = useState<AlbumProgress[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const tokenUser = getUserFromToken();
+
+  const userId = Number(tokenUser?.sub || tokenUser?.id || tokenUser?.user_id);
+  const userEmail = tokenUser?.email || 'tu correo';
+
   useEffect(() => {
-    try {
-      const figuritasWithState = ALL_FIGURITAS.map(fig => ({
-        ...fig,
-        isComplete: figuritasCompletas.includes(fig.id)
-      }));
-      setFiguritas(figuritasWithState);
-      setIsLoading(false);
-    } catch (e) {
-      console.error("Error al cargar el álbum:", e);
-      setError("No se pudo cargar el álbum.");
-    }
-  }, [figuritasCompletas]);
+    const loadAlbums = async () => {
+      try {
+        if (!userId) {
+          setError('No se encontró el usuario logueado.');
+          return;
+        }
 
-  const handleFiguritaClick = useCallback((clickedFiguritaId: string) => {
-    const figurita = figuritas.find(fig => fig.id === clickedFiguritaId);
+        const albums = await getAllAlbums();
 
-    if (!figurita) return;
+        const progressResponses = await Promise.all(
+          albums.map((album: AlbumData) => getAlbumProgress(album.id, userId)),
+        );
 
-    if (!figurita.isComplete) {
-      // Primer click: marcar como completa
-      setFiguritasCompletas(prev => [...prev, clickedFiguritaId]);
-      setFiguritas(prev =>
-        prev.map(fig =>
-          fig.id === clickedFiguritaId ? { ...fig, isComplete: true } : fig
-        )
-      );
-    } else {
-      // Segundo o más clicks: agregar a billetera como repetida
-      setBilletera(prevBilletera => {
-        const newCount = (prevBilletera[clickedFiguritaId]?.count || 0) + 1;
-        return {
-          ...prevBilletera,
-          [clickedFiguritaId]: { count: newCount }
-        };
-      });
-    }
-  }, [figuritas, setFiguritasCompletas, setBilletera]);
-
-  const equiposAgrupados = useMemo(() => {
-    const teamMap = new Map();
-
-    figuritas.forEach(fig => {
-      if (!teamMap.has(fig.teamId)) {
-        const info = TEAMS_INFO[fig.teamId as keyof typeof TEAMS_INFO];
-        teamMap.set(fig.teamId, { ...info, figuritas: [] });
+        setAlbumsProgress(progressResponses);
+      } catch (e) {
+        console.error('Error al cargar los álbumes:', e);
+        setError('No se pudieron cargar los álbumes.');
+      } finally {
+        setIsLoading(false);
       }
-      teamMap.get(fig.teamId)?.figuritas.push(fig);
-    });
-    return Array.from(teamMap.values());
-  }, [figuritas]);
+    };
 
-  const allFiguritasComplete = useMemo(() => {
-    return figuritas.length > 0 && figuritas.every(fig => fig.isComplete);
-  }, [figuritas]);
+    loadAlbums();
+  }, [userId]);
+
+  const seccionesRequeridas = ['argentina', 'brasil', 'francia'];
+  const completaronTresSecciones = seccionesRequeridas.every((clave) => {
+    const albumProgress = albumsProgress.find((ap) => getAlbumKey(ap.album) === clave);
+
+    if (!albumProgress) return false;
+
+    const total = albumProgress.stickers.length;
+    const obtenidas = albumProgress.stickers.filter((sticker) => sticker.obtained).length;
+
+    return total > 0 && total === obtenidas;
+  });
+
+  console.log('completaronTresSecciones:', completaronTresSecciones);
+  console.log('albumsProgress detalles:', albumsProgress.map((ap) => ({
+    nombre: ap.album.name,
+    albumKey: getAlbumKey(ap.album),
+    total: ap.stickers.length,
+    obtenidas: ap.stickers.filter((s) => s.obtained).length,
+  })));
 
   if (isLoading) {
     return (
@@ -107,52 +159,85 @@ function Album() {
 
   return (
     <div className="album" id="album-react">
-      <h1 className="main-title">
-        MIS ALBUMES
-      </h1>
+      <h1 className="main-title">Mis álbumes</h1>
 
-      {equiposAgrupados.map(team => {
-        const totalCards = team.figuritas.length;
-        const completadas = team.figuritas.filter((fig: Figurita) => fig.isComplete).length;
+      {albumsProgress.map((albumProgress) => {
+        const album = albumProgress.album;
+        const stickers = albumProgress.stickers;
+
+        const totalCards = stickers.length;
+        const completadas = stickers.filter((sticker) => sticker.obtained).length;
         const porcentaje = calculateProgress(totalCards, completadas);
         const progressBarColor = getProgressBarColor(porcentaje);
-        const teamCompleted = isTeamComplete(completadas, totalCards);
+        const albumCompleto = isTeamComplete(completadas, totalCards);
+
+        const albumKey = getAlbumKey(album);
+        const teamInfo = TEAMS_INFO[albumKey];
+
+        const figuritasAdaptadas: Figurita[] = stickers.map((sticker) => {
+          const imageUrl = resolveImageUrl(sticker.cover_image);
+          const stickerName = sticker.name?.toLowerCase() || '';
+          const isLegendaria =
+            sticker.class === 'Legendaria' && !stickerName.includes('neymar');
+
+          return {
+            id: String(sticker.id),
+            teamId: albumKey,
+            isSpecial: isLegendaria,
+            isComplete: sticker.obtained,
+            backgroundImageUrl: isLegendaria ? jugadorSorpresa : imageUrl,
+            specialImageUrl: imageUrl,
+            specialImageAlt: sticker.name,
+            dataJugador: sticker.name,
+          };
+        });
 
         return (
-          <div key={team.name} id={team.name.toLowerCase()} className="team">
+          <div key={album.id} id={albumKey} className="team">
             <h2 className="titulo-seleccion">
-              {team.name}
+              {album.name}
               <img
-                src={team.banderaIcono}
-                alt={`Bandera ${team.name}`}
+                src={teamInfo.banderaIcono}
+                alt={`Bandera ${album.name}`}
                 className="icono-bandera"
               />
             </h2>
+
             <div className="album-layout">
               <div className="contenido-album">
                 <div className="progress-container">
                   <div
                     className="progress-bar"
-                    style={{ width: `${porcentaje}%`, backgroundColor: progressBarColor }}
+                    style={{
+                      width: `${porcentaje}%`,
+                      backgroundColor: progressBarColor,
+                    }}
                   ></div>
+
                   <span className="progress-text">Progreso: {porcentaje}%</span>
                 </div>
+
                 <div className="cards">
-                  {team.figuritas.map((fig: Figurita) => (
+                  {figuritasAdaptadas.map((fig) => (
                     <FiguritaCard
                       key={fig.id}
                       figurita={fig}
-                      onFiguritaClick={handleFiguritaClick}
+                      onFiguritaClick={() => {}}
+                      clickable={false}
                     />
                   ))}
                 </div>
               </div>
+
               <div className="contenedor-band-desc">
-                <p className="descripcion">{team.descripcion}</p>
+                <p className="descripcion">
+                  {album.description || teamInfo.descripcion}
+                </p>
+
                 <img
-                  src={team.banderaPrincipal}
-                  alt={`Bandera ${team.name}`}
-                  className={`bandera ${teamCompleted ? 'color' : ''}`}
+                  src={teamInfo.banderaPrincipal}
+                  alt={`Bandera ${album.name}`}
+                  className={`bandera ${albumCompleto ? 'color' : ''}`}
                 />
               </div>
             </div>
@@ -160,20 +245,27 @@ function Album() {
         );
       })}
 
-      <div id="promo-final" className="promo-final">
-        <div id="mensaje-incompleto" className={`mensaje ${allFiguritasComplete ? 'oculto' : ''}`}>
-          <h4>Completa el álbum</h4>
-          <h3>y GANÁ</h3>
-          <h2>PREMIOS INCREIBLES!!!!</h2>
-          <p>Viajes a elección: Colombia, México o Brasil!!!</p>
-        </div>
-        <div id="mensaje-completo" className={`mensaje ${!allFiguritasComplete ? 'oculto' : ''}`}>
-          <h2>FELICIDADES!!</h2>
-          <h3>Completaste el álbum!</h3>
-          <a href="#" className="boton-viaje">CLICK <br />AQUÍ</a>
-        </div>
+      <div
+        className={`promo-final ${completaronTresSecciones ? 'completo' : ''}`}
+        role={completaronTresSecciones ? 'button' : undefined}
+        tabIndex={completaronTresSecciones ? 0 : undefined}
+        onClick={completaronTresSecciones ? () => navigate(ROUTES.SELECCIONAR_VIAJE) : undefined}
+        onKeyDown={
+          completaronTresSecciones
+            ? (e) => {
+                if (e.key === 'Enter' || e.key === ' ') navigate(ROUTES.SELECCIONAR_VIAJE);
+              }
+            : undefined
+        }
+      >
+        <img
+          src={completaronTresSecciones ? pelotaPremioCompleto : pelotaPremio}
+          alt={completaronTresSecciones ? 'Premio FigusApp completo' : 'Premios FigusApp'}
+        />
       </div>
-    </div>
+
+        </div>
+    
   );
 }
 

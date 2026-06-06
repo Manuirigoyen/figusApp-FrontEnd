@@ -1,0 +1,120 @@
+.seleccion-viaje {
+  padding: 40px 20px;
+  width: 100%;
+  box-sizing: border-box;
+  color: #fff;
+  min-height: calc(100vh - 80px);
+  background-image:
+    linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.65)),
+    url("../../assets/img/fonts/fondoEstadioDesktop.png");
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.seleccion-viaje h1 {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.seleccion-viaje p {
+  text-align: center;
+}
+
+.countries {
+  display: flex;
+  gap: 28px;
+  margin-top: 28px;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.country-card {
+  width: 320px;
+  height: 220px;
+  background: rgba(0,0,0,0.28);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  overflow: hidden;
+  background-size: cover;
+  background-position: center;
+}
+
+.country-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 40px rgba(0,0,0,0.45);
+}
+
+.country-card.disabled,
+.country-card:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+  filter: grayscale(0.65);
+  box-shadow: none;
+  transform: none;
+}
+
+.country-card.selected {
+  border-color: #ffd700;
+}
+
+.selected-note {
+  text-align: center;
+  margin-top: 16px;
+  font-size: 1rem;
+  color: #fff;
+}
+
+.country-label {
+  display: inline-block;
+  width: 100%;
+  text-align: center;
+  padding: 18px 12px;
+  background: linear-gradient(0deg, rgba(0,0,0,0.62), rgba(0,0,0,0.2));
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* Placeholder background images (replace with your images later) */
+.country-card.brasil { background-image: url('../../assets/img/icons/seleccionViaje/viajeBrasil.png'); }
+.country-card.colombia { background-image: url('../../assets/img/icons/seleccionViaje/viajeColombia.png'); }
+.country-card.mexico { background-image: url('../../assets/img/icons/seleccionViaje/viajeMexico.png'); }
+
+/* Modal styles */
+.sv-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.sv-modal {
+  background: #0f172a;
+  padding: 22px;
+  border-radius: 12px;
+  width: min(520px, 92%);
+  box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+  color: #fff;
+}
+
+.sv-modal h3 {
+  margin-top: 0;
+}
+
+.sv-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+}
