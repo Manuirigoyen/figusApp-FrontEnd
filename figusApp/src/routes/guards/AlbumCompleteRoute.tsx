@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { getAllAlbums, getAlbumProgress } from "../../components/album/services/albumService";
-import { ROUTES } from "../routes.constants";
+import { ROUTES } from "../constants/routes.constants";
 
 interface AlbumData {
   id: number;

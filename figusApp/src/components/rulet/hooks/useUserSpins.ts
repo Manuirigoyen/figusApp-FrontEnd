@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { getUserSpinsWallet } from '../service/walletService'; 
+import { getUserSpinsWallet } from '../service/walletService';
 
 export const useUserSpins = () => {
   const [spins, setSpins] = useState<number>(0);
@@ -10,10 +10,10 @@ export const useUserSpins = () => {
     try {
       const wallet = await getUserSpinsWallet(userId);
       if (wallet) {
-        setSpins(wallet.spins);
+        setSpins(wallet.stock ?? 0);
       }
     } catch (error) {
-      console.error('Error al cargar los giros:', error);
+      console.error("Error al cargar giros:", error);
       setSpins(0);
     } finally {
       setLoadingSpins(false);

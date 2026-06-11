@@ -1,3 +1,6 @@
+/**
+ * Represents an album entity with sticker collection metadata
+ */
 export interface Album {
   id: number;
   name: string;
@@ -8,6 +11,9 @@ export interface Album {
   cover_image?: string;
 }
 
+/**
+ * Data transfer object for creating a new album
+ */
 export interface CreateAlbumDto {
   name: string;
   class: string;
@@ -17,6 +23,9 @@ export interface CreateAlbumDto {
   cover_image?: File | null;
 }
 
+/**
+ * Data transfer object for updating an existing album with partial fields
+ */
 export interface UpdateAlbumDto {
   name?: string;
   class?: string;
@@ -29,7 +38,10 @@ export interface UpdateAlbumDto {
 const API_URL = 'http://localhost:3000/api/v1/albums';
 
 /**
- * Obtener álbum por ID
+ * Fetches an album by its unique identifier
+ * @param id - The album ID to retrieve (must be greater than 0)
+ * @returns Promise resolving to the Album object
+ * @throws Error if ID is invalid or album not found
  */
 export const getAlbumById = async (
   id: number,
@@ -58,7 +70,9 @@ export const getAlbumById = async (
 };
 
 /**
- * Obtener todos los álbumes
+ * Fetches all albums
+ * @returns Promise resolving to an array of all Album objects
+ * @throws Error if albums cannot be retrieved
  */
 export const getAlbums = async (): Promise<
   Album[]
@@ -75,7 +89,10 @@ export const getAlbums = async (): Promise<
 };
 
 /**
- * Crear álbum
+ * Creates a new album with provided metadata
+ * @param albumData - The album data (name, class, nationality, description, capacity, optional cover image)
+ * @returns Promise resolving to the created Album object with generated ID
+ * @throws Error if data is invalid, unauthorized, or creation fails
  */
 export const createAlbum = async (
   albumData: CreateAlbumDto,
@@ -128,7 +145,11 @@ export const createAlbum = async (
 };
 
 /**
- * Actualizar álbum
+ * Updates an existing album with partial or complete data
+ * @param id - The album ID to update (must be greater than 0)
+ * @param albumData - The album data to update with (all fields optional)
+ * @returns Promise resolving to the updated Album object
+ * @throws Error if ID is invalid, data is invalid, unauthorized, or album not found
  */
 export const updateAlbum = async (
   id: number,
@@ -209,7 +230,10 @@ export const updateAlbum = async (
 };
 
 /**
- * Eliminar álbum
+ * Deletes an album by its ID
+ * @param id - The album ID to delete (must be greater than 0)
+ * @returns Promise that resolves when deletion is complete
+ * @throws Error if ID is invalid, unauthorized, or album not found
  */
 export const deleteAlbum = async (
   id: number,

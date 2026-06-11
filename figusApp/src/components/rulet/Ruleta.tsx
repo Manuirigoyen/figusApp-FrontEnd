@@ -2,7 +2,6 @@ import { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { premios } from './data/premiosRuleta';
 import { useRuleta } from './hooks/useRuleta';
-import { obtenerImagenSegura } from './constant/ruleta.constants';
 
 import './ruleta.css';
 
@@ -11,6 +10,12 @@ import baseRuleta from '../../assets/img/icons/ruleta/base_ruleta.png';
 import btnRuleta from '../../assets/img/icons/ruleta/btn_ruleta.png';
 import trianguloRuleta from '../../assets/img/icons/ruleta/triangulo_ruleta.png';
 
+/**
+ * Ruleta component for the spin wheel game.
+ * Displays prizes and allows users to spin and win rewards.
+ *
+ * @returns {JSX.Element} The ruleta component with spinning wheel and controls.
+ */
 export const Ruleta = () => {
   const premiumsCircleRef = useRef<HTMLDivElement>(null);
   const ruletaImgRef = useRef<HTMLImageElement>(null);
@@ -53,7 +58,7 @@ export const Ruleta = () => {
                     {premios.map((premio, index) => (
                       <img
                         key={index}
-                        src={obtenerImagenSegura(premio.img)}
+                        src={premio.img}
                         className="premio"
                         alt={premio.nombre}
                       />
@@ -68,7 +73,7 @@ export const Ruleta = () => {
               {premioGanado && (
                 <div id="premioGanado" className="premio-popup animate-pop">
                   <img
-                    src={obtenerImagenSegura(premioGanado.img)}
+                    src={premioGanado.img}
                     alt="Premio Ganado"
                     className="premio-ganado-img"
                   />
@@ -113,7 +118,7 @@ export const Ruleta = () => {
             <button
               className="btn btn-dark-custom w-50"
               onClick={() => realizarGiro(girosRestantes)}
-              disabled={girosRestantes === 0 || isGirarndo}
+              disabled={girosRestantes <= 0 || isGirarndo}
             >
               Automático
             </button>
@@ -123,7 +128,7 @@ export const Ruleta = () => {
             <button
               className="btn btn-principal-girar-manzana fw-bold shadow mb-3"
               onClick={() => realizarGiro(1)}
-              disabled={girosRestantes === 0 || isGirarndo}
+              disabled={girosRestantes <= 0 || isGirarndo}
             >
               {isGirarndo ? 'Girando...' : `Girar (${girosRestantes})`}
             </button>

@@ -1,0 +1,239 @@
+@import '../album/variables.css';
+
+.intercambios-page {
+  min-height: calc(100vh - 80px);
+  padding: var(--spacing-3xl) 1rem;
+  background-image:
+    linear-gradient(rgba(15, 23, 42, 0.62), rgba(15, 23, 42, 0.62)),
+    url('../../assets/img/fonts/fondoEstadioDesktop.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  font-family: var(--font-family);
+}
+
+.intercambios-panel {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem;
+  background: rgba(20, 29, 48, 0.86);
+  border-radius: 18px;
+  box-shadow: var(--shadow-lg);
+  color: #fff;
+  text-align: center;
+}
+
+.intercambios-panel h2 {
+  margin-bottom: 0.5rem;
+  font-size: 38px;
+}
+
+.intercambios-subtitle {
+  margin-bottom: 1.5rem;
+  color: whitesmoke;
+}
+
+.intercambios-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  align-items: stretch;
+}
+
+.trade-side {
+  display: grid;
+  grid-template-columns: 1fr 150px;
+  gap: 1rem;
+  align-items: center;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.45);
+  border-radius: 14px;
+}
+
+.trade-side-request {
+  grid-template-columns: 1fr 150px;
+}
+
+.trade-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.intercambios-form label {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  text-align: left;
+  font-weight: 700;
+}
+
+.intercambios-form input,
+.intercambios-form select {
+  width: 100%;
+  padding: 0.65rem;
+  border: 0;
+  border-radius: 8px;
+  font-size: 0.95rem;
+}
+
+.intercambios-form input:focus,
+.intercambios-form select:focus {
+  outline: 2px solid var(--color-info-blue);
+}
+
+.trade-sticker-preview {
+  width: 150px;
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.45rem;
+  text-align: center;
+  padding-top: 24px;
+}
+
+.trade-sticker-preview img {
+  width: 120px;
+  height: 165px;
+  object-fit: cover;
+  border-radius: 10px;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.35);
+}
+
+.trade-sticker-preview strong {
+  max-width: 140px;
+  color: #fff;
+  font-size: 0.9rem;
+  line-height: 1.1;
+  word-break: normal;
+}
+
+.trade-sticker-preview span {
+  color: #38bdf8;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
+.intercambios-form button {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: 260px;
+  min-height: 55px;
+  padding: 0.8rem 1rem;
+  color: #fff;
+  background: var(--color-info-blue);
+  border: 0;
+  border-radius: 12px;
+  font-size: 1.05rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.intercambios-form button:hover {
+  filter: brightness(1.08);
+}
+
+.intercambios-form button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.intercambios-message {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.65rem 1rem;
+  background: rgba(255, 255, 255, 0.92);
+  color: #111827;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.offers-table-wrapper {
+  overflow-x: auto;
+}
+
+.offers-table {
+  width: 100%;
+  min-width: 860px;
+  border-collapse: collapse;
+  background: #fff;
+  color: #000;
+  font-weight: 700;
+}
+
+.offers-table th,
+.offers-table td {
+  padding: 0.5rem;
+  border: 3px solid #111;
+  vertical-align: middle;
+}
+
+.offers-table thead th {
+  color: #fff;
+  background: #000;
+}
+
+.offer-sticker-img {
+  width: 55px;
+  height: 72px;
+  object-fit: cover;
+  border-radius: 7px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.accept-btn,
+.reject-btn {
+  border: 0;
+  background: transparent;
+  font-size: 1.45rem;
+  cursor: pointer;
+}
+
+.accept-btn {
+  color: #117c3c;
+}
+
+.reject-btn {
+  color: #e11d48;
+}
+
+@media (max-width: 1000px) {
+  .intercambios-form {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 650px) {
+  .intercambios-panel {
+    padding: 1rem;
+  }
+
+  .intercambios-panel h2 {
+    font-size: 26px;
+  }
+
+  .trade-side,
+  .trade-side-request {
+    grid-template-columns: 1fr;
+  }
+
+  .trade-sticker-preview {
+    width: 100%;
+    min-height: auto;
+  }
+
+  .trade-sticker-preview img {
+    width: 105px;
+    height: 145px;
+  }
+
+  .intercambios-form button {
+    width: 100%;
+  }
+}

@@ -3,6 +3,12 @@ import type { LoginResponse } from '../interfaces/LoginResponse';
 
 const API_BASE = import.meta.env.VITE_API_BASE;
 
+/**
+ * Authenticates user with email and password.
+ * @param payload User credentials and CAPTCHA token
+ * @returns Promise resolving to user data and authentication token
+ * @throws Error when authentication fails
+ */
 export const loginUser = async (
   payload: LoginPayload,
 ): Promise<LoginResponse> => {

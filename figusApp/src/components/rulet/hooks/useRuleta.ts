@@ -1,8 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { premios } from '../data/premiosRuleta';
 import { getAuthenticatedUser } from '../../user/services/authService';
-import { useUserSpins } from './useUserSpins'; 
-import { executeSecureSpin } from '../service/walletService'; 
+import { useUserSpins } from './useUserSpins';
+import { executeSecureSpin } from '../service/walletService';
 import type { UserConfig } from '../../user/config/types/UserConfig';
 import { ROTACION_INICIAL } from '../constant/ruleta.constants';
 
@@ -15,10 +15,15 @@ export const useRuleta = (
   const [girosRestantes, setGirosRestantes] = useState<number>(10);
   const [premioGanado, setPremioGanado] = useState<any | null>(null);
   const [isGirarndo, setIsGirando] = useState<boolean>(false);
-  const [isAutenticado, setIsAutenticado] = useState<boolean>(false); 
+  const [isAutenticado, setIsAutenticado] = useState<boolean>(false);
 
   const { spins, loadSpins } = useUserSpins();
   const rotacionRef = useRef<number>(0);
+  const girosRestantesRef = useRef<number>(10);
+
+  useEffect(() => {
+    girosRestantesRef.current = girosRestantes;
+  }, [girosRestantes]);
 
   useEffect(() => {
     const verificarSesionYGiros = async () => {
@@ -30,7 +35,7 @@ export const useRuleta = (
         }
       } catch {
         setIsAutenticado(false);
-        setGirosRestantes(10); 
+        setGirosRestantes(10);
       }
     };
     verificarSesionYGiros();
@@ -54,12 +59,19 @@ export const useRuleta = (
   };
 
   const ejecutarAnimacionGiro = async (indicePremio: number): Promise<void> => {
-    const cantGiros = 360 * 5 + indicePremio * SECTOR + SECTOR / 2;
-    rotacionRef.current += cantGiros;
-    const nuevaRotacion = ROTACION_INICIAL + rotacionRef.current;
+    // Calculamos el ángulo necesario para que el índice caiga en el marcador (arriba).
+    // Usamos (360 - (indice * SECTOR)) para contrarrestar el giro horario
+    const anguloParaPremio = 360 - (indicePremio * SECTOR);
+    const vueltasExtras = 360 * 5; 
+    
+    // Sumamos al valor acumulado actual para que la ruleta no se reinicie
+    const nuevaRotacion = rotacionRef.current + vueltasExtras + anguloParaPremio;
+    rotacionRef.current = nuevaRotacion;
+    
+    const total = ROTACION_INICIAL + rotacionRef.current;
 
-    if (premiumsCircleRef.current) premiumsCircleRef.current.style.transform = `rotate(${nuevaRotacion}deg)`;
-    if (ruletaImgRef.current) ruletaImgRef.current.style.transform = `rotate(${nuevaRotacion}deg)`;
+    if (premiumsCircleRef.current) premiumsCircleRef.current.style.transform = `rotate(${total}deg)`;
+    if (ruletaImgRef.current) ruletaImgRef.current.style.transform = `rotate(${total}deg)`;
 
     if (ruletaImgRef.current) {
       await esperarTransicion(ruletaImgRef.current);
@@ -67,47 +79,46 @@ export const useRuleta = (
   };
 
   const realizarGiro = useCallback(async (cantidad: number): Promise<void> => {
-    if (girosRestantes <= 0 || isGirarndo) return;
+    if (girosRestantesRef.current <= 0 || isGirarndo) return;
 
     setIsGirando(true);
-    let girosDisponibles = girosRestantes;
+    let girosDisponibles = girosRestantesRef.current;
 
-    for (let i = 0; i < cantidad; i++) {
-      if (girosDisponibles <= 0) break;
+    try {
+      for (let i = 0; i < cantidad; i++) {
+        if (girosDisponibles <= 0) break;
 
-      let premioIndex = 0;
-      let premioObtenido: any = null;
+        let premioIndex = 0;
+        let premioObtenido: any = null;
 
-      if (isAutenticado) {
-        try {
+        if (isAutenticado) {
           const resultadoServer = await executeSecureSpin();
-          premioIndex = resultadoServer.index_wheel; 
-          girosDisponibles = resultadoServer.spins_remaining;
-          
-          premioObtenido = premios[premioIndex]; 
-        } catch (error) {
-          console.error("Giro rechazado por el servidor:", error);
-          break; 
+          premioIndex = Number(resultadoServer.index_wheel);
+          girosDisponibles = Number(resultadoServer.spins_remaining);
+          premioObtenido = premios[premioIndex];
+        } else {
+          girosDisponibles -= 1;
+          premioIndex = Math.floor(Math.random() * premios.length);
+          premioObtenido = premios[premioIndex];
         }
-      } else {
-        girosDisponibles -= 1;
-        premioIndex = Math.floor(Math.random() * premios.length);
-        premioObtenido = premios[premioIndex];
-      }
 
-      setGirosRestantes(girosDisponibles);
-      await ejecutarAnimacionGiro(premioIndex);
-      
-      setPremioGanado(premioObtenido);
-      await new Promise((r) => setTimeout(r, 2000));
-      setPremioGanado(null);
+        setGirosRestantes(girosDisponibles);
+        await ejecutarAnimacionGiro(premioIndex);
 
-      if (i < cantidad - 1 && girosDisponibles > 0) {
-        await new Promise((r) => setTimeout(r, 400));
+        setPremioGanado(premioObtenido);
+        await new Promise((r) => setTimeout(r, 2000));
+        setPremioGanado(null);
+
+        if (i < cantidad - 1 && girosDisponibles > 0) {
+          await new Promise((r) => setTimeout(r, 400));
+        }
       }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsGirando(false);
     }
-    setIsGirando(false);
-  }, [girosRestantes, isGirarndo, isAutenticado]);
+  }, [isGirarndo, isAutenticado]);
 
   return {
     girosRestantes,

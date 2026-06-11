@@ -1,79 +1,28 @@
-import { useEffect, useRef, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-
+import { useRef, useState } from 'react';
+import { NavLink } from 'react-router-dom';
 import './header.css';
 import pelota from '../../assets/img/icons/pelota.png';
-
-import { getAuthenticatedUser } from '../user/services/authService';
-import { useUserSpins } from '../rulet/hooks/useUserSpins';  
-import type { UserConfig } from '../user/config/types/UserConfig';
-
-type Role = 'user' | 'admin' | null;
+import { useAuth } from '../../routes/AuthContext';
 
 export const Header = () => {
   const [navOpen, setNavOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
+  const accountRef = useRef(null);
 
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [role, setRole] = useState<Role>(null);
-
-  const accountRef = useRef<HTMLLIElement | null>(null);
-  const location = useLocation();
-
-  const { spins, loadSpins } = useUserSpins();
-
-  const linkClass = ({ isActive }: { isActive: boolean }) =>
-    `nav-link app-link${isActive ? ' active' : ''}`;
-
-  const loadUser = async () => {
-    try {
-      const user: UserConfig = await getAuthenticatedUser();
-      setIsAuthenticated(true);
-      setRole(user.role);
-      
-      if (user.id) {
-        await loadSpins(user.id);
-      }
-    } catch {
-      setIsAuthenticated(false);
-      setRole(null);
-    }
-  };
-
-  useEffect(() => {
-    loadUser();
-  }, [location.pathname]);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        accountRef.current &&
-        !accountRef.current.contains(event.target as Node)
-      ) {
-        setAccountOpen(false);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  const { user, loading, spins } = useAuth();
 
   const handleNavLinkClick = () => {
     setNavOpen(false);
     setAccountOpen(false);
   };
 
-  const configPath =
-    role === 'admin' ? '/admin' : role === 'user' ? '/user' : '/login';
+  const linkClass = ({ isActive }: { isActive: boolean }) =>
+    `nav-link app-link${isActive ? ' active' : ''}`;
 
   return (
     <header className="app-header">
       <nav className="navbar navbar-expand-lg navbar-dark container">
-        <NavLink
-          className="navbar-brand app-brand"
-          to="/"
-          onClick={handleNavLinkClick}
-        >
+        <NavLink className="navbar-brand app-brand" to="/" onClick={handleNavLinkClick}>
           <img src={pelota} alt="Logo FigusApp" className="navbar-logo" />
           <span className="navbar-title">FigusApp</span>
         </NavLink>
@@ -96,21 +45,18 @@ export const Header = () => {
                 <span>Tienda</span>
               </NavLink>
             </li>
-
             <li className="nav-item mx-lg-2">
-              <NavLink to="/negociaciones" className={linkClass} onClick={handleNavLinkClick}>
+              <NavLink to="/intercambios" className={linkClass} onClick={handleNavLinkClick}>
                 <i className="bi bi-arrow-left-right nav-icon" />
                 <span>Intercambios</span>
               </NavLink>
             </li>
-
             <li className="nav-item mx-lg-2">
               <NavLink to="/ruleta" className={linkClass} onClick={handleNavLinkClick}>
                 <i className="bi bi-disc nav-icon" />
                 <span>Ruleta</span>
               </NavLink>
             </li>
-
             <li className="nav-item mx-lg-2">
               <a href="#footer" className="nav-link app-link" onClick={handleNavLinkClick}>
                 <i className="bi bi-telephone nav-icon" />
@@ -126,18 +72,14 @@ export const Header = () => {
                 onClick={() => setAccountOpen((v) => !v)}
               >
                 <i className="bi bi-person-circle nav-icon" />
-                <span>Mi cuenta</span>
+                <span>{loading ? 'Cargando...' : user ? 'Mi cuenta' : 'Ingresar'}</span>
               </button>
 
               <ul className={`dropdown-menu dropdown-menu-end${accountOpen ? ' show' : ''}`}>
-                {isAuthenticated ? (
+                {!loading && user ? (
                   <>
                     <li>
-                      <NavLink
-                        to="/ruleta"
-                        className="dropdown-item d-flex align-items-center justify-content-between"
-                        onClick={handleNavLinkClick}
-                      >
+                      <NavLink to="/ruleta" className="dropdown-item d-flex align-items-center justify-content-between" onClick={handleNavLinkClick}>
                         <div className="d-flex align-items-center">
                           <i className="bi bi-disc me-2" />
                           <span>Mis giros</span>
@@ -146,7 +88,7 @@ export const Header = () => {
                       </NavLink>
                     </li>
                     <li>
-                      <NavLink to={configPath} className="dropdown-item" onClick={handleNavLinkClick}>
+                      <NavLink to={user.role === 'admin' ? '/admin' : '/user'} className="dropdown-item" onClick={handleNavLinkClick}>
                         <i className="bi bi-gear me-2" />
                         Configuración
                       </NavLink>

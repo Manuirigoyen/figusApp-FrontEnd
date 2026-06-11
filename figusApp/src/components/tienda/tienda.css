@@ -1,0 +1,146 @@
+/** Banner de promocion principal */
+.store-ad-banner {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--app-border);
+  background: var(--app-surface-alt);
+}
+
+/** Barra de filtros superior */
+.store-filter-bar {
+  background: linear-gradient(to right, var(--app-surface), var(--app-surface-alt));
+  border: 1px solid var(--app-border);
+  border-radius: 999px;
+  padding: 0.5rem 1rem !important;
+  gap: 1.5rem;
+}
+
+/** Opciones seleccionables de filtro */
+.store-filter-bar .form-select {
+  background-color: var(--app-hover);
+  color: var(--app-text) !important;
+  border: 1px solid var(--app-border);
+  border-radius: 999px;
+  min-height: 40px;
+  font-weight: 500;
+}
+
+/** Boton de carrito flotante en barra */
+.store-cart-icon-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 1px solid var(--app-border);
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+/** Efecto hover del boton de carrito */
+.store-cart-icon-btn:hover {
+  background: var(--app-hover);
+}
+
+/** Contenedor de la tarjeta del producto */
+.store-product-card { 
+  background: #ffffff !important; 
+  border-radius: 20px; 
+  display: flex; 
+  flex-direction: column; 
+  overflow: hidden;
+  border: none;
+}
+
+/** Caja de la imagen del producto */
+.store-card-img-wrapper { 
+  height: 280px; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+}
+
+/** Estilos internos de la imagen del producto */
+.product-card-img { 
+  width: 100%; 
+  margin-top: 25%;
+}
+
+/** Cuerpo de texto de la tarjeta del producto */
+.store-card-body { 
+  padding: 1rem; 
+  color: #0f172a; 
+  display: flex; 
+  flex-direction: column; 
+}
+
+/** Boton de ir a ver el producto */
+.btn-store-comprar {
+  background-color: var(--app-surface) !important;
+  color: #ffffff !important;
+  border-radius: 12px;
+  padding: 10px;
+  font-weight: 700;
+  border: none;
+}
+
+/** Boton para añadir el producto al carrito */
+.btn-store-agregar {
+  background-color: #4ebd2a !important;
+  color: #ffffff !important;
+  border-radius: 12px;
+  padding: 10px;
+  font-weight: 700;
+  border: none;
+}
+
+/** Panel lateral del carrito */
+.store-cart-sidebar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1200;
+  width: 320px;
+  height: 100vh;
+  padding: 1.25rem 1rem 1.5rem;
+  background: linear-gradient(to left, var(--app-surface), var(--app-surface-alt));
+  backdrop-filter: blur(12px);
+  transform: translateX(100%);
+  transition: transform 0.25s ease-in-out;
+}
+
+/** Animacion de apertura del panel lateral */
+.store-cart-sidebar.is-open {
+  transform: translateX(0);
+}
+
+/** Seccion superior del layout del carrito */
+.cart-top-section {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  flex-grow: 1;
+}
+
+/** Contenedor scrolleable para los productos del carrito */
+.cart-scroll-container {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+/** Miniaturas de las imagenes de los productos en el carrito */
+.cart-item-img {
+  width: 55px;
+  height: 55px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+/** Seccion inferior con informacion de pago en el carrito */
+.cart-bottom-section {
+  flex-shrink: 0;
+}

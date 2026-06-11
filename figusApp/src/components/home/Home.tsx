@@ -4,6 +4,11 @@ import promoImg from '../../assets/img/add/home/promo.png';
 import localImg from '../../assets/img/add/home/local.png';
 import videoSrc from '../../assets/vids/presentacion.mp4';
 
+/**
+ * Home component that renders the landing page with promotional content and features
+ * Displays hero section, promotional banners, video presentation, and call-to-action sections
+ * @returns React component rendering the home page layout
+ */
 export const Home = () => {
   return (
     <main id="mainContent" className="main-wrapper">
@@ -21,17 +26,17 @@ export const Home = () => {
           </p>
         </header>
 
-        <section className="home-main-grid row justify-content-center align-items-stretch mt-4">
+        <section className="home-main-grid row justify-content-center align-items-stretch mt-5">
           <div className="col-12 col-md-3 d-flex justify-content-center align-items-center">
             <a 
-              href="https://www.dymatize.com" 
+              href="https://paninicollection.fifa.com/launch" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="home-ad-wrapper shadow"
             > 
               <img
                 src={promoImg}
-                alt="Promoción Dymatize"
+                alt="Promoción FIFA panini"
                 className="home-ad-img"
               />
             </a>
@@ -52,14 +57,14 @@ export const Home = () => {
 
           <div className="col-12 col-md-3 d-flex justify-content-center align-items-center">
             <a 
-              href="https://www.suweb.com.ar" 
+              href="https://paninicollection.fifa.com/launch" 
               target="_blank" 
               rel="noopener noreferrer" 
               className="home-ad-wrapper shadow"
             >
               <img
                 src={localImg}
-                alt="Anuncio Local SuWeb"
+                alt="Anuncio Local FIFA panini"
                 className="home-ad-img"
               />
             </a>

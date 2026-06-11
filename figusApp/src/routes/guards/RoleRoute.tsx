@@ -1,49 +1,16 @@
-import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
-
-const API_BASE = import.meta.env.VITE_API_BASE;
-
-type Role = "admin" | "user";
-
-interface AuthUser {
-  role: Role;
-}
+import { useAuth } from "../AuthContext";
 
 interface RoleRouteProps {
   children: React.ReactNode;
-  role: Role;
+  role: "admin" | "user";
 }
 
 /**
- * Protege rutas por rol.
+ * Guarda de rutas que verifica si un usuario tiene el rol necesario.
  */
 export function RoleRoute({ children, role }: RoleRouteProps) {
-  const [user, setUser] = useState<AuthUser | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await fetch(`${API_BASE}/auth/me`, {
-          credentials: "include",
-        });
-
-        if (!response.ok) {
-          setUser(null);
-          return;
-        }
-
-        const data: AuthUser = await response.json();
-        setUser(data);
-      } catch {
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    void fetchUser();
-  }, []);
+  const { user, loading } = useAuth();
 
   if (loading) return null;
 

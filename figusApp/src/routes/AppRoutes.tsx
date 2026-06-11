@@ -15,15 +15,15 @@ import { Compras } from "../components/compras/Compras";
 import { Ofertas } from "../components/ofertas/Ofertas";
 import { Tienda } from "../components/tienda/Tienda";
 import { Ruleta } from "../components/rulet/Ruleta";
+import { AlbumCompleteRoute } from "./guards/AlbumCompleteRoute";
+import SeleccionViaje from "../components/viajes/SeleccionViaje";
 
 import { Err_404 } from "../components/error/Err_404";
 
 import { ProtectedRoute } from "./guards/ProtectedRoute";
 import { RoleRoute } from "./guards/RoleRoute";
-import { AlbumCompleteRoute } from "./guards/AlbumCompleteRoute";
 
-import { ROUTES } from "./routes.constants";
-import SeleccionViaje from "../components/viajes/SeleccionViaje";
+import { ROUTES } from "./constants/routes.constants";
 
 export function AppRoutes() {
   return (
@@ -43,10 +43,10 @@ export function AppRoutes() {
         <Route path={ROUTES.BILLETERA} element={<Billetera />} />
         <Route path={ROUTES.COMPRAS} element={<Compras />} />
         <Route path={ROUTES.INTERCAMBIOS} element={<Intercambios />} />
+      </Route>
 
-        <Route element={<AlbumCompleteRoute />}>
-          <Route path={ROUTES.SELECCIONAR_VIAJE} element={<SeleccionViaje />} />
-        </Route>
+      <Route element={<AlbumCompleteRoute />}>
+        <Route path={ROUTES.SELECCIONAR_VIAJE} element={<SeleccionViaje />} />
       </Route>
 
       <Route

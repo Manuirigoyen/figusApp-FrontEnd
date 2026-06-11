@@ -1,3 +1,6 @@
+/**
+ * Represents a pack (envelope) entity containing stickers from an album
+ */
 export interface Pack {
   id?: number;
   album_id: number;
@@ -8,6 +11,9 @@ export interface Pack {
   cover_image?: string | null;
 }
 
+/**
+ * Data transfer object for creating a new pack
+ */
 export interface CreatePackDto {
   album_id: number;
   class: string;
@@ -17,6 +23,9 @@ export interface CreatePackDto {
   cover_image?: File;
 }
 
+/**
+ * Data transfer object for updating an existing pack with partial fields
+ */
 export interface UpdatePackDto {
   album_id?: number;
   class?: string;
@@ -30,6 +39,13 @@ const API_URL =
   import.meta.env.VITE_API_URL ??
   'http://localhost:3000';
 
+/**
+ * Generic helper function to perform HTTP requests with JSON content type
+ * @param path - The API endpoint path (without base URL)
+ * @param init - Optional fetch RequestInit configuration (headers, method, body, etc.)
+ * @returns Promise resolving to the response data of type T
+ * @throws Error if the response is not ok or request fails
+ */
 async function request<T>(
   path: string,
   init?: RequestInit,
@@ -61,14 +77,19 @@ async function request<T>(
 }
 
 /**
- * Obtener todos los packs/sobres
+ * Fetches all packs from the database
+ * @returns Promise resolving to an array of all Pack objects
+ * @throws Error if packs cannot be retrieved
  */
 export const getAllPacks = () => {
   return request<Pack[]>('/api/v1/packs');
 };
 
 /**
- * Obtener pack/sobre por ID
+ * Fetches a pack by its unique identifier
+ * @param id - The pack ID to retrieve
+ * @returns Promise resolving to the Pack object
+ * @throws Error if pack not found or request fails
  */
 export const getPackById = (id: number) => {
   return request<Pack>(
@@ -77,7 +98,11 @@ export const getPackById = (id: number) => {
 };
 
 /**
- * Obtener packs por álbum
+ * Fetches packs filtered by album ID with optional limit
+ * @param albumId - The album ID to filter packs by
+ * @param limit - Maximum number of packs to return
+ * @returns Promise resolving to an array of Pack objects matching the criteria
+ * @throws Error if packs cannot be retrieved
  */
 export const getPacksByAlbumId = async (
   albumId: number,
@@ -94,7 +119,10 @@ export const getPacksByAlbumId = async (
 };
 
 /**
- * Crear pack/sobre
+ * Creates a new pack with provided data
+ * @param data - The pack data (album_id, class, price, stock, capacity, optional cover image)
+ * @returns Promise resolving to the created Pack object with generated ID
+ * @throws Error if data is invalid, unauthorized, or creation fails
  */
 export const createPack = async (
   data: CreatePackDto,
@@ -159,7 +187,11 @@ export const createPack = async (
 };
 
 /**
- * Modificar pack/sobre
+ * Updates an existing pack with partial or complete data
+ * @param id - The pack ID to update (must be greater than 0)
+ * @param data - The pack data to update with (all fields optional)
+ * @returns Promise resolving to the updated Pack object
+ * @throws Error if ID is invalid, data is invalid, unauthorized, or pack not found
  */
 export const updatePack = async (
   id: number,
@@ -245,7 +277,10 @@ export const updatePack = async (
 };
 
 /**
- * Eliminar pack/sobre
+ * Deletes a pack by its ID
+ * @param id - The pack ID to delete (must be greater than 0)
+ * @returns Promise that resolves when deletion is complete
+ * @throws Error if ID is invalid, unauthorized, or pack not found
  */
 export const deletePack = async (
   id: number,

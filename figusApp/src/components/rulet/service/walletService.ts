@@ -10,7 +10,7 @@ export const getUserSpinsWallet = async (userId: number): Promise<SpinsWallet | 
     headers: { 'Content-Type': 'application/json' },
   });
 
-  if (!response.ok) throw new Error('No se pudo obtener la billetera de giros');
+  if (!response.ok) throw new Error();
   const data = await response.json();
 
   if (Array.isArray(data)) {
@@ -28,7 +28,7 @@ export const executeSecureSpin = async (): Promise<SpinResult> => {
 
   if (!response.ok) {
     const errorData = await response.json().catch(() => null);
-    throw new Error(errorData?.message || 'Error al procesar el giro seguro');
+    throw new Error(errorData?.message || '');
   }
 
   return (await response.json()) as SpinResult;

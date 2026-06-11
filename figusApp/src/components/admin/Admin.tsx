@@ -28,6 +28,9 @@ import { ModificarProducto } from './abm/update/ModificarProducto';
 import { ModificarSobre } from './abm/update/ModificarSobre';
 import { ModificarUsuario } from './abm/update/ModificarUsuario';
 
+
+import packBanner from '../../assets/img/add/store/pack.png'; 
+
 type AdminView =
   | 'home'
   | 'listar-figurita'
@@ -65,9 +68,14 @@ const adminLogo = new URL(
   import.meta.url,
 ).href;
 
+/**
+ * Pantalla de presentación de bienvenida para el panel de administración.
+ *
+ * @returns {JSX.Element} La pantalla de bienvenida con tarjetas de funciones y banner publicitario.
+ */
 function AdminPresentacion() {
   return (
-    <div className="admin-welcome-shell">
+    <div className="admin-welcome-shell mt-3">
       <div className="admin-welcome-card">
         <div className="admin-welcome-header text-center">
           <img src={adminLogo} alt="FigusApp" className="admin-welcome-logo" />
@@ -120,15 +128,31 @@ function AdminPresentacion() {
               </p>
             </div>
           </div>
-          <p className="admin-feature-text mb-0">
-             //anuncio horizontal
-          </p>
+        </div>
+
+        <div className="row">
+          <div className="col-12 text-center mt-2">
+            <div className="admin-ad-banner">
+              <img 
+                src={packBanner} 
+                alt="Promoción destacada" 
+                className="img-fluid rounded" 
+                style={{ maxWidth: '90%', height: 'auto' }} 
+              />
+            </div>
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
+/**
+ * Renders the appropriate admin content based on the active view.
+ *
+ * @param {AdminView} vista - The active admin view.
+ * @returns {ReactElement} The corresponding admin component.
+ */
 function renderAdminContent(vista: AdminView): ReactElement {
   switch (vista) {
     case 'listar-figurita':
@@ -181,6 +205,13 @@ function renderAdminContent(vista: AdminView): ReactElement {
   }
 }
 
+/**
+ * Admin panel component for managing system data.
+ * Provides functionality to list, create, update, and delete
+ * figuritas, sobres, álbumes, usuarios, and productos.
+ *
+ * @returns {JSX.Element} The admin panel with sidebar navigation and content area.
+ */
 export const Admin = () => {
   const navigate = useNavigate();
 

@@ -13,7 +13,10 @@ import { registerUser } from './services/RegisterUser';
 import './register.css';
 
 /**
- * Pantalla de registro de usuarios.
+ * Register component that handles new user account creation.
+ * Displays registration form with validation, CAPTCHA, and password confirmation.
+ * Enforces minimum age requirement of 12 years.
+ * @returns React component rendering the registration page
  */
 export const Register = () => {
   const [captchaToken, setCaptchaToken] = useState('');
@@ -26,8 +29,9 @@ export const Register = () => {
     .VITE_TURNSTILE_SITE_KEY as string;
 
   /**
-   * Fecha máxima permitida para usuarios
-   * con un mínimo de 12 años.
+   * Calculates maximum allowed birth date (12 years ago from today).
+   * Users must be at least 12 years old to register.
+   * @returns ISO date string of maximum birth date
    */
   const maxBirthDate = useMemo(() => {
     const today = new Date();
@@ -38,7 +42,10 @@ export const Register = () => {
   }, []);
 
   /**
-   * Maneja el envío del formulario.
+   * Handles form submission for user registration.
+   * Validates form data, confirms passwords, and submits registration.
+   * @param event Submit event from registration form
+   * @throws Displays error message if registration fails
    */
   const handleSubmit = useCallback(
     async (event: SubmitEvent<HTMLFormElement>) => {

@@ -1,3 +1,6 @@
+/**
+ * Represents a product entity that can be either a pack or combo
+ */
 export interface Product {
   id: number;
   product_code: string;
@@ -13,6 +16,9 @@ export interface Product {
   updated_at?: string;
 }
 
+/**
+ * Data transfer object for creating a new product
+ */
 export interface CreateProductDto {
   product_code: string;
   name: string;
@@ -24,6 +30,9 @@ export interface CreateProductDto {
   cover_image?: File;
 }
 
+/**
+ * Data transfer object for updating an existing product with all fields
+ */
 export interface UpdateProductDto {
   product_code: string;
   name: string;
@@ -39,7 +48,10 @@ const API_URL =
   'http://localhost:3000/api/v1/stores';
 
 /**
- * Obtener producto por ID
+ * Fetches a product by its unique identifier
+ * @param id - The product ID to retrieve (must be greater than 0)
+ * @returns Promise resolving to the Product object
+ * @throws Error if ID is invalid or product not found
  */
 export const getProductById = async (
   id: number,
@@ -66,7 +78,9 @@ export const getProductById = async (
 };
 
 /**
- * Obtener todos los productos
+ * Fetches all products from the store
+ * @returns Promise resolving to an array of all Product objects
+ * @throws Error if products cannot be retrieved
  */
 export const getProducts = async (): Promise<
   Product[]
@@ -83,7 +97,10 @@ export const getProducts = async (): Promise<
 };
 
 /**
- * Crear producto
+ * Creates a new product with provided metadata
+ * @param data - The product data (code, name, description, pricing, stock, type, optional cover image)
+ * @returns Promise resolving to the created Product object with generated ID
+ * @throws Error if data is invalid, unauthorized, or creation fails
  */
 export const createProduct = async (
   data: CreateProductDto,
@@ -155,7 +172,11 @@ export const createProduct = async (
 };
 
 /**
- * Modificar producto
+ * Updates an existing product with complete data
+ * @param id - The product ID to update (must be greater than 0)
+ * @param data - The complete product data to update with
+ * @returns Promise resolving to the updated Product object
+ * @throws Error if ID is invalid, data is invalid, unauthorized, or product not found
  */
 export const updateProduct = async (
   id: number,
@@ -243,7 +264,10 @@ export const updateProduct = async (
 };
 
 /**
- * Eliminar producto
+ * Deletes a product by its ID
+ * @param id - The product ID to delete (must be greater than 0)
+ * @returns Promise that resolves when deletion is complete
+ * @throws Error if ID is invalid, unauthorized, or product not found
  */
 export const deleteProduct = async (
   id: number,

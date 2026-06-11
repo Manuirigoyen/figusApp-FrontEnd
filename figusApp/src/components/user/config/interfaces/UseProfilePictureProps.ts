@@ -1,20 +1,8 @@
-import type {
-  Dispatch,
-  SetStateAction,
-} from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 
-import type { UserConfig } from './UserConfig';
+import type { UserConfig } from '../types/UserConfig';
 
-/**
- * Propiedades requeridas para gestionar
- * la foto de perfil del usuario.
- */
-export interface UseProfilePictureProps {
-  /** Usuario autenticado actual. */
+export type UseProfilePictureProps = {
   user: UserConfig;
-
-  /** Setter del estado de usuario. */
-  setUser: Dispatch<
-    SetStateAction<UserConfig>
-  >;
-}
+  setUser: Dispatch<SetStateAction<UserConfig>>;
+};

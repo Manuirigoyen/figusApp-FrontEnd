@@ -14,39 +14,22 @@ import { resolveImageUrl } from './utils/resolveImageUrl';
 
 import type { UserConfig } from './config/types/UserConfig';
 
-/**
- * Página principal del usuario autenticado.
- *
- * Responsabilidades:
- * - Obtener información del usuario autenticado.
- * - Gestionar navegación lateral.
- * - Administrar cierre de sesión.
- * - Renderizar configuración de cuenta.
- *
- * @returns Vista principal del panel de usuario.
- */
+import { useAuth } from '../../routes/AuthContext';
+
 export const User = () => {
   const navigate = useNavigate();
+  const { logout: logoutAuth } = useAuth();
 
-  const [sidebarOpen, setSidebarOpen] =
-    useState<boolean>(false);
-
-  const [user, setUser] =
-    useState<UserConfig | null>(null);
-
-  const [isLoading, setIsLoading] =
-    useState<boolean>(true);
+  const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+  const [user, setUser] = useState<UserConfig | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     let mounted = true;
 
-    /**
-     * Obtiene el usuario autenticado actual.
-     */
     const loadUser = async (): Promise<void> => {
       try {
-        const data =
-          await getAuthenticatedUser();
+        const data = await getAuthenticatedUser();
 
         if (mounted) {
           setUser(data);
@@ -71,39 +54,27 @@ export const User = () => {
     };
   }, []);
 
-  /**
-   * Alterna visualmente el sidebar.
-   */
   const toggleSidebar = (): void => {
     setSidebarOpen((prev) => !prev);
   };
 
-  /**
-   * Cierra el sidebar lateral.
-   */
   const closeSidebar = (): void => {
     setSidebarOpen(false);
   };
 
-  /**
-   * Finaliza la sesión actual.
-   */
   const handleLogout = async (): Promise<void> => {
     try {
       await logout();
     } catch (error) {
       console.error(error);
     } finally {
+      logoutAuth();
       setUser(null);
-
-      navigate('/login');
+      navigate('/login', { replace: true });
     }
   };
 
-  const profileImageSrc =
-    resolveImageUrl(
-      user?.profile_picture ?? null,
-    );
+  const profileImageSrc = resolveImageUrl(user?.profile_picture ?? null);
 
   if (isLoading) {
     return (

@@ -45,7 +45,7 @@ h1.main-title {
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 10px;
-  color: var(--color-primary-dark);
+  color: white;
   border-bottom: 2px solid var(--border-color-grey);
   padding-bottom: 10px;
 }

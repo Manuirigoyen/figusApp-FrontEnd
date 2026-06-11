@@ -1,3 +1,6 @@
+/**
+ * Represents a user entity with profile and authentication information
+ */
 export interface User {
   id: number;
   first_name: string;
@@ -10,6 +13,9 @@ export interface User {
   profile_picture?: string | null;
 }
 
+/**
+ * Data transfer object for creating a new user account
+ */
 export interface CreateUserDto {
   first_name: string;
   last_name: string;
@@ -22,6 +28,9 @@ export interface CreateUserDto {
   profile_picture?: File;
 }
 
+/**
+ * Data transfer object for updating an existing user account with complete fields
+ */
 export interface UpdateUserDto {
   first_name: string;
   last_name: string;
@@ -36,7 +45,10 @@ export interface UpdateUserDto {
 const API_URL = 'http://localhost:3000/api/v1/users';
 
 /**
- * Obtener usuario por ID
+ * Fetches a user by their unique identifier
+ * @param id - The user ID to retrieve (must be greater than 0)
+ * @returns Promise resolving to the User object with all profile information
+ * @throws Error if ID is invalid, unauthorized, or user not found
  */
 export const getUserById = async (
   id: number,
@@ -73,7 +85,10 @@ export const getUserById = async (
 };
 
 /**
- * Crear usuario
+ * Creates a new user account with provided profile and authentication data
+ * @param data - The user data (name, DOB, nationality, email, phone, password, role, optional profile picture)
+ * @returns Promise resolving to the created User object with generated ID
+ * @throws Error if data is invalid, unauthorized, or creation fails
  */
 export const createUser = async (
   data: CreateUserDto,
@@ -147,7 +162,11 @@ export const createUser = async (
 };
 
 /**
- * Modificar usuario
+ * Updates an existing user account with complete data
+ * @param id - The user ID to update (must be greater than 0)
+ * @param data - The complete user data to update with
+ * @returns Promise resolving to the updated User object
+ * @throws Error if ID is invalid, data is invalid, unauthorized, or user not found
  */
 export const updateUser = async (
   id: number,
@@ -227,7 +246,10 @@ export const updateUser = async (
 };
 
 /**
- * Eliminar usuario
+ * Deletes a user account by its ID
+ * @param id - The user ID to delete (must be greater than 0)
+ * @returns Promise that resolves when deletion is complete
+ * @throws Error if ID is invalid, unauthorized, or user not found
  */
 export const deleteUser = async (
   id: number,

@@ -10,8 +10,15 @@ export interface TurnstileCaptchaProps {
 }
 
 /**
- * Componente reutilizable que renderiza
- * el captcha de Cloudflare Turnstile.
+ * Reusable Cloudflare Turnstile CAPTCHA component.
+ * Handles CAPTCHA rendering and token management with automatic cleanup.
+ *
+ * @param {TurnstileCaptchaProps} props - Component props.
+ * @param {string} props.siteKey - The Turnstile site key.
+ * @param {function} [props.onTokenChange] - Callback fired when token changes or expires.
+ * @param {string} [props.className] - Custom CSS class for the wrapper.
+ * @param {string} [props.label="Verificación"] - Label text for the CAPTCHA.
+ * @returns {JSX.Element} The Turnstile CAPTCHA component.
  */
 export const TurnstileCaptcha = ({
   siteKey,
@@ -42,9 +49,6 @@ export const TurnstileCaptcha = ({
 
     const mount = async () => {
       try {
-        /**
-         * Evita doble renderizado en React StrictMode.
-         */
         if (
           !captchaRef.current ||
           widgetIdRef.current ||

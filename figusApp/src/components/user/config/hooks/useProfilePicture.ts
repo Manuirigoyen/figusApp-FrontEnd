@@ -1,12 +1,6 @@
-import {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useRef } from 'react';
 
 import type { UseProfilePictureProps } from '../interfaces/UseProfilePictureProps';
-
 import type { UseProfilePictureReturn } from '../interfaces/UseProfilePictureReturn';
 
 import { updateUserProfilePicture } from '../../services/userService';
@@ -19,24 +13,11 @@ import {
 import { useFieldStatus } from './useFieldStatus';
 import { useLoadingFields } from './useLoadingFields';
 
-/**
- * Hook encargado de:
- *
- * - validar imágenes seleccionadas
- * - generar preview local
- * - subir foto de perfil
- * - manejar loading/status
- * - liberar object URLs
- */
 export const useProfilePicture = ({
   user,
   setUser,
 }: UseProfilePictureProps): UseProfilePictureReturn => {
-  const [profilePreview, setProfilePreview] =
-    useState<string | null>(null);
-
-  const profilePictureRef =
-    useRef<HTMLInputElement>(null);
+  const profilePictureRef = useRef<HTMLInputElement>(null);
 
   const {
     fieldStatus,
@@ -51,96 +32,72 @@ export const useProfilePicture = ({
     stopLoading,
   } = useLoadingFields();
 
-  /**
-   * Libera la URL temporal generada
-   * para evitar memory leaks.
-   */
-  useEffect(() => {
-    return () => {
-      if (profilePreview) {
-        URL.revokeObjectURL(profilePreview);
+  const handleProfilePictureUpdate = useCallback(async (): Promise<void> => {
+    if (!user.id) {
+      return;
+    }
+
+    const input = profilePictureRef.current;
+    const files = input?.files ?? null;
+
+    if (!validateRequiredFile(files)) {
+      showError('profile_picture', null, 'Seleccioná una imagen');
+      return;
+    }
+
+    const file = files[0];
+
+    if (!validateImageFile(file)) {
+      showError('profile_picture', null, 'Archivo inválido');
+      return;
+    }
+
+    startLoading('profile_picture');
+    clearStatus('profile_picture');
+
+    const instantImageUrl = URL.createObjectURL(file);
+
+    setUser((prev) => ({
+      ...prev,
+      profile_picture: instantImageUrl,
+    }));
+
+    try {
+      const updatedUser = await updateUserProfilePicture(user.id, file);
+
+      const cacheVersion = Date.now();
+
+      setUser((prev) => ({
+        ...prev,
+        ...updatedUser,
+        profile_picture: updatedUser.profile_picture
+          ? `${updatedUser.profile_picture}${
+              updatedUser.profile_picture.includes('?') ? '&' : '?'
+            }v=${cacheVersion}`
+          : instantImageUrl,
+      }));
+
+      if (input) {
+        input.value = '';
       }
-    };
-  }, [profilePreview]);
 
-  /**
-   * Valida y actualiza la foto de perfil.
-   */
-  const handleProfilePictureUpdate =
-    useCallback(async (): Promise<void> => {
-      if (!user.id) {
-        return;
-      }
-
-      const input = profilePictureRef.current;
-
-      const files = input?.files ?? null;
-
-      if (!validateRequiredFile(files)) {
-        showError(
-          'profile_picture',
-          null,
-          'Seleccioná una imagen',
-        );
-
-        return;
-      }
-
-      const file = files[0];
-
-      if (!validateImageFile(file)) {
-        showError(
-          'profile_picture',
-          null,
-          'Archivo inválido',
-        );
-
-        return;
-      }
-
-      startLoading('profile_picture');
-
-      clearStatus('profile_picture');
-
-      const previewUrl =
-        URL.createObjectURL(file);
-
-      setProfilePreview(previewUrl);
-
-      try {
-        const updatedUser =
-          await updateUserProfilePicture(
-            user.id,
-            file,
-          );
-
-        setUser(updatedUser);
-
-        showSuccess(
-          'profile_picture',
-          '✓ Foto actualizada',
-        );
-      } catch (error) {
-        showError(
-          'profile_picture',
-          error,
-          'Error al actualizar foto',
-        );
-      } finally {
-        stopLoading('profile_picture');
-      }
-    }, [
-      user.id,
-      setUser,
-      startLoading,
-      stopLoading,
-      clearStatus,
-      showSuccess,
-      showError,
-    ]);
+      showSuccess('profile_picture', '✓ Foto actualizada');
+    } catch (error) {
+      showError('profile_picture', error, 'Error al actualizar foto');
+    } finally {
+      stopLoading('profile_picture');
+    }
+  }, [
+    user.id,
+    setUser,
+    startLoading,
+    stopLoading,
+    clearStatus,
+    showSuccess,
+    showError,
+  ]);
 
   return {
-    profilePreview,
     profilePictureRef,
     handleProfilePictureUpdate,
     fieldStatus,

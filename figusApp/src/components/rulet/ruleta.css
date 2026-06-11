@@ -2,6 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  margin-bottom: 70%;   
 }
 
 .ruleta-ad-png-render {
@@ -10,15 +11,15 @@
 
 .ruleta-contenedor-escenario {
   position: relative; 
-  width: 500px;  
-  height: 500px; 
+  width: 600px;  
+  height: 600px; 
   margin: 0 auto;
 }
 
 .ruleta-container {
   position: relative;
-  width: 500px;  
-  height: 500px; 
+  width: 600px;  
+  height: 600px; 
   margin: 0 auto;
   z-index: 5; 
 }
@@ -37,25 +38,25 @@
 .ruleta-base {
   position: absolute;
   left: 50%;
-  bottom: -50px; 
+  bottom: -65px; 
   transform: translateX(-50%);
   z-index: 2; 
-  width: 435px; 
+  width: 600px; 
   pointer-events: none;
 }
 
 .triangulo-ruleta-derecha {
   position: absolute;
   z-index: 10;
-  top: 15%;
-  left: 160px; 
+  top: 22%;
+  left: 250px; 
   rotate: 180deg;
-  width: 100%;
+  width: 90%;
 }
 
 .premios-circle-wrapper {
-  width: 500px;
-  height: 500px;
+  width: 600px;
+  height: 600px;
   z-index: 6; 
   pointer-events: none;
 }
@@ -73,22 +74,27 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 90px; 
-  height: 90px;  
-  margin-top: -36px;
+  width: 100px; 
+  height: 100px;  
+  margin-top: -45px;
   margin-left: -36px;
   object-fit: contain;
   rotate: 15deg;
 }
 
-.premios-circle .premio:nth-child(1) { transform: rotate(0deg) translateY(-130px); }
-.premios-circle .premio:nth-child(2) { transform: rotate(45deg) translateY(-130px); }
-.premios-circle .premio:nth-child(3) { transform: rotate(90deg) translateY(-120px); }
-.premios-circle .premio:nth-child(4) { transform: rotate(135deg) translateY(-117px); }
-.premios-circle .premio:nth-child(5) { transform: rotate(190deg) translateY(-120px); }
-.premios-circle .premio:nth-child(6) { transform: rotate(232deg) translateY(-130px); }
-.premios-circle .premio:nth-child(7) { transform: rotate(277deg) translateY(-145px); }
-.premios-circle .premio:nth-child(8) { transform: rotate(315deg) translateY(-140px); }
+/* Borra tus .nth-child anteriores y usa estos, que garantizan la simetría */
+.premios-circle .premio:nth-child(1)  { transform: rotate(0deg)   translateY(-200px); }
+.premios-circle .premio:nth-child(2)  { transform: rotate(30deg)  translateY(-200px); }
+.premios-circle .premio:nth-child(3)  { transform: rotate(60deg)  translateY(-200px); }
+.premios-circle .premio:nth-child(4)  { transform: rotate(90deg)  translateY(-200px); }
+.premios-circle .premio:nth-child(5)  { transform: rotate(120deg) translateY(-200px); }
+.premios-circle .premio:nth-child(6)  { transform: rotate(150deg) translateY(-200px); }
+.premios-circle .premio:nth-child(7)  { transform: rotate(180deg) translateY(-200px); }
+.premios-circle .premio:nth-child(8)  { transform: rotate(210deg) translateY(-200px); }
+.premios-circle .premio:nth-child(9)  { transform: rotate(240deg) translateY(-200px); }
+.premios-circle .premio:nth-child(10) { transform: rotate(270deg) translateY(-200px); }
+.premios-circle .premio:nth-child(11) { transform: rotate(300deg) translateY(-200px); }
+.premios-circle .premio:nth-child(12) { transform: rotate(330deg) translateY(-200px); }
 
 .max-buttons-width {
   max-width: 500px;

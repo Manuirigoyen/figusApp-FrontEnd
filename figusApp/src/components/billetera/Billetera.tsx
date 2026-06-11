@@ -55,11 +55,12 @@ export const Billetera: React.FC = () => {
   };
 
   const handleIntercambiarFigurita = (
-    event: React.MouseEvent<HTMLButtonElement>,
-  ) => {
-    event.stopPropagation();
-    navigate('/negociaciones');
-  };
+  item: StickerWalletItem,
+  event: React.MouseEvent<HTMLButtonElement>,
+) => {
+  event.stopPropagation();
+  navigate('/intercambios', { state: { offeredWalletItem: item } });
+};
 
   const API_ORIGIN = 'http://localhost:3000';
 
@@ -91,7 +92,7 @@ export const Billetera: React.FC = () => {
       <div className="ad-right-billetera">
         {getDivAnuncio(
           'src/assets/img/add/billetera/argentina.png',
-          'https://www.suweb.com.ar',
+          'https://www.conmebol.com/eliminatorias-sudamericanas-mundial-2026/',
         )}
       </div>
 
@@ -134,10 +135,10 @@ export const Billetera: React.FC = () => {
                     </button>
 
                     <button
-                      className="btn-intercambiar"
-                      onClick={handleIntercambiarFigurita}
+                    className="btn-intercambiar"
+                    onClick={(event) => handleIntercambiarFigurita(item, event)}
                     >
-                      Intercambiar
+                    Intercambiar
                     </button>
                   </div>
                 </div>

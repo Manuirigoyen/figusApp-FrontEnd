@@ -1,3 +1,6 @@
+/**
+ * Represents a sticker entity from an album collection
+ */
 export interface Sticker {
   id?: number;
   album_id: number;
@@ -7,6 +10,9 @@ export interface Sticker {
   cover_image?: string;
 }
 
+/**
+ * Data transfer object for creating a new sticker
+ */
 export interface CreateStickerDto {
   album_id: number;
   class: string;
@@ -15,6 +21,9 @@ export interface CreateStickerDto {
   cover_image?: File | null;
 }
 
+/**
+ * Data transfer object for updating an existing sticker with partial fields
+ */
 export interface UpdateStickerDto {
   album_id?: number;
   class?: string;
@@ -30,6 +39,13 @@ const API_URL =
 const STICKERS_URL =
   `${API_URL}/api/v1/stickers`;
 
+/**
+ * Generic helper function to perform HTTP requests with JSON content type
+ * @param path - The API endpoint path (without base URL)
+ * @param init - Optional fetch RequestInit configuration (headers, method, body, etc.)
+ * @returns Promise resolving to the response data of type T
+ * @throws Error if the response is not ok or request fails
+ */
 async function request<T>(
   path: string,
   init?: RequestInit,
@@ -64,7 +80,9 @@ async function request<T>(
 }
 
 /**
- * Obtener todos los stickers
+ * Fetches all stickers from the database
+ * @returns Promise resolving to an array of all Sticker objects
+ * @throws Error if stickers cannot be retrieved
  */
 export const getAllStickers = () => {
   return request<Sticker[]>(
@@ -73,7 +91,10 @@ export const getAllStickers = () => {
 };
 
 /**
- * Obtener sticker por ID
+ * Fetches a sticker by its unique identifier
+ * @param id - The sticker ID to retrieve (must be greater than 0)
+ * @returns Promise resolving to the Sticker object
+ * @throws Error if ID is invalid or sticker not found
  */
 export const getStickerById = (
   id: number,
@@ -90,7 +111,11 @@ export const getStickerById = (
 };
 
 /**
- * Listar stickers por album_id
+ * Fetches stickers filtered by album ID with optional limit
+ * @param albumId - The album ID to filter stickers by
+ * @param limit - Maximum number of stickers to return
+ * @returns Promise resolving to an array of Sticker objects matching the criteria
+ * @throws Error if stickers cannot be retrieved
  */
 export const getStickersByAlbumId =
   async (
@@ -110,7 +135,10 @@ export const getStickersByAlbumId =
   };
 
 /**
- * Crear figurita
+ * Creates a new sticker with provided metadata
+ * @param stickerData - The sticker data (album_id, class, name, nationality, optional cover image)
+ * @returns Promise resolving to the created Sticker object with generated ID
+ * @throws Error if data is invalid, unauthorized, or creation fails
  */
 export const createSticker = async (
   stickerData: CreateStickerDto,
@@ -175,7 +203,11 @@ export const createSticker = async (
 };
 
 /**
- * Actualizar figurita
+ * Updates an existing sticker with partial or complete data
+ * @param id - The sticker ID to update (must be greater than 0)
+ * @param stickerData - The sticker data to update with (all fields optional)
+ * @returns Promise resolving to the updated Sticker object
+ * @throws Error if ID is invalid, data is invalid, unauthorized, or sticker not found
  */
 export const updateSticker = async (
   id: number,
@@ -263,7 +295,10 @@ export const updateSticker = async (
 };
 
 /**
- * Eliminar sticker
+ * Deletes a sticker by its ID
+ * @param id - The sticker ID to delete (must be greater than 0)
+ * @returns Promise that resolves when deletion is complete
+ * @throws Error if ID is invalid, unauthorized, or sticker not found
  */
 export const deleteSticker = async (
   id: number,

@@ -9,7 +9,7 @@ import pelotaPremio from "../../assets/img/fonts/pelotapremio.png";
 import pelotaPremioCompleto from "../../assets/img/fonts/pelotaPremioGanador.png";
 import { getAllAlbums, getAlbumProgress } from './services/albumService';
 import { TEAMS_INFO } from './data/teamsData';
-import { ROUTES } from '../../routes/routes.constants';
+import { ROUTES } from '../../routes/constants/routes.constants';
 import type { Figurita } from './data/figuritasData';
 import {
   calculateProgress,

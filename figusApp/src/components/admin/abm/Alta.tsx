@@ -37,9 +37,10 @@ const countryOptions = COUNTRIES.map((country) => (
 ));
 
 /**
- * Renderiza formularios de alta administrativa del sistema.
+ * Collection of admin creation forms for database entities.
+ * Displays forms for adding albums, figuritas, sobres, usuarios, and productos.
  *
- * @returns {JSX.Element} Colección de formularios de alta.
+ * @returns {JSX.Element} Container with all admin creation forms.
  */
 export const Alta = () => {
   return (
@@ -60,9 +61,14 @@ export const Alta = () => {
 };
 
 /**
- * Contenedor reutilizable para formularios administrativos.
+ * Reusable container for administrative forms.
  *
- * @returns {JSX.Element} Tarjeta de formulario administrativa.
+ * @param {AdminFormCardProps} props - Form card properties.
+ * @param {string} props.title - Card title.
+ * @param {string} props.description - Form description text.
+ * @param {ReactNode} props.children - Form content.
+ * @param {string} props.responseId - ID for response message container.
+ * @returns {JSX.Element} Styled form card component.
  */
 const AdminFormCard = ({
   title,
@@ -92,9 +98,14 @@ const AdminFormCard = ({
 );
 
 /**
- * Campo reutilizable de formulario.
+ * Reusable form field wrapper with label.
  *
- * @returns {JSX.Element} Grupo de campo administrativo.
+ * @param {FieldProps} props - Field properties.
+ * @param {string} props.htmlFor - ID of associated input.
+ * @param {string} props.label - Label text.
+ * @param {ReactNode} props.children - Input or select element.
+ * @param {boolean} [props.full=false] - If true, spans full width; otherwise half width on medium+ screens.
+ * @returns {JSX.Element} Wrapped form field with label.
  */
 const Field = ({
   htmlFor,
@@ -112,9 +123,12 @@ const Field = ({
 );
 
 /**
- * Botón reutilizable de envío.
+ * Reusable submit button for forms.
  *
- * @returns {JSX.Element} Botón de submit administrativo.
+ * @param {SubmitButtonProps} props - Button properties.
+ * @param {ReactNode} props.children - Button label text.
+ * @param {string} [props.className] - Additional CSS classes.
+ * @returns {JSX.Element} Styled submit button.
  */
 const SubmitButton = ({
   children,
@@ -129,9 +143,10 @@ const SubmitButton = ({
 );
 
 /**
- * Select reutilizable de países.
+ * Reusable country select options.
+ * Pre-populated with all available countries from constants.
  *
- * @returns {JSX.Element} Select con países disponibles.
+ * @returns {JSX.Element} Option elements for country selection.
  */
 const CountrySelect = () => (
   <>
@@ -144,9 +159,10 @@ const CountrySelect = () => (
 );
 
 /**
- * Renderiza el formulario de alta de álbumes.
+ * Form for creating new albums.
+ * Allows configuration of album name, class, nationality, description, capacity, and cover image.
  *
- * @returns {JSX.Element} Formulario de creación de álbum.
+ * @returns {JSX.Element} Album creation form.
  */
 export const AgregarAlbum = () => (
   <AdminFormCard
@@ -234,9 +250,10 @@ export const AgregarAlbum = () => (
 );
 
 /**
- * Renderiza el formulario de alta de figuritas.
+ * Form for creating new figuritas.
+ * Allows configuration of album, class, name, nationality, and image.
  *
- * @returns {JSX.Element} Formulario de creación de figuritas.
+ * @returns {JSX.Element} Figurita creation form.
  */
 export const AgregarFigurita = () => (
   <AdminFormCard
@@ -316,9 +333,10 @@ export const AgregarFigurita = () => (
 );
 
 /**
- * Renderiza el formulario de alta de sobres.
+ * Form for creating new sobres (packs).
+ * Allows configuration of album, class, price, stock, capacity, and image.
  *
- * @returns {JSX.Element} Formulario de creación de sobres.
+ * @returns {JSX.Element} Sobre creation form.
  */
 export const AgregarSobre = () => (
   <AdminFormCard
@@ -412,9 +430,10 @@ export const AgregarSobre = () => (
 );
 
 /**
- * Renderiza el formulario de alta de usuarios.
+ * Form for creating new users.
+ * Allows configuration of name, email, birthdate, nationality, phone, password, role, and profile picture.
  *
- * @returns {JSX.Element} Formulario de creación de usuarios.
+ * @returns {JSX.Element} User creation form.
  */
 export const AgregarUsuario = () => (
   <AdminFormCard
@@ -531,9 +550,10 @@ export const AgregarUsuario = () => (
 );
 
 /**
- * Renderiza el formulario de alta de productos de tienda.
+ * Form for creating new store products.
+ * Allows configuration of product code, name, description, price, discount, stock, type, and image.
  *
- * @returns {JSX.Element} Formulario de creación de productos.
+ * @returns {JSX.Element} Product creation form.
  */
 export const AgregarProducto = () => (
   <AdminFormCard

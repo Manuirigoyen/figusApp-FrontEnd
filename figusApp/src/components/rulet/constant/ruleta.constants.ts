@@ -10,14 +10,12 @@ import giroGratisImg from '../../../assets/img/icons/ruleta/giroGratis.png';
  * obtenidos dinámicamente desde el backend/data hacia sus imports reales.
  */
 export const MAPA_IMAGENES_PREMIOS: Record<string, string> = {
-  'jugadorSorpresa.png': jugadorSorpresaImg,
   'premioNada.png': premioNadaImg,
-  'premio_nada.png': premioNadaImg,
+  'jugadorSorpresa.png': jugadorSorpresaImg,
   'giroGratis.png': giroGratisImg,
   'figurita_aleatoria.png': jugadorSorpresaImg,             
   'sobreBronce.png': sobreBronceImg, 
   'sobreDorado.png': sobreDoradoImg, 
-  'sobreGris.png': sobrePlateadoImg,    
   'sobrePlateado.png': sobrePlateadoImg,
 };
 
