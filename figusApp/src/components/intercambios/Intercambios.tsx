@@ -4,6 +4,7 @@ import type { StickerWalletItem } from '../billetera/services/stickersWalletServ
 import {
   acceptOffer,
   createOffer,
+  deleteOffer,
   getMyStickersWallet,
   getPendingOffers,
   getStickers,
@@ -14,6 +15,11 @@ import {
 import './intercambios.css';
 
 const API_ORIGIN = 'http://localhost:3000';
+
+const trashIcon = new URL(
+  '../../assets/img/icons/trash.png',
+  import.meta.url,
+).href;
 
 const getImageSrc = (imagePath?: string) => {
   if (!imagePath) return '';
@@ -143,6 +149,18 @@ export const Intercambios: React.FC = () => {
     }
   };
 
+  const handleDeleteOffer = async (offerId: number) => {
+    try {
+      await deleteOffer(offerId);
+      setMessage('Oferta eliminada correctamente.');
+      await loadData();
+    } catch (error) {
+      setMessage(
+        error instanceof Error ? error.message : 'No se pudo eliminar la oferta.',
+      );
+    }
+  };
+
   return (
     <main className="intercambios-page">
       <section className="intercambios-panel">
@@ -165,9 +183,9 @@ export const Intercambios: React.FC = () => {
                 >
                   <option value="">Seleccionar figurita</option>
                   {myWallet.map((item) => (
-                  <option key={item.id} value={item.id}>
-                  {item.sticker.name} - {item.sticker.class} - x{item.stock}
-                  </option>
+                    <option key={item.id} value={item.id}>
+                      {item.sticker.name} - {item.sticker.class} - x{item.stock}
+                    </option>
                   ))}
                 </select>
               </label>
@@ -258,22 +276,22 @@ export const Intercambios: React.FC = () => {
                   <th>Demanda</th>
                   <th>Unidades</th>
                   <th>Estado</th>
-                  <th>Aceptar</th>
-                  <th>Rechazar</th>
+                  <th>Acción</th>
                 </tr>
               </thead>
 
               <tbody>
                 {offers.length === 0 ? (
                   <tr>
-                    <td colSpan={9}>No hay ofertas activas.</td>
+                    <td colSpan={8}>No hay ofertas activas.</td>
                   </tr>
                 ) : (
                   offers.map((offer, index) => (
                     <tr key={offer.id}>
                       <td>{index + 1}</td>
+
                       <td>
-                        {offer.offererUser.first_name} {offer.offererUser.id}
+                        {offer.offererUser.first_name} {offer.offererUser.last_name}
                       </td>
 
                       <td>
@@ -301,21 +319,38 @@ export const Intercambios: React.FC = () => {
                       </td>
 
                       <td>
-                        <button
-                          className="accept-btn"
-                          onClick={() => handleAccept(offer.id)}
-                        >
-                          ✔
-                        </button>
-                      </td>
+                        {offer.isMine ? (
+                          <button
+                            className="delete-offer-btn"
+                            onClick={() => handleDeleteOffer(offer.id)}
+                            title="Eliminar intercambio"
+                            aria-label="Eliminar intercambio"
+                          >
+                            <img
+                              src={trashIcon}
+                              alt="Eliminar intercambio"
+                              className="delete-offer-icon"
+                            />
+                          </button>
+                        ) : (
+                          <div className="offer-actions">
+                            <button
+                              className="accept-btn"
+                              onClick={() => handleAccept(offer.id)}
+                              title="Aceptar intercambio"
+                            >
+                              ✔
+                            </button>
 
-                      <td>
-                        <button
-                          className="reject-btn"
-                          onClick={() => handleReject(offer.id)}
-                        >
-                          ✖
-                        </button>
+                            <button
+                              className="reject-btn"
+                              onClick={() => handleReject(offer.id)}
+                              title="Rechazar intercambio"
+                            >
+                              ✖
+                            </button>
+                          </div>
+                        )}
                       </td>
                     </tr>
                   ))

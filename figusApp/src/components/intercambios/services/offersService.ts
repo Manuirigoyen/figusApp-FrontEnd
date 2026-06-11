@@ -21,6 +21,7 @@ export interface ExchangeOffer {
   offered_quantity: number;
   request_quantity: number;
   status: 'pending' | 'accepted' | 'rejected' | 'expired';
+  isMine: boolean;
   offererUser: OfferUser;
   offerWallet: {
     id: number;
@@ -78,4 +79,9 @@ export const acceptOffer = (offerId: number) =>
 export const rejectOffer = (offerId: number) =>
   requestJson(`${API_BASE}/offers/${offerId}/reject`, {
     method: 'POST',
+  });
+
+export const deleteOffer = (offerId: number) =>
+  requestJson<void>(`${API_BASE}/offers/${offerId}`, {
+    method: 'DELETE',
   });
