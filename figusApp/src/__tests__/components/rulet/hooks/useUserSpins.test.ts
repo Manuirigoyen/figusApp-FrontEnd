@@ -11,11 +11,12 @@ vi.mock('../../../../components/rulet/service/walletService', () => ({
 describe('useUserSpins', () => {
   const mockUserId = 42;
   const mockWallet = {
-    id: 1,
-    user_id: 42,
-    spins: 15,
-    last_spin: '2023-12-01T00:00:00Z',
-  };
+  id: 1,
+  user_id: 1,
+  spins: 3,
+  stock: 3,
+  last_spin: '...',
+};
 
   beforeEach(() => {
     vi.clearAllMocks();

@@ -1,7 +1,8 @@
 // src/hooks/useLocalStorage.ts
 // Hook personalizado para sincronizar estado de React con localStorage
 
-import { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import { useState, useEffect } from 'react';
+import type { Dispatch, SetStateAction } from 'react';
 
 /**
  * Hook personalizado que sincroniza el estado de React con localStorage

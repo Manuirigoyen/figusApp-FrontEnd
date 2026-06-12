@@ -1,28 +1,30 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
-import { useUserConfig } from '../../../../../components/user/config/hooks/useUserConfig'; // Ajusta la ruta
-import { getCurrentUser, updateUser, deleteUser } from '../../../../../components/user/services/userService';
+import { useUserConfig } from '../../../../../components/user/config/hooks/useUserConfig';
+import {
+  getCurrentUser,
+  updateUser,
+  deleteUser,
+} from '../../../../../components/user/services/userService';
 import { useFieldStatus } from '../../../../../components/user/config/hooks/useFieldStatus';
 import { useLoadingFields } from '../../../../../components/user/config/hooks/useLoadingFields';
 import type { ConfigDataField } from '../../../../../components/user/config/types/ConfigDataField';
 
-// 1. Mockear las dependencias externas y hooks satélite
-vi.mock('../../services/userService', () => ({
+vi.mock('../../../../../components/user/services/userService', () => ({
   getCurrentUser: vi.fn(),
   updateUser: vi.fn(),
   deleteUser: vi.fn(),
 }));
 
-vi.mock('./useFieldStatus', () => ({
+vi.mock('../../../../../components/user/config/hooks/useFieldStatus', () => ({
   useFieldStatus: vi.fn(),
 }));
 
-vi.mock('./useLoadingFields', () => ({
+vi.mock('../../../../../components/user/config/hooks/useLoadingFields', () => ({
   useLoadingFields: vi.fn(),
 }));
 
 describe('useUserConfig', () => {
-  // Datos simulados (Mock Data) que cumplen la interfaz UserConfig
   const mockInitialUser = {
     id: 99,
     first_name: 'Jane',
@@ -35,23 +37,15 @@ describe('useUserConfig', () => {
     role: 'user',
   };
 
-  // Espías de los hooks internos
   const mockShowSuccess = vi.fn();
   const mockShowError = vi.fn();
   const mockClearStatus = vi.fn();
   const mockStartLoading = vi.fn();
   const mockStopLoading = vi.fn();
 
-  // Guardar referencia original del location para restaurarlo tras los tests
-  const originalLocation = window.location;
-
- // 1. Ya no necesitamos almacenar el objeto location completo, solo limpiar los mocks de Vitest.
-  // Borra la línea: const originalLocation = window.location;
-
   beforeEach(() => {
     vi.clearAllMocks();
 
-    // Inyectar mocks para los sub-hooks de estado y loaders
     vi.mocked(useFieldStatus).mockReturnValue({
       fieldStatus: {},
       showSuccess: mockShowSuccess,
@@ -65,43 +59,31 @@ describe('useUserConfig', () => {
       stopLoading: mockStopLoading,
     });
 
-    // Configurar por defecto que la carga inicial del usuario sea exitosa
     vi.mocked(getCurrentUser).mockResolvedValue(mockInitialUser as any);
 
-    // Mockear window.confirm por defecto
     window.confirm = vi.fn().mockReturnValue(true);
 
-    // 🛠️ SOLUCIÓN: Mockear la propiedad .href de forma segura mediante descriptores
-    // Esto redefine la propiedad permitiéndonos escribir en ella y leerla en los tests sin romper tipos.
     let hrefValue = '';
+
     Object.defineProperty(window.location, 'href', {
       writable: true,
       configurable: true,
       get: () => hrefValue,
-      set: (newValue) => { hrefValue = newValue; },
+      set: (newValue) => {
+        hrefValue = newValue;
+      },
     });
-    window.location.href = ''; // Inicializamos limpia la URL ficticia
+
+    window.location.href = '';
   });
 
   afterEach(() => {
-    // 🛠️ SOLUCIÓN: Ya no hay peligro de tipos porque nunca destruimos window.location.
-    // Solo restauramos los espías y mocks de Vitest.
     vi.restoreAllMocks();
   });
-
-  afterEach(() => {
-    // Restaurar el objeto window original
-    window.location as any = originalLocation;
-  });
-
-  // ==========================================
-  // TESTS: CARGA INICIAL (useEffect)
-  // ==========================================
 
   it('debería cargar los datos del usuario al inicializarse', async () => {
     const { result } = renderHook(() => useUserConfig());
 
-    // Esperar a que se resuelva la microtarea del useEffect asíncrono
     await act(async () => {});
 
     expect(getCurrentUser).toHaveBeenCalledTimes(1);
@@ -121,30 +103,25 @@ describe('useUserConfig', () => {
     expect(result.current.isLoading).toBe(false);
   });
 
-  // ==========================================
-  // TESTS: ACTUALIZACIÓN DE CAMPOS (updateField)
-  // ==========================================
-
   it('debería actualizar un campo aplicando normalización de strings (email)', async () => {
     const updatedUserMock = { ...mockInitialUser, email: 'clean@email.com' };
-   vi.mocked(updateUser).mockResolvedValue(updatedUserMock as any);
+    vi.mocked(updateUser).mockResolvedValue(updatedUserMock as any);
 
     const { result } = renderHook(() => useUserConfig());
-    await act(async () => {}); // Esperar carga inicial
+
+    await act(async () => {});
 
     const field = 'email' as ConfigDataField;
-    // Pasamos un email desordenado para comprobar la normalización interna (.trim().toLowerCase())
-    const inputDirtyValue = '  CLEAN@email.com   ';
 
     await act(async () => {
-      await result.current.updateField(field, inputDirtyValue);
+      await result.current.updateField(field, '  CLEAN@email.com   ');
     });
 
     expect(mockStartLoading).toHaveBeenCalledWith(field);
     expect(mockClearStatus).toHaveBeenCalledWith(field);
-    
-    // Validar que la API recibió el valor ya limpio
-    expect(updateUser).toHaveBeenCalledWith(mockInitialUser.id, { email: 'clean@email.com' });
+    expect(updateUser).toHaveBeenCalledWith(mockInitialUser.id, {
+      email: 'clean@email.com',
+    });
     expect(result.current.user).toEqual(updatedUserMock);
     expect(mockShowSuccess).toHaveBeenCalledWith(field, '✓ Actualizado');
     expect(mockStopLoading).toHaveBeenCalledWith(field);
@@ -155,15 +132,18 @@ describe('useUserConfig', () => {
     vi.mocked(updateUser).mockResolvedValue(updatedUserMock as any);
 
     const { result } = renderHook(() => useUserConfig());
+
     await act(async () => {});
 
     const field = 'nationality' as ConfigDataField;
 
     await act(async () => {
-      await result.current.updateField(field, '  es  '); // Debe pasar a 'ES'
+      await result.current.updateField(field, '  es  ');
     });
 
-    expect(updateUser).toHaveBeenCalledWith(mockInitialUser.id, { nationality: 'ES' });
+    expect(updateUser).toHaveBeenCalledWith(mockInitialUser.id, {
+      nationality: 'ES',
+    });
   });
 
   it('debería capturar el error si falla la actualización del campo', async () => {
@@ -171,6 +151,7 @@ describe('useUserConfig', () => {
     vi.mocked(updateUser).mockRejectedValue(apiError);
 
     const { result } = renderHook(() => useUserConfig());
+
     await act(async () => {});
 
     const field = 'phone_number' as ConfigDataField;
@@ -183,14 +164,11 @@ describe('useUserConfig', () => {
     expect(mockStopLoading).toHaveBeenCalledWith(field);
   });
 
-  // ==========================================
-  // TESTS: ELIMINACIÓN DE CUENTA (removeAccount)
-  // ==========================================
-
   it('debería abortar la eliminación de la cuenta si el usuario cancela la confirmación', async () => {
-    window.confirm = vi.fn().mockReturnValue(false); // Usuario presiona "Cancelar"
+    window.confirm = vi.fn().mockReturnValue(false);
 
     const { result } = renderHook(() => useUserConfig());
+
     await act(async () => {});
 
     await act(async () => {
@@ -205,6 +183,7 @@ describe('useUserConfig', () => {
     vi.mocked(deleteUser).mockResolvedValue({} as any);
 
     const { result } = renderHook(() => useUserConfig());
+
     await act(async () => {});
 
     await act(async () => {
@@ -214,9 +193,7 @@ describe('useUserConfig', () => {
     expect(window.confirm).toHaveBeenCalled();
     expect(mockStartLoading).toHaveBeenCalledWith('delete_account');
     expect(mockClearStatus).toHaveBeenCalledWith('delete_account');
-    
     expect(deleteUser).toHaveBeenCalledWith(mockInitialUser.id);
-    // Verificar que la redirección nativa ocurrió
     expect(window.location.href).toBe('/register');
     expect(mockStopLoading).toHaveBeenCalledWith('delete_account');
   });

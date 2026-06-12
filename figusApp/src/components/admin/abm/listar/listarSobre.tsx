@@ -5,7 +5,6 @@ import '../abm.css';
 import {
   getPackById,
   getPacksByAlbumId,
-  type Pack,
 } from '../services/packsService';
 import { TablaResultados } from '../TablaResultados';
 

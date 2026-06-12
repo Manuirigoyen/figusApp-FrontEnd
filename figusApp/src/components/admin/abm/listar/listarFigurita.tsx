@@ -5,7 +5,6 @@ import '../abm.css';
 import {
   getStickerById,
   getStickersByAlbumId,
-  type Sticker,
 } from '../services/stickersService';
 import { TablaResultados } from '../TablaResultados';
 

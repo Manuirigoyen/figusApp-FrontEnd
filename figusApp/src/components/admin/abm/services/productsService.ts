@@ -49,9 +49,6 @@ const API_URL =
 
 /**
  * Fetches a product by its unique identifier
- * @param id - The product ID to retrieve (must be greater than 0)
- * @returns Promise resolving to the Product object
- * @throws Error if ID is invalid or product not found
  */
 export const getProductById = async (
   id: number,
@@ -79,8 +76,6 @@ export const getProductById = async (
 
 /**
  * Fetches all products from the store
- * @returns Promise resolving to an array of all Product objects
- * @throws Error if products cannot be retrieved
  */
 export const getProducts = async (): Promise<
   Product[]
@@ -97,10 +92,7 @@ export const getProducts = async (): Promise<
 };
 
 /**
- * Creates a new product with provided metadata
- * @param data - The product data (code, name, description, pricing, stock, type, optional cover image)
- * @returns Promise resolving to the created Product object with generated ID
- * @throws Error if data is invalid, unauthorized, or creation fails
+ * Creates a new product
  */
 export const createProduct = async (
   data: CreateProductDto,
@@ -172,15 +164,11 @@ export const createProduct = async (
 };
 
 /**
- * Updates an existing product with complete data
- * @param id - The product ID to update (must be greater than 0)
- * @param data - The complete product data to update with
- * @returns Promise resolving to the updated Product object
- * @throws Error if ID is invalid, data is invalid, unauthorized, or product not found
+ * Updates an existing product
  */
 export const updateProduct = async (
   id: number,
-  data: UpdateProductDto,
+  data: UpdateProductDto | FormData,
 ): Promise<Product> => {
   if (!id || id < 1) {
     throw new Error(
@@ -188,45 +176,54 @@ export const updateProduct = async (
     );
   }
 
-  const formData = new FormData();
+  let body: FormData;
 
-  formData.append(
-    'product_code',
-    data.product_code,
-  );
+  if (data instanceof FormData) {
+    body = data;
+  } else {
+    body = new FormData();
 
-  formData.append('name', data.name);
-
-  formData.append(
-    'description',
-    data.description,
-  );
-
-  formData.append(
-    'price_usd',
-    String(data.price_usd),
-  );
-
-  formData.append(
-    'discount_usd',
-    String(data.discount_usd ?? 0),
-  );
-
-  formData.append(
-    'stock_available',
-    String(data.stock_available),
-  );
-
-  formData.append(
-    'product_type',
-    data.product_type,
-  );
-
-  if (data.cover_image) {
-    formData.append(
-      'cover_image',
-      data.cover_image,
+    body.append(
+      'product_code',
+      data.product_code,
     );
+
+    body.append(
+      'name',
+      data.name,
+    );
+
+    body.append(
+      'description',
+      data.description,
+    );
+
+    body.append(
+      'price_usd',
+      String(data.price_usd),
+    );
+
+    body.append(
+      'discount_usd',
+      String(data.discount_usd ?? 0),
+    );
+
+    body.append(
+      'stock_available',
+      String(data.stock_available),
+    );
+
+    body.append(
+      'product_type',
+      data.product_type,
+    );
+
+    if (data.cover_image) {
+      body.append(
+        'cover_image',
+        data.cover_image,
+      );
+    }
   }
 
   const response = await fetch(
@@ -234,7 +231,7 @@ export const updateProduct = async (
     {
       method: 'PUT',
       credentials: 'include',
-      body: formData,
+      body,
     },
   );
 
@@ -265,9 +262,6 @@ export const updateProduct = async (
 
 /**
  * Deletes a product by its ID
- * @param id - The product ID to delete (must be greater than 0)
- * @returns Promise that resolves when deletion is complete
- * @throws Error if ID is invalid, unauthorized, or product not found
  */
 export const deleteProduct = async (
   id: number,

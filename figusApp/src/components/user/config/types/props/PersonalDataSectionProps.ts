@@ -7,7 +7,7 @@ import type { ConfigDataField } from '../ConfigDataField';
 
 export type PersonalDataSectionProps = {
   user: UserConfig;
-  setUser: React.Dispatch<React.SetStateAction<UserConfig>>;
+  setUser: React.Dispatch<React.SetStateAction<UserConfig | null>>;
 
   updateField: (
     field: ConfigDataField,

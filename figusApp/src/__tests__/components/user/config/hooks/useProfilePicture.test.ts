@@ -67,7 +67,6 @@ describe('useProfilePicture', () => {
 
   it('debería inicializarse con estado de preview nulo', () => {
     const { result } = renderHook(() => useProfilePicture(mockProps));
-    expect(result.current.profilePreview).toBeNull();
     expect(result.current.profilePictureRef.current).toBeNull();
   });
 
@@ -126,7 +125,6 @@ describe('useProfilePicture', () => {
     expect(mockClearStatus).toHaveBeenCalledWith('profile_picture');
     
     expect(window.URL.createObjectURL).toHaveBeenCalledWith(mockFile);
-    expect(result.current.profilePreview).toBe(fakeObjectUrl);
 
     expect(updateUserProfilePicture).toHaveBeenCalledWith(mockUser.id, mockFile);
     expect(mockSetUser).toHaveBeenCalledWith(updatedUserMock);

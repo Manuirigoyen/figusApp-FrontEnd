@@ -51,12 +51,6 @@ type UpdateSelectProps = {
   required?: boolean;
 };
 
-const countryOptions = COUNTRIES.map((country) => (
-  <option key={country.code} value={country.code}>
-    {country.name}
-  </option>
-));
-
 const roleOptions = [
   { value: 'user', text: 'Usuario' },
   { value: 'admin', text: 'Administrador' },
@@ -240,15 +234,6 @@ const UpdateSelect = ({
  *
  * @returns {JSX.Element} Opciones de país.
  */
-const CountrySelect = () => (
-  <>
-    <option value="" disabled>
-      Seleccioná un país
-    </option>
-
-    {countryOptions}
-  </>
-);
 
 /**
  * Renderiza el formulario de modificación de álbumes.

@@ -44,10 +44,14 @@ export const PersonalDataSection = ({
                     className="form-select register-input config-input"
                     value={user.nationality}
                     onChange={(e) =>
-                      setUser((prev) => ({
-                        ...prev,
-                        nationality: e.target.value,
-                      }))
+                      setUser((prev) =>
+                        prev
+                          ? {
+                              ...prev,
+                              nationality: e.target.value,
+                            }
+                          : prev,
+                      )
                     }
                   >
                     {COUNTRIES.map((country) => (
@@ -63,10 +67,14 @@ export const PersonalDataSection = ({
                     value={String(user[key as keyof typeof user] ?? '')}
                     max={field.key === 'date_of_birth' ? today : undefined}
                     onChange={(e) =>
-                      setUser((prev) => ({
-                        ...prev,
-                        [key]: e.target.value,
-                      }))
+                      setUser((prev) =>
+                        prev
+                          ? {
+                              ...prev,
+                              [key]: e.target.value,
+                            }
+                          : prev,
+                      )
                     }
                   />
                 )}
@@ -91,9 +99,7 @@ export const PersonalDataSection = ({
           );
         })}
 
-        <div className="col-12 col-md-6">
-          {profilePictureSection}
-        </div>
+        <div className="col-12 col-md-6">{profilePictureSection}</div>
       </div>
     </section>
   );

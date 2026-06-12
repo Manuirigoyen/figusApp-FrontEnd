@@ -33,7 +33,7 @@ export const useProfilePicture = ({
   } = useLoadingFields();
 
   const handleProfilePictureUpdate = useCallback(async (): Promise<void> => {
-    if (!user.id) {
+    if (!user?.id) {
       return;
     }
 
@@ -57,25 +57,33 @@ export const useProfilePicture = ({
 
     const instantImageUrl = URL.createObjectURL(file);
 
-    setUser((prev) => ({
-      ...prev,
-      profile_picture: instantImageUrl,
-    }));
+    setUser((prev) =>
+      prev
+        ? {
+            ...prev,
+            profile_picture: instantImageUrl,
+          }
+        : prev,
+    );
 
     try {
       const updatedUser = await updateUserProfilePicture(user.id, file);
 
       const cacheVersion = Date.now();
 
-      setUser((prev) => ({
-        ...prev,
-        ...updatedUser,
-        profile_picture: updatedUser.profile_picture
-          ? `${updatedUser.profile_picture}${
-              updatedUser.profile_picture.includes('?') ? '&' : '?'
-            }v=${cacheVersion}`
-          : instantImageUrl,
-      }));
+      setUser((prev) =>
+        prev
+          ? {
+              ...prev,
+              ...updatedUser,
+              profile_picture: updatedUser.profile_picture
+                ? `${updatedUser.profile_picture}${
+                    updatedUser.profile_picture.includes('?') ? '&' : '?'
+                  }v=${cacheVersion}`
+                : instantImageUrl,
+            }
+          : prev,
+      );
 
       if (input) {
         input.value = '';
@@ -88,7 +96,7 @@ export const useProfilePicture = ({
       stopLoading('profile_picture');
     }
   }, [
-    user.id,
+    user,
     setUser,
     startLoading,
     stopLoading,

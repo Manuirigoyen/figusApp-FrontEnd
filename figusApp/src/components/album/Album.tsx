@@ -92,7 +92,6 @@ function Album() {
   const tokenUser = getUserFromToken();
 
   const userId = Number(tokenUser?.sub || tokenUser?.id || tokenUser?.user_id);
-  const userEmail = tokenUser?.email || 'tu correo';
 
   useEffect(() => {
     const loadAlbums = async () => {

@@ -5,7 +5,6 @@ import '../abm.css';
 import {
   getProductById,
   getProducts,
-  type Product,
 } from '../services/productsService';
 import { TablaResultados } from '../TablaResultados';
 
