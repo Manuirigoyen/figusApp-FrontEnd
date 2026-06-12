@@ -97,7 +97,7 @@ export const Billetera: React.FC = () => {
       </div>
 
       <section className="billetera-section">
-        <h2>Mi Billetera de Figuritas Repetidas</h2>
+        <h2>Mi billetera de figuritas repetidas</h2>
         <h3>¡Intercambialas con amigos!</h3>
 
         <div className="figus-repetidas" id="billetera-contenedor">

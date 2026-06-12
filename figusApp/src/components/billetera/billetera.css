@@ -24,7 +24,6 @@
   border-radius: var(--radius-xl);
   box-shadow: var(--shadow-lg);
 
-  font-family: var(--font-family);
   text-align: center;
 }
 
