@@ -1,4 +1,4 @@
-import './config.css';
+import './Config.css';
 
 import { usePasswordUpdate } from './hooks/usePasswordUpdate';
 import { useProfilePicture } from './hooks/useProfilePicture';

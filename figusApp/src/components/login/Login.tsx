@@ -10,7 +10,7 @@ import { loginUser } from './services/LoginUser';
 
 import { useAuth } from '../../routes/AuthContext';
 
-import './login.css';
+import './Login.css';
 
 export const Login = () => {
   const [captchaToken, setCaptchaToken] = useState('');
