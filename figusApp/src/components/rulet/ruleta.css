@@ -306,3 +306,106 @@
     height: 390px;
   }
 }
+
+@media (max-width: 767.98px) {
+  .ruleta-layout {
+    overflow-x: hidden;
+  }
+
+  .ruleta-hero-header {
+    padding-top: 2rem !important;
+  }
+
+  .ruleta-hero-header .home-title {
+    font-size: 2rem;
+    line-height: 1.15;
+  }
+
+  .ruleta-hero-header .home-subtitle {
+    font-size: 0.95rem;
+    max-width: 280px;
+  }
+
+  .ruleta-contenedor-escenario {
+    width: 320px;
+    height: 320px;
+    max-width: 100%;
+    margin: 0 auto 55px;
+  }
+
+  .ruleta-container {
+    width: 320px;
+    height: 320px;
+    max-width: 100%;
+  }
+
+  .premios-circle-wrapper {
+    width: 320px;
+    height: 320px;
+  }
+
+  .ruleta-base {
+    width: 320px;
+    bottom: -35px;
+  }
+
+  .triangulo-ruleta-derecha {
+    top: 22%;
+    left: 130px;
+    width: 90%;
+  }
+
+  .premios-circle .premio {
+    width: 55px;
+    height: 55px;
+    margin-top: -25px;
+    margin-left: -20px;
+  }
+
+  .premios-circle .premio:nth-child(1)  { transform: rotate(-10deg) translateY(-96px); }
+  .premios-circle .premio:nth-child(2)  { transform: rotate(17deg)  translateY(-96px); }
+  .premios-circle .premio:nth-child(3)  { transform: rotate(48deg)  translateY(-96px); }
+  .premios-circle .premio:nth-child(4)  { transform: rotate(78deg)  translateY(-96px); }
+  .premios-circle .premio:nth-child(5)  { transform: rotate(112deg) translateY(-96px); }
+
+  .premios-circle .premio:nth-child(6) {
+    transform: rotate(136deg) translateY(-96px);
+    margin-top: -18px;
+    margin-left: -16px;
+    width: 30px;
+    height: 38px;
+  }
+
+  .premios-circle .premio:nth-child(7)  { transform: rotate(174deg) translateY(-96px); }
+  .premios-circle .premio:nth-child(8)  { transform: rotate(204deg) translateY(-96px); }
+  .premios-circle .premio:nth-child(9)  { transform: rotate(233deg) translateY(-96px); }
+  .premios-circle .premio:nth-child(10) { transform: rotate(262deg) translateY(-96px); }
+  .premios-circle .premio:nth-child(11) { transform: rotate(290deg) translateY(-96px); }
+  .premios-circle .premio:nth-child(12) { transform: rotate(321deg) translateY(-96px); }
+
+  .ruleta-lateral-ad {
+    width: 220px;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .ruleta-ad-png-render {
+    width: 200px;
+    height: auto;
+  }
+
+  .max-buttons-width {
+    max-width: 260px;
+  }
+
+  .btn-custom,
+  .btn-dark-custom {
+    padding: 10px 12px;
+    font-size: 0.9rem;
+  }
+
+  .btn-principal-girar-manzana {
+    padding: 12px 28px;
+    font-size: 1rem;
+  }
+}
