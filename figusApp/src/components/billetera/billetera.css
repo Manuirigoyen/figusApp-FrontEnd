@@ -189,25 +189,21 @@
 
 .ad-left-billetera,
 .ad-right-billetera {
-  position: absolute;
-  top: 50px;
-
-  z-index: 2;
-
+  position: fixed;
+  top: 132px;
+  z-index: 50;
   width: 180px;
   height: 600px;
-
   overflow: hidden;
-
-  border-radius: 0.5rem;
+  border-radius: 10px;
 }
 
 .billetera-page .ad-left-billetera {
-  left: 15px;
+  left: 6px;
 }
 
 .billetera-page .ad-right-billetera {
-  right: 15px;
+  right: 6px;
 }
 
 .ad-left-billetera a,

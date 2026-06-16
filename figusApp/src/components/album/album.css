@@ -20,11 +20,49 @@ h1.main-title {
       rgba(15, 23, 42, 0.50)),
     url("../../assets/img/fonts/fondoEstadioDesktop.png");
 
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
 
+.album-page-layout {
+  width: 100%;
+  position: relative;
+}
+
+.album-main-content {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.album-ad-wrapper {
+  width: auto;
+  height: auto;
+  position: fixed;
+  top: 219px;
+  z-index: 5;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.album-ad-img {
+  width: 160px;
+  height: auto;
+  display: block;
+  border-radius: 20px;
+}
+
+.album-ad-wrapper-left {
+  left: 2px !important;
+}
+
+.album-ad-wrapper-right {
+  right: -28px !important;
 }
 
 .team {
@@ -182,22 +220,31 @@ h1.main-title {
 
 /* --- Media Queries --- */
 
-/* Desktop chico / Laptop */
-@media (max-width: 1199px) and (min-width: 768px) {
-  /* La dirección del flex en album-layout ya se maneja en el HTML/JSX de React */
-}
-
-@media (max-width: 1060px) {
-  .progress-container {
-    width: 97%;
+@media (max-width: 1350px) {
+  .album-ad-wrapper {
+    display: none;
   }
 }
 
-/* Tablet landscape */
+@media (max-width: 1600px) {
+  .album-ad-wrapper {
+    width: 190px;
+  }
+
+  .album-ad-wrapper-left {
+    left: 10px;
+  }
+
+  .album-ad-wrapper-right {
+    right: 10px;
+  }
+}
+
 @media (max-width: 1027px) {
   .album-layout {
     gap: 80px;
   }
+
   .progress-container {
     width: 96%;
   }
@@ -208,6 +255,7 @@ h1.main-title {
     width: 220px;
     height: 350px;
   }
+
   .descripcion {
     width: 180px;
     height: 280px;
@@ -220,11 +268,13 @@ h1.main-title {
   .progress-container {
     width: 98%;
   }
+
   .bandera {
     width: 180px;
     height: 280px;
     margin-right: 15px;
   }
+
   .descripcion {
     width: 130px;
     height: 240px;
@@ -245,7 +295,6 @@ h1.main-title {
   }
 }
 
-/* Tablet portrait / Mobile grande */
 @media (max-width: 769px) {
   .album-layout {
     flex-direction: column;
@@ -288,31 +337,33 @@ h1.main-title {
     width: 130px;
     height: 250px;
   }
+
   .descripcion {
     width: 90px;
     height: 150px;
     font-size: 6px;
     padding: 4px;
   }
+
   .contenedor-band-desc .descripcion {
     width: 119%;
     height: 100px;
   }
 }
 
-/* Mobile muy chico */
 @media (max-width: 360px) {
-
   .bandera {
     margin: 15px;
     width: 100px;
     height: 200px;
   }
+
   .descripcion {
     width: 100px;
     height: 200px;
     font-size: 4.8px;
   }
+
   .contenedor-band-desc .descripcion {
     width: 110%;
     height: 80px;

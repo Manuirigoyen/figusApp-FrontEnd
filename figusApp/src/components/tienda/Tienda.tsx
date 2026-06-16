@@ -75,7 +75,20 @@ export const Tienda: React.FC = () => {
       </aside>
 
       <section className="store-content-wrapper flex-grow-1 p-4 w-100">
-        <div className="store-ad-banner mb-5 text-center"><img src={packBanner} alt="Promoción" className="img-fluid" /></div>
+        <div className="store-ad-banner mb-5 text-center">
+  <a
+    href="https://www.transfermarkt.mx/thailand/kader/verein/5676"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="store-banner-link"
+  >
+    <img
+      src={packBanner}
+      alt="Promoción"
+      className="img-fluid"
+    />
+  </a>
+</div>
         
         <div className="row align-items-center justify-content-center g-3 p-3 mb-5 store-filter-bar mx-0">
           <div className="col-auto">

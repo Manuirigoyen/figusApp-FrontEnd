@@ -4,13 +4,19 @@ import { useNavigate } from 'react-router-dom';
 import FiguritaCard from './FiguritaCard';
 import './album.css';
 import './FiguritaCard.css';
+
 import jugadorSorpresa from '../../assets/img/icons/album/jugadorSorpresa.jpeg';
-import pelotaPremio from "../../assets/img/fonts/pelotapremio.png";
-import pelotaPremioCompleto from "../../assets/img/fonts/pelotaPremioGanador.png";
+import pelotaPremio from '../../assets/img/fonts/pelotapremio.png';
+import pelotaPremioCompleto from '../../assets/img/fonts/pelotaPremioGanador.png';
+
+import adAlbumLeft from '../../assets/img/add/album/muestra-izquierda.png';
+import adAlbumRight from '../../assets/img/add/album/muestra-derecha.png';
+
 import { getAllAlbums, getAlbumProgress } from './services/albumService';
 import { TEAMS_INFO } from './data/teamsData';
 import { ROUTES } from '../../routes/constants/routes.constants';
 import type { Figurita } from './data/figuritasData';
+
 import {
   calculateProgress,
   getProgressBarColor,
@@ -90,7 +96,6 @@ function Album() {
   const [error, setError] = useState<string | null>(null);
 
   const tokenUser = getUserFromToken();
-
   const userId = Number(tokenUser?.sub || tokenUser?.id || tokenUser?.user_id);
 
   useEffect(() => {
@@ -120,24 +125,21 @@ function Album() {
   }, [userId]);
 
   const seccionesRequeridas = ['argentina', 'brasil', 'francia'];
+
   const completaronTresSecciones = seccionesRequeridas.every((clave) => {
-    const albumProgress = albumsProgress.find((ap) => getAlbumKey(ap.album) === clave);
+    const albumProgress = albumsProgress.find(
+      (ap) => getAlbumKey(ap.album) === clave,
+    );
 
     if (!albumProgress) return false;
 
     const total = albumProgress.stickers.length;
-    const obtenidas = albumProgress.stickers.filter((sticker) => sticker.obtained).length;
+    const obtenidas = albumProgress.stickers.filter(
+      (sticker) => sticker.obtained,
+    ).length;
 
     return total > 0 && total === obtenidas;
   });
-
-  console.log('completaronTresSecciones:', completaronTresSecciones);
-  console.log('albumsProgress detalles:', albumsProgress.map((ap) => ({
-    nombre: ap.album.name,
-    albumKey: getAlbumKey(ap.album),
-    total: ap.stickers.length,
-    obtenidas: ap.stickers.filter((s) => s.obtained).length,
-  })));
 
   if (isLoading) {
     return (
@@ -158,113 +160,163 @@ function Album() {
 
   return (
     <div className="album" id="album-react">
-      <h1 className="main-title">Mis álbumes</h1>
+      <div className="album-page-layout">
+        <aside className="album-ad-wrapper album-ad-wrapper-left">
+  <a
+    href="https://play.google.com/store/apps/details?id=com.figusapp&hl=es_AR"  
+    target="_blank"
+    rel="noopener noreferrer"
+    className="album-ad-link"
+  >
+    <img
+      src={adAlbumLeft}
+      alt="Publicidad izquierda"
+      className="album-ad-img"
+    />
+  </a>
+</aside>
 
-      {albumsProgress.map((albumProgress) => {
-        const album = albumProgress.album;
-        const stickers = albumProgress.stickers;
+        <div className="album-main-content">
+          <h1 className="main-title">Mis álbumes</h1>
 
-        const totalCards = stickers.length;
-        const completadas = stickers.filter((sticker) => sticker.obtained).length;
-        const porcentaje = calculateProgress(totalCards, completadas);
-        const progressBarColor = getProgressBarColor(porcentaje);
-        const albumCompleto = isTeamComplete(completadas, totalCards);
+          {albumsProgress.map((albumProgress) => {
+            const album = albumProgress.album;
+            const stickers = albumProgress.stickers;
 
-        const albumKey = getAlbumKey(album);
-        const teamInfo = TEAMS_INFO[albumKey];
+            const totalCards = stickers.length;
+            const completadas = stickers.filter(
+              (sticker) => sticker.obtained,
+            ).length;
 
-        const figuritasAdaptadas: Figurita[] = stickers.map((sticker) => {
-          const imageUrl = resolveImageUrl(sticker.cover_image);
-          const stickerName = sticker.name?.toLowerCase() || '';
-          const isLegendaria =
-            sticker.class === 'Legendaria' && !stickerName.includes('neymar');
+            const porcentaje = calculateProgress(totalCards, completadas);
+            const progressBarColor = getProgressBarColor(porcentaje);
+            const albumCompleto = isTeamComplete(completadas, totalCards);
 
-          return {
-            id: String(sticker.id),
-            teamId: albumKey,
-            isSpecial: isLegendaria,
-            isComplete: sticker.obtained,
-            backgroundImageUrl: isLegendaria ? jugadorSorpresa : imageUrl,
-            specialImageUrl: imageUrl,
-            specialImageAlt: sticker.name,
-            dataJugador: sticker.name,
-          };
-        });
+            const albumKey = getAlbumKey(album);
+            const teamInfo = TEAMS_INFO[albumKey];
 
-        return (
-          <div key={album.id} id={albumKey} className="team">
-            <h2 className="titulo-seleccion">
-              {album.name}
-              <img
-                src={teamInfo.banderaIcono}
-                alt={`Bandera ${album.name}`}
-                className="icono-bandera"
-              />
-            </h2>
+            const figuritasAdaptadas: Figurita[] = stickers.map((sticker) => {
+              const imageUrl = resolveImageUrl(sticker.cover_image);
+              const stickerName = sticker.name?.toLowerCase() || '';
+              const isLegendaria =
+                sticker.class === 'Legendaria' &&
+                !stickerName.includes('neymar');
 
-            <div className="album-layout">
-              <div className="contenido-album">
-                <div className="progress-container">
-                  <div
-                    className="progress-bar"
-                    style={{
-                      width: `${porcentaje}%`,
-                      backgroundColor: progressBarColor,
-                    }}
-                  ></div>
+              return {
+                id: String(sticker.id),
+                teamId: albumKey,
+                isSpecial: isLegendaria,
+                isComplete: sticker.obtained,
+                backgroundImageUrl: isLegendaria ? jugadorSorpresa : imageUrl,
+                specialImageUrl: imageUrl,
+                specialImageAlt: sticker.name,
+                dataJugador: sticker.name,
+              };
+            });
 
-                  <span className="progress-text">Progreso: {porcentaje}%</span>
-                </div>
+            return (
+              <div key={album.id} id={albumKey} className="team">
+                <h2 className="titulo-seleccion">
+                  {album.name}
+                  <img
+                    src={teamInfo.banderaIcono}
+                    alt={`Bandera ${album.name}`}
+                    className="icono-bandera"
+                  />
+                </h2>
 
-                <div className="cards">
-                  {figuritasAdaptadas.map((fig) => (
-                    <FiguritaCard
-                      key={fig.id}
-                      figurita={fig}
-                      onFiguritaClick={() => {}}
-                      clickable={false}
+                <div className="album-layout">
+                  <div className="contenido-album">
+                    <div className="progress-container">
+                      <div
+                        className="progress-bar"
+                        style={{
+                          width: `${porcentaje}%`,
+                          backgroundColor: progressBarColor,
+                        }}
+                      ></div>
+
+                      <span className="progress-text">
+                        Progreso: {porcentaje}%
+                      </span>
+                    </div>
+
+                    <div className="cards">
+                      {figuritasAdaptadas.map((fig) => (
+                        <FiguritaCard
+                          key={fig.id}
+                          figurita={fig}
+                          onFiguritaClick={() => {}}
+                          clickable={false}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="contenedor-band-desc">
+                    <p className="descripcion">
+                      {album.description || teamInfo.descripcion}
+                    </p>
+
+                    <img
+                      src={teamInfo.banderaPrincipal}
+                      alt={`Bandera ${album.name}`}
+                      className={`bandera ${albumCompleto ? 'color' : ''}`}
                     />
-                  ))}
+                  </div>
                 </div>
               </div>
+            );
+          })}
 
-              <div className="contenedor-band-desc">
-                <p className="descripcion">
-                  {album.description || teamInfo.descripcion}
-                </p>
-
-                <img
-                  src={teamInfo.banderaPrincipal}
-                  alt={`Bandera ${album.name}`}
-                  className={`bandera ${albumCompleto ? 'color' : ''}`}
-                />
-              </div>
-            </div>
-          </div>
-        );
-      })}
-
-      <div
-        className={`promo-final ${completaronTresSecciones ? 'completo' : ''}`}
-        role={completaronTresSecciones ? 'button' : undefined}
-        tabIndex={completaronTresSecciones ? 0 : undefined}
-        onClick={completaronTresSecciones ? () => navigate(ROUTES.SELECCIONAR_VIAJE) : undefined}
-        onKeyDown={
-          completaronTresSecciones
-            ? (e) => {
-                if (e.key === 'Enter' || e.key === ' ') navigate(ROUTES.SELECCIONAR_VIAJE);
+          <div
+            className={`promo-final ${
+              completaronTresSecciones ? 'completo' : ''
+            }`}
+            role={completaronTresSecciones ? 'button' : undefined}
+            tabIndex={completaronTresSecciones ? 0 : undefined}
+            onClick={
+              completaronTresSecciones
+                ? () => navigate(ROUTES.SELECCIONAR_VIAJE)
+                : undefined
+            }
+            onKeyDown={
+              completaronTresSecciones
+                ? (e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      navigate(ROUTES.SELECCIONAR_VIAJE);
+                    }
+                  }
+                : undefined
+            }
+          >
+            <img
+              src={completaronTresSecciones ? pelotaPremioCompleto : pelotaPremio}
+              alt={
+                completaronTresSecciones
+                  ? 'Premio FigusApp completo'
+                  : 'Premios FigusApp'
               }
-            : undefined
-        }
-      >
-        <img
-          src={completaronTresSecciones ? pelotaPremioCompleto : pelotaPremio}
-          alt={completaronTresSecciones ? 'Premio FigusApp completo' : 'Premios FigusApp'}
-        />
-      </div>
-
+            />
+          </div>
         </div>
-    
+
+        <aside className="album-ad-wrapper album-ad-wrapper-right">
+  <a
+    href="https://www.farmaonline.com/ena-8129158/p?idsku=8129158"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="album-ad-link"
+  >
+    <img
+      src={adAlbumRight}
+      alt="Publicidad derecha"
+      className="album-ad-img"
+    />
+  </a>
+</aside>
+      </div>
+    </div>
   );
 }
 

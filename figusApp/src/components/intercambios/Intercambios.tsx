@@ -1,6 +1,8 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+
 import type { StickerWalletItem } from '../billetera/services/stickersWalletService';
+
 import {
   acceptOffer,
   createOffer,
@@ -12,7 +14,11 @@ import {
   type ExchangeOffer,
   type StickerOption,
 } from './services/offersService';
+
 import './intercambios.css';
+
+import adIntercambiosLeft from '../../assets/img/add/intercambios/muestra-izquierda.png';
+import adIntercambiosRight from '../../assets/img/add/intercambios/muestra-derecha.png';
 
 const API_ORIGIN = 'http://localhost:3000';
 
@@ -163,203 +169,222 @@ export const Intercambios: React.FC = () => {
 
   return (
     <main className="intercambios-page">
-      <section className="intercambios-panel">
-        <h2>Ofertas!</h2>
+      <div className="intercambios-layout">
+        <aside className="intercambios-ad-wrapper intercambios-ad-wrapper-left">
+          <img
+            src={adIntercambiosLeft}
+            alt="Publicidad izquierda"
+            className="intercambios-ad-img"
+          />
+        </aside>
 
-        <p className="intercambios-subtitle">
-          Publicá tus figuritas repetidas y negociá con otros usuarios.
-        </p>
+        <section className="intercambios-panel">
+          <h2>Ofertas!</h2>
 
-        <form className="intercambios-form" onSubmit={handleCreateOffer}>
-          <div className="trade-side trade-side-offer">
-            <div className="trade-fields">
-              <label>
-                Figurita que ofrezco
-                <select
-                  value={offerWalletId}
-                  onChange={(event) =>
-                    handleChangeOfferedSticker(event.target.value)
-                  }
-                >
-                  <option value="">Seleccionar figurita</option>
-                  {myWallet.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.sticker.name} - {item.sticker.class} - x{item.stock}
-                    </option>
-                  ))}
-                </select>
-              </label>
+          <p className="intercambios-subtitle">
+            Publicá tus figuritas repetidas y negociá con otros usuarios.
+          </p>
 
-              <label>
-                Unidades que ofrezco
-                <input
-                  type="number"
-                  min={1}
-                  max={offeredWalletItem?.stock || 1}
-                  value={offeredQuantity}
-                  onChange={(event) =>
-                    setOfferedQuantity(Number(event.target.value))
-                  }
-                  disabled={!offeredWalletItem}
-                />
-              </label>
+          <form className="intercambios-form" onSubmit={handleCreateOffer}>
+            <div className="trade-side trade-side-offer">
+              <div className="trade-fields">
+                <label>
+                  Figurita que ofrezco
+                  <select
+                    value={offerWalletId}
+                    onChange={(event) =>
+                      handleChangeOfferedSticker(event.target.value)
+                    }
+                  >
+                    <option value="">Seleccionar figurita</option>
+                    {myWallet.map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.sticker.name} - {item.sticker.class} - x{item.stock}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label>
+                  Unidades que ofrezco
+                  <input
+                    type="number"
+                    min={1}
+                    max={offeredWalletItem?.stock || 1}
+                    value={offeredQuantity}
+                    onChange={(event) =>
+                      setOfferedQuantity(Number(event.target.value))
+                    }
+                    disabled={!offeredWalletItem}
+                  />
+                </label>
+              </div>
+
+              {offeredWalletItem && (
+                <div className="trade-sticker-preview">
+                  <img
+                    src={getImageSrc(offeredWalletItem.sticker.cover_image)}
+                    alt={offeredWalletItem.sticker.name}
+                  />
+                  <strong>{offeredWalletItem.sticker.name}</strong>
+                </div>
+              )}
             </div>
 
-            {offeredWalletItem && (
-              <div className="trade-sticker-preview">
-                <img
-                  src={getImageSrc(offeredWalletItem.sticker.cover_image)}
-                  alt={offeredWalletItem.sticker.name}
-                />
-                <strong>{offeredWalletItem.sticker.name}</strong>
+            <div className="trade-side trade-side-request">
+              <div className="trade-fields">
+                <label>
+                  Figurita que quiero
+                  <select
+                    value={requestStickerId}
+                    onChange={(event) => setRequestStickerId(event.target.value)}
+                  >
+                    <option value="">Seleccionar figurita</option>
+                    {stickers.map((sticker) => (
+                      <option key={sticker.id} value={sticker.id}>
+                        {sticker.name} - {sticker.class}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+
+                <label>
+                  Unidades que quiero
+                  <input
+                    type="number"
+                    min={1}
+                    value={requestQuantity}
+                    onChange={(event) =>
+                      setRequestQuantity(Number(event.target.value))
+                    }
+                  />
+                </label>
               </div>
-            )}
-          </div>
 
-          <div className="trade-side trade-side-request">
-            <div className="trade-fields">
-              <label>
-                Figurita que quiero
-                <select
-                  value={requestStickerId}
-                  onChange={(event) => setRequestStickerId(event.target.value)}
-                >
-                  <option value="">Seleccionar figurita</option>
-                  {stickers.map((sticker) => (
-                    <option key={sticker.id} value={sticker.id}>
-                      {sticker.name} - {sticker.class}
-                    </option>
-                  ))}
-                </select>
-              </label>
-
-              <label>
-                Unidades que quiero
-                <input
-                  type="number"
-                  min={1}
-                  value={requestQuantity}
-                  onChange={(event) =>
-                    setRequestQuantity(Number(event.target.value))
-                  }
-                />
-              </label>
+              {requestSticker && (
+                <div className="trade-sticker-preview">
+                  <img
+                    src={getImageSrc(requestSticker.cover_image)}
+                    alt={requestSticker.name}
+                  />
+                  <strong>{requestSticker.name}</strong>
+                </div>
+              )}
             </div>
 
-            {requestSticker && (
-              <div className="trade-sticker-preview">
-                <img
-                  src={getImageSrc(requestSticker.cover_image)}
-                  alt={requestSticker.name}
-                />
-                <strong>{requestSticker.name}</strong>
-              </div>
-            )}
-          </div>
+            <button type="submit">Publicar oferta</button>
+          </form>
 
-          <button type="submit">Publicar oferta</button>
-        </form>
+          {message && <p className="intercambios-message">{message}</p>}
 
-        {message && <p className="intercambios-message">{message}</p>}
-
-        <div className="offers-table-wrapper">
-          {loading ? (
-            <p>Cargando ofertas...</p>
-          ) : (
-            <table className="offers-table">
-              <thead>
-                <tr>
-                  <th>N°</th>
-                  <th>Usuario</th>
-                  <th>Oferta</th>
-                  <th>Unidades</th>
-                  <th>Demanda</th>
-                  <th>Unidades</th>
-                  <th>Estado</th>
-                  <th>Acción</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {offers.length === 0 ? (
+          <div className="offers-table-wrapper">
+            {loading ? (
+              <p>Cargando ofertas...</p>
+            ) : (
+              <table className="offers-table">
+                <thead>
                   <tr>
-                    <td colSpan={8}>No hay ofertas activas.</td>
+                    <th>N°</th>
+                    <th>Usuario</th>
+                    <th>Oferta</th>
+                    <th>Unidades</th>
+                    <th>Demanda</th>
+                    <th>Unidades</th>
+                    <th>Estado</th>
+                    <th>Acción</th>
                   </tr>
-                ) : (
-                  offers.map((offer, index) => (
-                    <tr key={offer.id}>
-                      <td>{index + 1}</td>
+                </thead>
 
-                      <td>
-                        {offer.offererUser.first_name} {offer.offererUser.last_name}
-                      </td>
-
-                      <td>
-                        <img
-                          className="offer-sticker-img"
-                          src={getImageSrc(offer.offerWallet.sticker.cover_image)}
-                          alt={offer.offerWallet.sticker.name}
-                        />
-                      </td>
-
-                      <td>{offer.offered_quantity}</td>
-
-                      <td>
-                        <img
-                          className="offer-sticker-img"
-                          src={getImageSrc(offer.requestSticker.cover_image)}
-                          alt={offer.requestSticker.name}
-                        />
-                      </td>
-
-                      <td>{offer.request_quantity}</td>
-
-                      <td>
-                        {offer.status === 'pending' ? 'Activa' : offer.status}
-                      </td>
-
-                      <td>
-                        {offer.isMine ? (
-                          <button
-                            className="delete-offer-btn"
-                            onClick={() => handleDeleteOffer(offer.id)}
-                            title="Eliminar intercambio"
-                            aria-label="Eliminar intercambio"
-                          >
-                            <img
-                              src={trashIcon}
-                              alt="Eliminar intercambio"
-                              className="delete-offer-icon"
-                            />
-                          </button>
-                        ) : (
-                          <div className="offer-actions">
-                            <button
-                              className="accept-btn"
-                              onClick={() => handleAccept(offer.id)}
-                              title="Aceptar intercambio"
-                            >
-                              ✔
-                            </button>
-
-                            <button
-                              className="reject-btn"
-                              onClick={() => handleReject(offer.id)}
-                              title="Rechazar intercambio"
-                            >
-                              ✖
-                            </button>
-                          </div>
-                        )}
-                      </td>
+                <tbody>
+                  {offers.length === 0 ? (
+                    <tr>
+                      <td colSpan={8}>No hay ofertas activas.</td>
                     </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          )}
-        </div>
-      </section>
+                  ) : (
+                    offers.map((offer, index) => (
+                      <tr key={offer.id}>
+                        <td>{index + 1}</td>
+
+                        <td>
+                          {offer.offererUser.first_name}{' '}
+                          {offer.offererUser.last_name}
+                        </td>
+
+                        <td>
+                          <img
+                            className="offer-sticker-img"
+                            src={getImageSrc(offer.offerWallet.sticker.cover_image)}
+                            alt={offer.offerWallet.sticker.name}
+                          />
+                        </td>
+
+                        <td>{offer.offered_quantity}</td>
+
+                        <td>
+                          <img
+                            className="offer-sticker-img"
+                            src={getImageSrc(offer.requestSticker.cover_image)}
+                            alt={offer.requestSticker.name}
+                          />
+                        </td>
+
+                        <td>{offer.request_quantity}</td>
+
+                        <td>
+                          {offer.status === 'pending' ? 'Activa' : offer.status}
+                        </td>
+
+                        <td>
+                          {offer.isMine ? (
+                            <button
+                              className="delete-offer-btn"
+                              onClick={() => handleDeleteOffer(offer.id)}
+                              title="Eliminar intercambio"
+                              aria-label="Eliminar intercambio"
+                            >
+                              <img
+                                src={trashIcon}
+                                alt="Eliminar intercambio"
+                                className="delete-offer-icon"
+                              />
+                            </button>
+                          ) : (
+                            <div className="offer-actions">
+                              <button
+                                className="accept-btn"
+                                onClick={() => handleAccept(offer.id)}
+                                title="Aceptar intercambio"
+                              >
+                                ✔
+                              </button>
+
+                              <button
+                                className="reject-btn"
+                                onClick={() => handleReject(offer.id)}
+                                title="Rechazar intercambio"
+                              >
+                                ✖
+                              </button>
+                            </div>
+                          )}
+                        </td>
+                      </tr>
+                    ))
+                  )}
+                </tbody>
+              </table>
+            )}
+          </div>
+        </section>
+
+        <aside className="intercambios-ad-wrapper intercambios-ad-wrapper-right">
+          <img
+            src={adIntercambiosRight}
+            alt="Publicidad derecha"
+            className="intercambios-ad-img"
+          />
+        </aside>
+      </div>
     </main>
   );
 };

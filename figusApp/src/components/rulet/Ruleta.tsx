@@ -5,7 +5,9 @@ import { useRuleta } from './hooks/useRuleta';
 
 import './ruleta.css';
 
-import bannerMuestra from '../../assets/img/add/ruleta/muestra.png';
+import bannerRuletaIzquierda from '../../assets/img/add/ruleta/muestra-izquierda.png';
+import bannerRuletaDerecha from '../../assets/img/add/ruleta/muestra-derecha.png';
+
 import baseRuleta from '../../assets/img/icons/ruleta/base_ruleta.png';
 import btnRuleta from '../../assets/img/icons/ruleta/btn_ruleta.png';
 import trianguloRuleta from '../../assets/img/icons/ruleta/triangulo_ruleta.png';
@@ -24,7 +26,7 @@ export const Ruleta = () => {
     girosRestantes,
     premioGanado,
     isGirarndo,
-    realizarGiro
+    realizarGiro,
   } = useRuleta(ruletaImgRef, premiumsCircleRef);
 
   return (
@@ -32,19 +34,32 @@ export const Ruleta = () => {
       <div className="ruleta-layout container py-3">
 
         <header className="ruleta-hero-header text-center text-white pt-5">
-          <h1 className="home-title fw-bold display-4 mb-2">¡Es hora de probar Suerte!</h1>
-          <p className="home-subtitle mx-auto fw-medium">¡Dale un giro a la ruleta y mirá qué recompensa te toca!</p>
+          <h1 className="home-title fw-bold display-4 mb-2">
+            ¡Es hora de probar Suerte!
+          </h1>
+
+          <p className="home-subtitle mx-auto fw-medium">
+            ¡Dale un giro a la ruleta y mirá qué recompensa te toca!
+          </p>
         </header>
 
         <section className="row justify-content-center align-items-center my-4">
+
+          {/* Publicidad Izquierda */}
           <div className="col-12 col-md-3 d-flex justify-content-center ad-lateral-wrapper">
             <div className="ruleta-lateral-ad">
-              <img src={bannerMuestra} alt="Publicidad Izquierda" className="ruleta-ad-png-render" />
+              <img
+                src={bannerRuletaIzquierda}
+                alt="Publicidad Izquierda"
+                className="ruleta-ad-png-render"
+              />
             </div>
           </div>
 
+          {/* Ruleta */}
           <div className="col-12 col-md-6 d-flex justify-content-center">
             <div className="ruleta-contenedor-escenario">
+
               <div className="ruleta-container">
                 <img
                   ref={ruletaImgRef}
@@ -54,7 +69,10 @@ export const Ruleta = () => {
                 />
 
                 <div className="premios-circle-wrapper position-absolute start-50 top-50 translate-middle">
-                  <div ref={premiumsCircleRef} className="premios-circle">
+                  <div
+                    ref={premiumsCircleRef}
+                    className="premios-circle"
+                  >
                     {premios.map((premio, index) => (
                       <img
                         key={index}
@@ -67,11 +85,23 @@ export const Ruleta = () => {
                 </div>
               </div>
 
-              <img src={baseRuleta} className="ruleta-base" alt="Base Estática" />
-              <img src={trianguloRuleta} className="triangulo-ruleta-derecha" alt="Marcador" />
+              <img
+                src={baseRuleta}
+                className="ruleta-base"
+                alt="Base Estática"
+              />
+
+              <img
+                src={trianguloRuleta}
+                className="triangulo-ruleta-derecha"
+                alt="Marcador"
+              />
 
               {premioGanado && (
-                <div id="premioGanado" className="premio-popup animate-pop">
+                <div
+                  id="premioGanado"
+                  className="premio-popup animate-pop"
+                >
                   <img
                     src={premioGanado.img}
                     alt="Premio Ganado"
@@ -82,14 +112,21 @@ export const Ruleta = () => {
             </div>
           </div>
 
+          {/* Publicidad Derecha */}
           <div className="col-12 col-md-3 d-flex justify-content-center ad-lateral-wrapper">
             <div className="ruleta-lateral-ad">
-              <img src={bannerMuestra} alt="Publicidad Derecha" className="ruleta-ad-png-render" />
+              <img
+                src={bannerRuletaDerecha}
+                alt="Publicidad Derecha"
+                className="ruleta-ad-png-render"
+              />
             </div>
           </div>
+
         </section>
 
         <section className="ruleta-controles-section d-flex flex-column align-items-center mt-3">
+
           <div className="d-flex justify-content-center gap-3 mb-3 w-100 max-buttons-width">
             <button
               className="btn btn-custom w-50"
@@ -98,6 +135,7 @@ export const Ruleta = () => {
             >
               5 Giros
             </button>
+
             <button
               className="btn btn-custom w-50"
               onClick={() => realizarGiro(10)}
@@ -115,6 +153,7 @@ export const Ruleta = () => {
             >
               15 Giros
             </button>
+
             <button
               className="btn btn-dark-custom w-50"
               onClick={() => realizarGiro(girosRestantes)}
@@ -130,15 +169,21 @@ export const Ruleta = () => {
               onClick={() => realizarGiro(1)}
               disabled={girosRestantes <= 0 || isGirarndo}
             >
-              {isGirarndo ? 'Girando...' : `Girar (${girosRestantes})`}
+              {isGirarndo
+                ? 'Girando...'
+                : `Girar (${girosRestantes})`}
             </button>
 
             <div className="mt-1">
-              <Link to="/tienda" className="ruleta-link-tienda text-decoration-none fw-semibold">
+              <Link
+                to="/tienda"
+                className="ruleta-link-tienda text-decoration-none fw-semibold"
+              >
                 ¿Te quedaste sin giros? Comprar más
               </Link>
             </div>
           </div>
+
         </section>
 
       </div>
