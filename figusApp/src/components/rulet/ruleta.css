@@ -296,14 +296,7 @@
 
 @media (max-width: 767.98px) {
   .ad-lateral-wrapper {
-    margin-top: 20px;
-    transform: none;
-    position: static;
-  }
-
-  .ruleta-lateral-ad {
-    width: 220px;
-    height: 390px;
+    display: none !important;
   }
 }
 
