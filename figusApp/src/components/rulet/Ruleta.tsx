@@ -110,7 +110,6 @@ export const Ruleta = () => {
             </div>
           </div>
 
-          {/* Publicidad Derecha */}
           <div className="col-12 col-md-3 d-flex justify-content-center ad-lateral-wrapper">
             <div className="ruleta-lateral-ad"  id='ad_derecha'>
               <img
