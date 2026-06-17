@@ -8,8 +8,18 @@ export const useTienda = (): UseTiendaReturn => {
   const [productos, setProductos] = useState<ProductoTienda[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [carrito, setCarrito] = useState<ItemCarrito[]>([]);
   const [sidebarOpen, setSidebarOpen] = useState<boolean>(false);
+
+  const [carrito, setCarrito] = useState<ItemCarrito[]>(() => {
+    const saved = localStorage.getItem('carrito');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  const [compraInmediata, setCompraInmediata] = useState<ItemCarrito | null>(() => {
+    const saved = localStorage.getItem('compraInmediata');
+    return saved ? JSON.parse(saved) : null;
+  });
+
   const [filtros, setFiltros] = useState<FiltrosTienda>({
     ordenPrecio: '',
     filtroTipoCompra: '',
@@ -18,15 +28,24 @@ export const useTienda = (): UseTiendaReturn => {
   });
 
   useEffect(() => {
-    const controller = new AbortController();
+    localStorage.setItem('carrito', JSON.stringify(carrito));
+  }, [carrito]);
 
+  useEffect(() => {
+    if (compraInmediata) {
+      localStorage.setItem('compraInmediata', JSON.stringify(compraInmediata));
+    } else {
+      localStorage.removeItem('compraInmediata');
+    }
+  }, [compraInmediata]);
+
+  useEffect(() => {
+    const controller = new AbortController();
     const cargarProductos = async (): Promise<void> => {
       try {
         setLoading(true);
         const response = await fetch(API_BASE_URL, { signal: controller.signal });
-        
         if (!response.ok) throw new Error('Error al obtener los productos');
-
         const data = await response.json();
         
         const productosNormalizados = data.map((p: any): ProductoTienda => ({
@@ -36,7 +55,6 @@ export const useTienda = (): UseTiendaReturn => {
           discount_usd: Number(p.discount_usd),
           discount_active: p.discount_active
         }));
-
         setProductos(productosNormalizados);
       } catch (err: any) {
         if (err.name !== 'AbortError') setError(err.message);
@@ -44,7 +62,6 @@ export const useTienda = (): UseTiendaReturn => {
         setLoading(false);
       }
     };
-
     cargarProductos();
     return () => controller.abort();
   }, []);
@@ -56,26 +73,29 @@ export const useTienda = (): UseTiendaReturn => {
   const verificarDescuentoActivo = (producto: ProductoTienda): boolean => Number(producto.discount_active) > 0;
 
   const calcularPrecioFinal = (producto: ProductoTienda): number => {
-    return verificarDescuentoActivo(producto)
-      ? producto.price_usd - producto.discount_usd
-      : producto.price_usd;
+    return verificarDescuentoActivo(producto) ? producto.price_usd - producto.discount_usd : producto.price_usd;
   };
 
-  const agregarAlCarrito = (producto: ProductoTienda): void => {
+  const agregarAlCarrito = (producto: ProductoTienda, cantidad: number): void => {
     setCarrito((prev) => {
       const existe = prev.find((item) => item.producto.id === producto.id);
       if (existe) {
         return prev.map((item) =>
-          item.producto.id === producto.id ? { ...item, cantidad: item.cantidad + 1 } : item
+          item.producto.id === producto.id ? { ...item, cantidad: item.cantidad + cantidad } : item
         );
       }
-      return [...prev, { producto, cantidad: 1 }];
+      return [...prev, { producto, cantidad }];
     });
   };
 
   const eliminarDelCarrito = (id: number): void => setCarrito((prev) => prev.filter((item) => item.producto.id !== id));
 
-  const vaciarCarrito = (): void => setCarrito([]);
+  const vaciarCarrito = (): void => {
+    setCarrito([]);
+    setCompraInmediata(null);
+    localStorage.removeItem('carrito');
+    localStorage.removeItem('compraInmediata');
+  };
 
   const totalCarrito = useMemo(() => 
     carrito.reduce((acc, item) => acc + calcularPrecioFinal(item.producto) * item.cantidad, 0), 
@@ -87,7 +107,6 @@ export const useTienda = (): UseTiendaReturn => {
 
   const productosFiltradosYOrdenados = useMemo(() => {
     let resultado = [...productos];
-
     if (filtros.filtroTipoCompra) resultado = resultado.filter((p) => p.product_type === filtros.filtroTipoCompra);
     if (filtros.filtroRareza) {
       resultado = resultado.filter((p) => 
@@ -96,10 +115,8 @@ export const useTienda = (): UseTiendaReturn => {
       );
     }
     if (filtros.filtroDescuento) resultado = resultado.filter((p) => verificarDescuentoActivo(p));
-
     if (filtros.ordenPrecio === 'menor') resultado.sort((a, b) => calcularPrecioFinal(a) - calcularPrecioFinal(b));
     else if (filtros.ordenPrecio === 'mayor') resultado.sort((a, b) => calcularPrecioFinal(b) - calcularPrecioFinal(a));
-
     return resultado;
   }, [filtros, productos]);
 
@@ -107,6 +124,6 @@ export const useTienda = (): UseTiendaReturn => {
     carrito, sidebarOpen, setSidebarOpen, filtros, handleSetFiltro,
     productosFiltradosYOrdenados, totalCarrito, totalItems, agregarAlCarrito,
     eliminarDelCarrito, vaciarCarrito, calcularPrecioFinal, verificarDescuentoActivo,
-    loading, error,
+    loading, error, compraInmediata, setCompraInmediata
   };
 };

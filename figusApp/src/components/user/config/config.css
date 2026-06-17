@@ -53,19 +53,6 @@
   transform: translateY(-1px);
 }
 
-.profile-picture-section {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.config-profile-preview {
-  max-width: 140px;
-  max-height: 140px;
-  object-fit: cover;
-  border-radius: 50%;
-}
-
 .config-note,
 .config-status {
   color: #6b7280;
@@ -77,14 +64,6 @@
   min-height: 54px;
   border-radius: 14px;
   font-weight: 700;
-}
-
-.config-section + .config-section {
-  margin-top: 2rem;
-}
-
-.config-divider {
-  margin: 2rem 0;
 }
 
 @media (max-width: 575.98px) {

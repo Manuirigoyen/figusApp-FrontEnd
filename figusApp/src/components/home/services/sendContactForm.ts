@@ -1,11 +1,17 @@
 import type { FooterContactPayload } from '../utils/buildContactPayload';
 
+/**
+ * Envía el formulario de contacto al backend.
+ * 
+ * @param payload - Datos del formulario a enviar.
+ * @returns La respuesta del servidor o null.
+ * @throws Error si la respuesta no es exitosa.
+ */
 export const sendContactForm = async (
   payload: FooterContactPayload,
-  endpoint: string,
 ) => {
-  console.log('ENDPOINT:', endpoint);
-  console.log('PAYLOAD:', payload);
+  const baseUrl = import.meta.env.VITE_API_BASE;
+  const endpoint = `${baseUrl}/contact`;
 
   const response = await fetch(endpoint, {
     method: 'POST',
@@ -15,11 +21,7 @@ export const sendContactForm = async (
     body: JSON.stringify(payload),
   });
 
-  console.log('STATUS:', response.status);
-
   const text = await response.text();
-
-  console.log('RESPONSE:', text);
 
   if (!response.ok) {
     throw new Error(text || 'Error enviando formulario');

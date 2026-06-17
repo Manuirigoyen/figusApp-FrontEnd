@@ -1,18 +1,18 @@
 .ad-lateral-wrapper {
   align-self: flex-start;
+  
 }
 
 .ruleta-lateral-ad {
   width: 250px;
   height: 450px;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   overflow: hidden;
   border-radius: 20px;
 }
+
 
 .ruleta-ad-png-render {
   width: 240px;
@@ -47,10 +47,6 @@
   transition: transform 3.5s cubic-bezier(0.25, 0.8, 0.25, 1);
   z-index: 5;
   rotate: 65deg;
-
-  filter:
-    drop-shadow(0 8px 20px rgba(0, 0, 0, 0.60))
-    drop-shadow(0 0 25px rgba(21, 255, 0, 0.5));
 }
 
 .ruleta-base {
@@ -274,23 +270,6 @@
   100% { 
     transform: translate(-50%, -50%) scale(1); 
     opacity: 1; 
-  }
-}
-
-@media (min-width: 768px) {
-  .ad-lateral-wrapper {
-    position: sticky;
-    top: 120px;
-    z-index: 20;
-    margin-top: -60px;
-  }
-
-  .ad-lateral-wrapper:first-child {
-    transform: translateX(-80px);
-  }
-
-  .ad-lateral-wrapper:last-child {
-    transform: translateX(80px);
   }
 }
 
