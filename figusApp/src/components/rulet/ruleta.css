@@ -5,11 +5,9 @@
 .ruleta-lateral-ad {
   width: 250px;
   height: 450px;
-
   display: flex;
   justify-content: center;
   align-items: center;
-
   overflow: hidden;
   border-radius: 20px;
 }
