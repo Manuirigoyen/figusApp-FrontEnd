@@ -45,7 +45,7 @@ describe('useTienda Hook', () => {
     const { result } = renderHook(() => useTienda());
 
     await act(async () => {
-      result.current.agregarAlCarrito(mockProducto as any);
+      result.current.agregarAlCarrito(mockProducto as any, 1);
     });
 
     expect(result.current.carrito).toHaveLength(1);
@@ -64,7 +64,7 @@ describe('useTienda Hook', () => {
     const { result } = renderHook(() => useTienda());
 
     await act(async () => {
-      result.current.agregarAlCarrito(mockProducto as any);
+      result.current.agregarAlCarrito(mockProducto as any, 1);
       result.current.vaciarCarrito();
     });
 

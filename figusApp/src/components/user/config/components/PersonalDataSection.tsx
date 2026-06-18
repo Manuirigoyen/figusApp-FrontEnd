@@ -13,7 +13,6 @@ import type { ConfigDataField } from '../types/ConfigDataField';
 export const PersonalDataSection = ({
   user,
   setUser,
-  updateField,
   loadingFields,
   fieldStatus,
 }: PersonalDataSectionProps) => {
@@ -50,10 +49,14 @@ export const PersonalDataSection = ({
                     className="form-select register-input config-input"
                     value={user.nationality}
                     onChange={(e) =>
-                      setUser((prev) => ({
-                        ...prev,
-                        nationality: e.target.value,
-                      }))
+                      setUser((prev) =>
+                        prev
+                          ? {
+                              ...prev,
+                              nationality: e.target.value,
+                            }
+                          : prev
+                      )
                     }
                   >
                     {COUNTRIES.map((country) => (
@@ -67,23 +70,31 @@ export const PersonalDataSection = ({
                     type="file"
                     className="form-control register-input config-input"
                     onChange={(e) =>
-                      setUser((prev) => ({
-                        ...prev,
-                        profile_file: e.target.files?.[0] ?? null,
-                      }))
+                      setUser((prev) =>
+                        prev
+                          ? {
+                              ...prev,
+                              profile_file: e.target.files?.[0] ?? null,
+                            }
+                          : prev
+                      )
                     }
                   />
                 ) : (
                   <input
                     type={field.type}
                     className="form-control register-input config-input"
-                    value={user[field.key]}
+                    value={user[field.key] ?? ''}
                     max={field.key === 'date_of_birth' ? today : undefined}
                     onChange={(e) =>
-                      setUser((prev) => ({
-                        ...prev,
-                        [field.key]: e.target.value,
-                      }))
+                      setUser((prev) =>
+                        prev
+                          ? {
+                              ...prev,
+                              [field.key]: e.target.value,
+                            }
+                          : prev
+                      )
                     }
                   />
                 )}
@@ -92,7 +103,6 @@ export const PersonalDataSection = ({
                   type="button"
                   className="btn register-btn config-action-btn"
                   disabled={loadingFields[key]}
-                  
                 >
                   ✓
                 </button>

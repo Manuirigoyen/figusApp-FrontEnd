@@ -1,12 +1,10 @@
 import './config.css';
 
 import { usePasswordUpdate } from './hooks/usePasswordUpdate';
-import { useProfilePicture } from './hooks/useProfilePicture';
 import { useUserConfig } from './hooks/useUserConfig';
 
 import { PersonalDataSection } from './components/PersonalDataSection';
 import { PasswordSection } from './components/PasswordSection';
-import { ProfilePictureSection } from './components/ProfilePictureSection';
 import { DeleteAccountSection } from './components/DeleteAccountSection';
 
 import type { ConfigProps } from './types/props/ConfigProps';
@@ -42,12 +40,6 @@ export const Config = ({
 
   const passwordHook =
     usePasswordUpdate(user.id);
-
-  const profilePictureHook =
-    useProfilePicture({
-      user,
-      setUser,
-    });
 
   if (isLoading) {
     return (

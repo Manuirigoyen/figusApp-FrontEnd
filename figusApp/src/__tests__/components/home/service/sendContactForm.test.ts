@@ -26,7 +26,7 @@ describe('sendContactForm', () => {
     
     vi.stubGlobal('fetch', mockFetch);
 
-    const result = await sendContactForm(mockPayload, mockEndpoint);
+    const result = await sendContactForm(mockPayload);
 
     expect(mockFetch).toHaveBeenCalledWith(mockEndpoint, {
       method: 'POST',
@@ -48,7 +48,7 @@ describe('sendContactForm', () => {
     
     vi.stubGlobal('fetch', mockFetch);
 
-    const result = await sendContactForm(mockPayload, mockEndpoint);
+    const result = await sendContactForm(mockPayload);
 
     expect(result).toBeNull();
   });
@@ -64,7 +64,7 @@ describe('sendContactForm', () => {
     
     vi.stubGlobal('fetch', mockFetch);
 
-    await expect(sendContactForm(mockPayload, mockEndpoint)).rejects.toThrowError('...');
+    await expect(sendContactForm(mockPayload)).rejects.toThrowError('...');
   });
 
   it('debería lanzar un error genérico si response.ok es falso y el servidor no da detalles', async () => {
@@ -77,6 +77,6 @@ describe('sendContactForm', () => {
     
     vi.stubGlobal('fetch', mockFetch);
 
-   await expect(sendContactForm(mockPayload, mockEndpoint)).rejects.toThrowError('...');
+   await expect(sendContactForm(mockPayload)).rejects.toThrowError('...');
   });
 });

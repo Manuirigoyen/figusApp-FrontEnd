@@ -3,7 +3,7 @@ import type {
   SetStateAction,
 } from 'react';
 
-import type { UserConfig } from '../../interfaces/UserConfig';
+import type { UserConfig } from '../UserConfig';
 
 /**
  * Props requeridas por el componente Config.

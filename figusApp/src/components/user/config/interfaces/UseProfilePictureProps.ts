@@ -3,7 +3,7 @@ import type {
   SetStateAction,
 } from 'react';
 
-import type { UserConfig } from './UserConfig';
+import type { UserConfig } from '../types/UserConfig';
 
 /**
  * Propiedades requeridas para gestionar
