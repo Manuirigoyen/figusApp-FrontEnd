@@ -4,9 +4,11 @@
   box-sizing: border-box;
   color: #fff;
   min-height: calc(100vh - 80px);
+
   background-image:
     linear-gradient(rgba(15, 23, 42, 0.65), rgba(15, 23, 42, 0.65)),
     url("../../assets/img/fonts/fondoEstadioDesktop.png");
+
   background-size: cover;
   background-position: center;
   background-attachment: fixed;
@@ -33,24 +35,34 @@
 .country-card {
   width: 320px;
   height: 220px;
-  background: rgba(0,0,0,0.28);
+
   color: #fff;
-  border: 1px solid rgba(255,255,255,0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   padding: 0;
   border-radius: 12px;
+
   cursor: pointer;
-  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    filter 0.18s ease,
+    opacity 0.18s ease;
+
   display: flex;
   align-items: flex-end;
   justify-content: center;
+
   overflow: hidden;
+
+  background-color: rgba(0, 0, 0, 0.28);
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
 }
 
 .country-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 14px 40px rgba(0,0,0,0.45);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.45);
 }
 
 .country-card.disabled,
@@ -78,21 +90,21 @@
   width: 100%;
   text-align: center;
   padding: 18px 12px;
-  background: linear-gradient(0deg, rgba(0,0,0,0.62), rgba(0,0,0,0.2));
+
+  background: linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.72),
+    rgba(0, 0, 0, 0.25)
+  );
+
   font-size: 20px;
   font-weight: 700;
 }
 
-/* Placeholder background images (replace with your images later) */
-.country-card.brasil { background-image: url('../../assets/img/icons/seleccionViaje/viajeBrasil.png'); }
-.country-card.colombia { background-image: url('../../assets/img/icons/seleccionViaje/viajeColombia.png'); }
-.country-card.mexico { background-image: url('../../assets/img/icons/seleccionViaje/viajeMexico.png'); }
-
-/* Modal styles */
 .sv-modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.55);
+  background: rgba(0, 0, 0, 0.55);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -104,7 +116,7 @@
   padding: 22px;
   border-radius: 12px;
   width: min(520px, 92%);
-  box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6);
   color: #fff;
 }
 
@@ -117,4 +129,16 @@
   justify-content: flex-end;
   gap: 10px;
   margin-top: 18px;
+}
+
+@media (max-width: 768px) {
+  .seleccion-viaje {
+    padding: 32px 14px;
+    background-attachment: scroll;
+  }
+
+  .country-card {
+    width: min(320px, 100%);
+    height: 220px;
+  }
 }

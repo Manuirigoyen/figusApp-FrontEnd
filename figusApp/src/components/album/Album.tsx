@@ -196,23 +196,26 @@ function Album() {
             const teamInfo = TEAMS_INFO[albumKey];
 
             const figuritasAdaptadas: Figurita[] = stickers.map((sticker) => {
-              const imageUrl = resolveImageUrl(sticker.cover_image);
-              const stickerName = sticker.name?.toLowerCase() || '';
-              const isLegendaria =
-                sticker.class === 'Legendaria' &&
-                !stickerName.includes('neymar');
+  const imageUrl = resolveImageUrl(sticker.cover_image);
+  const stickerName = sticker.name?.toLowerCase() || '';
 
-              return {
-                id: String(sticker.id),
-                teamId: albumKey,
-                isSpecial: isLegendaria,
-                isComplete: sticker.obtained,
-                backgroundImageUrl: isLegendaria ? jugadorSorpresa : imageUrl,
-                specialImageUrl: imageUrl,
-                specialImageAlt: sticker.name,
-                dataJugador: sticker.name,
-              };
-            });
+  const isJugadorSorpresa =
+    stickerName.includes('maradona') ||
+    stickerName.includes('zidane') ||
+    stickerName.includes('pelé') ||
+    stickerName.includes('pele');
+
+  return {
+    id: String(sticker.id),
+    teamId: albumKey,
+    isSpecial: isJugadorSorpresa,
+    isComplete: sticker.obtained,
+    backgroundImageUrl: isJugadorSorpresa ? jugadorSorpresa : imageUrl,
+    specialImageUrl: imageUrl,
+    specialImageAlt: sticker.name,
+    dataJugador: sticker.name,
+  };
+});
 
             return (
               <div key={album.id} id={albumKey} className="team">
