@@ -8,10 +8,13 @@ import { TurnstileCaptcha } from '../captcha/TurnstileCaptcha';
 import { buildLoginPayload } from './utils/buildLoginPayload';
 import { loginUser } from './services/LoginUser';
 
-import { useAuth } from '../../routes/AuthContext';
+import './login.css';
 
-import './Login.css';
-
+/**
+ * Login component that handles user authentication via email and password.
+ * Displays login form with CAPTCHA verification and forgot password modal.
+ * @returns React component rendering the login page
+ */
 export const Login = () => {
   const [captchaToken, setCaptchaToken] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -24,10 +27,15 @@ export const Login = () => {
   const [isForgotSubmitting, setIsForgotSubmitting] = useState(false);
 
   const navigate = useNavigate();
-  const { login } = useAuth();
 
   const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY as string;
 
+  /**
+   * Handles form submission for user login.
+   * Validates form, checks CAPTCHA, and authenticates user.
+   * @param event Submit event from login form
+   * @throws Displays error message if login fails
+   */
   const handleSubmit = useCallback(
     async (event: SubmitEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -56,34 +64,33 @@ export const Login = () => {
         const data = await loginUser(payload);
 
         localStorage.setItem('token', data.access_token);
+        localStorage.setItem('user', JSON.stringify(data.user));
 
-        const loggedUser = data.user ?? data;
-
-        localStorage.setItem('user', JSON.stringify(loggedUser));
-
-        login({
-          id: loggedUser.id,
-          role: loggedUser.role,
-        });
+        window.dispatchEvent(new Event('auth-change'));
 
         setSuccessMessage('Inicio de sesión correcto');
 
-        const role = loggedUser.role?.trim().toLowerCase();
+        const role = data.user?.role?.trim().toLowerCase();
         const redirectPath = role === 'admin' ? '/admin' : '/user';
 
         navigate(redirectPath, { replace: true });
       } catch (error) {
         setErrorMessage(
-          error instanceof Error ? error.message : 'Error al iniciar sesión',
+          error instanceof Error ? error.message : 'Error al iniciar sesión'
         );
         setCaptchaToken('');
       } finally {
         setIsSubmitting(false);
       }
     },
-    [captchaToken, login, navigate],
+    [captchaToken, navigate]
   );
 
+  /**
+   * Handles forgot password request.
+   * Sends password reset email to provided address.
+   * @throws Displays error message if request fails
+   */
   const handleForgotPassword = async () => {
     setForgotError('');
 
@@ -118,14 +125,10 @@ export const Login = () => {
         <div className="row justify-content-center">
           <div className="col-12 col-sm-11 col-md-10 col-lg-8 col-xl-7 col-xxl-6">
             <div className="login-card shadow-lg">
+
               <div className="login-header text-center">
                 <img
-                  src={
-                    new URL(
-                      '../../assets/img/icons/logo.png',
-                      import.meta.url,
-                    ).href
-                  }
+                  src={new URL('../../assets/img/icons/logo.png', import.meta.url).href}
                   alt="FigusApp"
                   className="login-logo img-fluid"
                 />
@@ -136,18 +139,14 @@ export const Login = () => {
                   Accedé a tu cuenta para continuar.
                 </p>
 
-                {errorMessage && (
-                  <p className="text-danger mt-3">{errorMessage}</p>
-                )}
-
-                {successMessage && (
-                  <p className="text-success mt-3">{successMessage}</p>
-                )}
+                {errorMessage && <p className="text-danger mt-3">{errorMessage}</p>}
+                {successMessage && <p className="text-success mt-3">{successMessage}</p>}
               </div>
 
               <div className="login-body">
                 <form className="login-form" onSubmit={handleSubmit}>
                   <div className="row g-3">
+
                     <div className="col-12">
                       <label className="form-label">Email</label>
                       <input
@@ -207,6 +206,7 @@ export const Login = () => {
                         </Link>
                       </p>
                     </div>
+
                   </div>
                 </form>
               </div>
@@ -216,18 +216,10 @@ export const Login = () => {
       </section>
 
       {showForgotModal && (
-        <div
-          className="modal-overlay"
-          onClick={() => setShowForgotModal(false)}
-        >
-          <div
-            className="login-card forgot-card"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              className="modal-close"
-              onClick={() => setShowForgotModal(false)}
-            >
+        <div className="modal-overlay" onClick={() => setShowForgotModal(false)}>
+          <div className="login-card forgot-card" onClick={(e) => e.stopPropagation()}>
+
+            <button className="modal-close" onClick={() => setShowForgotModal(false)}>
               ×
             </button>
 
@@ -241,9 +233,7 @@ export const Login = () => {
               placeholder="user@email.com"
             />
 
-            {forgotError && (
-              <p className="error-message mt-2">{forgotError}</p>
-            )}
+            {forgotError && <p className="error-message mt-2">{forgotError}</p>}
 
             <button
               type="button"
@@ -253,6 +243,7 @@ export const Login = () => {
             >
               Enviar enlace
             </button>
+
           </div>
         </div>
       )}

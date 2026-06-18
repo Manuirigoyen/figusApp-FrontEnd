@@ -1,4 +1,4 @@
-import './Config.css';
+import './config.css';
 
 import { usePasswordUpdate } from './hooks/usePasswordUpdate';
 import { useProfilePicture } from './hooks/useProfilePicture';
@@ -16,7 +16,22 @@ const configLogo = new URL(
   import.meta.url,
 ).href;
 
-export const Config = ({ user, setUser }: ConfigProps) => {
+/**
+ * Panel de configuración de usuario.
+ *
+ * Permite:
+ * - Actualizar datos personales.
+ * - Cambiar contraseña.
+ * - Modificar foto de perfil.
+ * - Eliminar la cuenta.
+ *
+ * @param props Datos y estado del usuario autenticado.
+ * @returns Vista de configuración de cuenta.
+ */
+export const Config = ({
+  user,
+  setUser,
+}: ConfigProps) => {
   const {
     isLoading,
     updateField,
@@ -25,15 +40,21 @@ export const Config = ({ user, setUser }: ConfigProps) => {
     fieldStatus,
   } = useUserConfig();
 
-  const passwordHook = usePasswordUpdate(user.id);
+  const passwordHook =
+    usePasswordUpdate(user.id);
 
-  const profilePictureHook = useProfilePicture({
-    user,
-    setUser,
-  });
+  const profilePictureHook =
+    useProfilePicture({
+      user,
+      setUser,
+    });
 
   if (isLoading) {
-    return <div className="text-center p-5">Cargando perfil...</div>;
+    return (
+      <div className="text-center p-5">
+        Cargando perfil...
+      </div>
+    );
   }
 
   return (
@@ -51,7 +72,8 @@ export const Config = ({ user, setUser }: ConfigProps) => {
           </h1>
 
           <p className="register-subtitle mb-0">
-            Administrá tus datos personales, seguridad y cuenta.
+            Administrá tus datos personales,
+            seguridad y cuenta.
           </p>
         </header>
 
@@ -62,21 +84,27 @@ export const Config = ({ user, setUser }: ConfigProps) => {
             updateField={updateField}
             loadingFields={loadingFields}
             fieldStatus={fieldStatus}
-            profilePictureSection={
-              <ProfilePictureSection {...profilePictureHook} />
-            }
           />
 
           <hr className="config-divider" />
 
-          <PasswordSection {...passwordHook} />
+
+          <hr className="config-divider" />
+
+          <PasswordSection
+            {...passwordHook}
+          />
 
           <hr className="config-divider" />
 
           <DeleteAccountSection
             removeAccount={removeAccount}
-            loading={loadingFields.delete_account}
-            status={fieldStatus.delete_account}
+            loading={
+              loadingFields.delete_account
+            }
+            status={
+              fieldStatus.delete_account
+            }
           />
         </div>
       </div>

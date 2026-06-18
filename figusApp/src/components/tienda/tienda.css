@@ -1,17 +1,8 @@
 /** Banner de promocion principal */
-.store-ad-banner {
-  width: 100%;
-  border-radius: 20px;
-  overflow: hidden;
-  border: 1px solid var(--app-border);
-  background: var(--app-surface-alt);
-}
-
 .store-ad-banner img {
-  width: 100%;
-  height: auto;
-  display: block;
-  object-fit: contain;
+  border-radius: 20px;
+  width: 100% !important;
+  border: 1px solid var(--app-border);
 }
 
 /** Barra de filtros superior */

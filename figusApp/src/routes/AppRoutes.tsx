@@ -24,6 +24,8 @@ import { ProtectedRoute } from "./guards/ProtectedRoute";
 import { RoleRoute } from "./guards/RoleRoute";
 
 import { ROUTES } from "./constants/routes.constants";
+import { Pago } from "../components/tienda/Pago";
+import { Producto } from "../components/tienda/Producto";
 
 export function AppRoutes() {
   return (
@@ -32,10 +34,12 @@ export function AppRoutes() {
       <Route path={ROUTES.HOME_ALT} element={<Home />} />
       <Route path={ROUTES.LOGIN} element={<Login />} />
       <Route path={ROUTES.REGISTER} element={<Register />} />
-
       <Route path={ROUTES.RULETA} element={<Ruleta />} />
       <Route path={ROUTES.OFERTAS} element={<Ofertas />} />
+      
       <Route path={ROUTES.TIENDA} element={<Tienda />} />
+      <Route path={ROUTES.PRODUCTO} element={<Producto />} />
+      <Route path={ROUTES.PAGO} element={<Pago />} />
 
       <Route element={<ProtectedRoute />}>
         <Route path={ROUTES.USER} element={<User />} />

@@ -22,6 +22,9 @@ export const ROUTES = {
   RULETA: "/ruleta",
   OFERTAS: "/ofertas",
   TIENDA: "/tienda",
+  PRODUCTO: "/producto/:id", 
+  PAGO: "/pago",
+
   SELECCIONAR_VIAJE: "/seleccionar-viaje",
 
   NOT_FOUND: "/404",

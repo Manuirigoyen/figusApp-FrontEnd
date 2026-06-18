@@ -6,7 +6,7 @@ import { ROUTES } from '../../routes/constants/routes.constants';
 import './tienda.css';
 
 /**
- * Tienda component for product store.
+ * Componente principal de la tienda que gestiona el listado, filtros y carrito.
  */
 export const Tienda: React.FC = () => {
   const navigate = useNavigate();
@@ -18,10 +18,7 @@ export const Tienda: React.FC = () => {
   } = useTienda();
 
   /**
-   * Removes album version suffix from product names.
-   *
-   * @param name - The product name to clean.
-   * @returns The cleaned product name.
+   * Limpia el nombre del producto eliminando sufijos de álbum.
    */
   const limpiarNombreProducto = (name: string): string => name.replace(/\s*\(álbum\s*\d+\)/i, '').trim();
 
@@ -53,7 +50,7 @@ export const Tienda: React.FC = () => {
                     <img src={item.producto.cover_image} alt={limpiarNombreProducto(item.producto.name)} className="p-1 rounded bg-dark cart-item-img" onError={(e) => e.currentTarget.src = '/assets/img/default-product.png'} />
                     <div className="flex-grow-1 min-w-0">
                       <h6 className="mb-0 text-truncate fs-6 fw-bold text-white">{limpiarNombreProducto(item.producto.name)}</h6>
-                      <span className="text-white-50 small">{item.cantidad} x USD {calcularPrecioFinal(item.producto).toFixed(2)}</span>
+                      <span className="text-white-50 small">{item.cantidad} x ARS {calcularPrecioFinal(item.producto).toFixed(2)}</span>
                     </div>
                     <button type="button" onClick={() => eliminarDelCarrito(item.producto.id)} className="btn btn-danger btn-sm">X</button>
                   </div>
@@ -65,31 +62,18 @@ export const Tienda: React.FC = () => {
         <div className="cart-bottom-section pt-3 border-top border-secondary mt-auto">
           <div className="d-flex justify-content-between align-items-center mb-3">
             <span className="fw-semibold text-white-50">Total:</span>
-            <span className="fw-bold fs-4 text-success">USD {totalCarrito.toFixed(2)}</span>
+            <span className="fw-bold fs-4 text-success">ARS {totalCarrito.toFixed(2)}</span>
           </div>
           <div className="d-flex flex-column gap-2">
-            <button type="button" onClick={() => navigate('/finalizar-compra')} disabled={carrito.length === 0} className="btn-store-agregar w-100 fw-bold py-2">Finalizar Compra</button>
+            <button type="button" onClick={() => navigate(ROUTES.PAGO)} disabled={carrito.length === 0} className="btn-store-agregar w-100 fw-bold py-2">Finalizar Compra</button>
             <button type="button" onClick={vaciarCarrito} disabled={carrito.length === 0} className="btn btn-danger w-100">Vaciar Carrito</button>
           </div>
         </div>
       </aside>
 
       <section className="store-content-wrapper flex-grow-1 p-4 w-100">
-        <div className="store-ad-banner mb-5 text-center">
-  <a
-    href="https://www.transfermarkt.mx/thailand/kader/verein/5676"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="store-banner-link"
-  >
-    <img
-      src={packBanner}
-      alt="Promoción"
-      className="img-fluid"
-    />
-  </a>
-</div>
-        
+        <div className="store-ad-banner mb-5 text-center"><img src={packBanner} alt="Promoción" className="img-fluid" /></div>
+
         <div className="row align-items-center justify-content-center g-3 p-3 mb-5 store-filter-bar mx-0">
           <div className="col-auto">
             <button type="button" className="store-cart-icon-btn" onClick={() => setSidebarOpen((p) => !p)}>
@@ -128,14 +112,16 @@ export const Tienda: React.FC = () => {
                   <div className="mb-2">
                     {verificarDescuentoActivo(producto) ? (
                       <div className="d-flex flex-column">
-                        <span className="text-secondary text-decoration-line-through small">USD {producto.price_usd.toFixed(2)}</span>
-                        <span className="text-success fw-bold fs-5">USD {calcularPrecioFinal(producto).toFixed(2)}</span>
+                        <span className="text-secondary text-decoration-line-through small">ARS {producto.price_usd.toFixed(2)}</span>
+                        <span className="text-success fw-bold fs-5">ARS {calcularPrecioFinal(producto).toFixed(2)}</span>
                       </div>
-                    ) : <span className="fw-bold fs-5 text-dark">USD {producto.price_usd.toFixed(2)}</span>}
+                    ) : <span className="fw-bold fs-5 text-dark">ARS {producto.price_usd.toFixed(2)}</span>}
                   </div>
                   <div className="mt-auto">
-                    <button type="button" onClick={() => navigate(`/producto/${producto.id}`)} className="btn-store-comprar w-100 mb-2">Comprar</button>
-                    <button type="button" onClick={() => agregarAlCarrito(producto)} className="btn-store-agregar w-100">Agregar al carrito</button>
+                    <button type="button" onClick={() => navigate(ROUTES.PRODUCTO.replace(':id', String(producto.id)))} className="btn-store-comprar w-100 mb-2">Comprar</button>
+                    <button type="button" onClick={() => agregarAlCarrito(producto, 1)} className="btn-store-agregar w-100">
+                      Agregar al carrito
+                    </button>
                   </div>
                 </div>
               </div>

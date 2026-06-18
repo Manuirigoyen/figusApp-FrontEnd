@@ -45,7 +45,6 @@ export const Ruleta = () => {
 
         <section className="row justify-content-center align-items-center my-4">
 
-          {/* Publicidad Izquierda */}
           <div className="col-12 col-md-3 d-flex justify-content-center ad-lateral-wrapper">
             <div className="ruleta-lateral-ad">
               <img
@@ -56,7 +55,6 @@ export const Ruleta = () => {
             </div>
           </div>
 
-          {/* Ruleta */}
           <div className="col-12 col-md-6 d-flex justify-content-center">
             <div className="ruleta-contenedor-escenario">
 
@@ -112,9 +110,8 @@ export const Ruleta = () => {
             </div>
           </div>
 
-          {/* Publicidad Derecha */}
           <div className="col-12 col-md-3 d-flex justify-content-center ad-lateral-wrapper">
-            <div className="ruleta-lateral-ad">
+            <div className="ruleta-lateral-ad"  id='ad_derecha'>
               <img
                 src={bannerRuletaDerecha}
                 alt="Publicidad Derecha"

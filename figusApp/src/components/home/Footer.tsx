@@ -18,7 +18,6 @@ export const Footer = () => {
   const [captchaKey, setCaptchaKey] = useState(0);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const contactEndpoint = import.meta.env.VITE_CONTACT_ENDPOINT || '';
   const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY || '';
 
   const handleSubmit = async (event: SyntheticEvent<HTMLFormElement>) => {
@@ -49,7 +48,7 @@ export const Footer = () => {
       const formData = new FormData(form);
       const payload = buildContactPayload(formData, captchaToken);
 
-      await sendContactForm(payload, contactEndpoint);
+      await sendContactForm(payload);
 
       setSuccessMessage('Consulta enviada correctamente.');
       form.reset();

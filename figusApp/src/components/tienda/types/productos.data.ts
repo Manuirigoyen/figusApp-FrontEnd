@@ -1,6 +1,3 @@
-/**
- * Representa la estructura exacta de un producto obtenido desde el backend.
- */
 export interface ProductoTienda {
   id: number;
   pack_id: number | null;
@@ -14,17 +11,11 @@ export interface ProductoTienda {
   product_type: 'pack' | 'combo' | 'unidad' | 'spin';
 }
 
-/**
- * Define la estructura de un elemento dentro del carrito de compras.
- */
 export interface ItemCarrito {
   producto: ProductoTienda;
   cantidad: number;
 }
 
-/**
- * Estructura de control para los filtros aplicables en la interfaz de la tienda.
- */
 export interface FiltrosTienda {
   ordenPrecio: '' | 'menor' | 'mayor';
   filtroTipoCompra: '' | 'pack' | 'combo' | 'unidad';
@@ -32,9 +23,6 @@ export interface FiltrosTienda {
   filtroDescuento: boolean;
 }
 
-/**
- * Interfaz para el tipado estricto del retorno del hook useTienda.
- */
 export interface UseTiendaReturn {
   carrito: ItemCarrito[];
   sidebarOpen: boolean;
@@ -44,11 +32,13 @@ export interface UseTiendaReturn {
   productosFiltradosYOrdenados: ProductoTienda[];
   totalCarrito: number;
   totalItems: number;
-  agregarAlCarrito: (producto: ProductoTienda) => void;
+  agregarAlCarrito: (producto: ProductoTienda, cantidad: number) => void;
   eliminarDelCarrito: (id: number) => void;
   vaciarCarrito: () => void;
   calcularPrecioFinal: (producto: ProductoTienda) => number;
   verificarDescuentoActivo: (producto: ProductoTienda) => boolean;
   loading: boolean;
   error: string | null;
+  compraInmediata: ItemCarrito | null;
+  setCompraInmediata: React.Dispatch<React.SetStateAction<ItemCarrito | null>>;
 }
