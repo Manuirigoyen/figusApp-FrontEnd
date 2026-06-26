@@ -1,0 +1,42 @@
+.pago-shell {
+  position: relative;
+  z-index: 1;
+}
+
+.pago-card {
+  position: relative;
+  padding: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.22);
+}
+
+.pago-header {
+  margin-bottom: 1.75rem;
+  text-align: center;
+}
+
+.pago-logo {
+  width: 104px;
+  height: auto;
+  margin-bottom: 1rem;
+  object-fit: contain;
+}
+
+.pago-title {
+  color: #0f172a;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.pago-total-box {
+  background: #f8fafc;
+  padding: 1rem;
+  border-radius: 12px;
+  margin: 1.5rem 0;
+  text-align: center;
+  border: 1px solid #e2e8f0;
+}

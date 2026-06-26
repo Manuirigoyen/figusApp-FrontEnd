@@ -1,0 +1,85 @@
+@import "./variables.css";
+
+.card {
+  width: 80px;
+  height: 120px;
+  border: 2px solid grey;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-xl);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  filter: grayscale(100%);
+  transition: filter var(--transition-normal), transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.card:hover {
+  transform: scale(1.05);
+  border-color: gold;
+}
+
+.card.completa {
+  filter: grayscale(0%);
+  transform: scale(1.05);
+  border-color: gold;
+}
+
+.card.completa:hover {
+  transform: scale(1.05);
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+  filter: grayscale(100%);
+  transition: filter var(--transition-normal);
+  display: block;
+}
+
+.card.completa img {
+  filter: grayscale(0%);
+}
+
+.card.especial {
+  border-color: var(--color-special-gold);
+  background: linear-gradient(45deg, var(--color-special-gold-glow), var(--color-special-gold-pale));
+}
+
+.card.completa.especial {
+  box-shadow: var(--shadow-glow);
+}
+
+@media (max-width: 1024px) {
+  .card {
+    width: 70px;
+    height: 105px;
+  }
+}
+
+@media (max-width: 768px) {
+  .card {
+    width: 60px;
+    height: 90px;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    width: 50px;
+    height: 75px;
+  }
+}
+
+@media (max-width: 360px) {
+  .card {
+    width: 40px;
+    height: 60px;
+  }
+}

@@ -1,0 +1,12 @@
+:root {
+  --app-font: 'Quicksand', sans-serif;
+  --app-surface: rgb(15, 23, 42);
+  --app-surface-alt: rgb(30, 41, 59);
+  --app-card: rgb(17, 24, 39);
+  --app-border: rgba(255, 255, 255, 0.08);
+  --app-text: rgba(255, 255, 255, 0.88);
+  --app-text-strong: #ffffff;
+  --app-muted: rgba(255, 255, 255, 0.72);
+  --app-hover: rgba(255, 255, 255, 0.08);
+  --app-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+}

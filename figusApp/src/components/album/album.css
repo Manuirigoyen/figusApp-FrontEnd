@@ -1,0 +1,371 @@
+@import "./variables.css";
+
+h1.main-title {
+  margin-bottom: var(--spacing-lg);
+  color: #fff;
+  font-size: 40px;
+  font-weight: bold;
+  margin-top: 30px;
+}
+
+.album {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+  padding-bottom: 50px;
+
+  background-image:
+    linear-gradient(rgba(15, 23, 42, 0.50),
+      rgba(15, 23, 42, 0.50)),
+    url("../../assets/img/fonts/fondoEstadioDesktop.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.album-page-layout {
+  width: 100%;
+  position: relative;
+}
+
+.album-main-content {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+
+.album-ad-wrapper {
+  width: auto;
+  height: auto;
+  position: fixed;
+  top: 219px;
+  z-index: 5;
+  border-radius: 20px;
+  overflow: hidden;
+}
+
+.album-ad-img {
+  width: 160px;
+  height: auto;
+  display: block;
+  border-radius: 20px;
+}
+
+.album-ad-wrapper-left {
+  left: 2px !important;
+}
+
+.album-ad-wrapper-right {
+  right: -28px !important;
+}
+
+.team {
+  background: rgba(20, 29, 48, 0.8);
+  padding: 20px;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-md);
+  width: 100%;
+  max-width: 1050px;
+  box-sizing: border-box;
+}
+
+.titulo-seleccion {
+  font-family: var(--font-family);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: white;
+  border-bottom: 2px solid var(--border-color-grey);
+  padding-bottom: 10px;
+}
+
+.icono-bandera {
+  width: 32px;
+  height: 20px;
+  border-radius: var(--radius-sm);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+}
+
+.album-layout {
+  display: flex;
+  justify-content: space-between;
+  align-items: stretch;
+  gap: 120px;
+  position: relative;
+}
+
+.contenido-album {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.contenedor-band-desc {
+  width: auto;
+  height: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.bandera {
+  width: 300px;
+  height: 450px;
+  filter: grayscale(100%);
+  transition: filter var(--transition-slow);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-xl);
+}
+
+.bandera.color {
+  filter: grayscale(0%);
+}
+
+.descripcion {
+  width: 210px;
+  height: 320px;
+  position: absolute;
+  z-index: 2;
+  background-color: var(--color-bg-white-light);
+  font-weight: bold;
+  padding: var(--spacing-md) calc(var(--spacing-md) + 4px);
+  border-radius: var(--radius-lg);
+  font-size: 11.5px;
+  font-family: var(--font-family);
+  box-shadow: var(--shadow-lg);
+  text-align: center;
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  margin: 15px 0;
+  row-gap: 22px;
+}
+
+.progress-container {
+  width: 95%;
+  background: #ddd;
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 12px;
+  box-shadow: var(--shadow-md);
+}
+
+.progress-bar {
+  height: 20px;
+  width: 0%;
+  background: var(--color-error-red);
+  transition: width var(--transition-normal), background var(--transition-fast);
+}
+
+.progress-text {
+  font-family: var(--font-family);
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  font-weight: bold;
+  line-height: 20px;
+  font-size: 12px;
+}
+
+.promo-final {
+  width: 100%;
+  margin: 40px auto;
+
+  background: transparent;
+  border-radius: 16px;
+  overflow: hidden;
+
+  box-shadow:
+    0 10px 35px rgba(0, 0, 0, 0.35),
+    0 0 20px rgba(0, 140, 255, 0.15);
+
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.promo-final img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.promo-final.completo {
+  cursor: pointer;
+}
+
+.promo-final.completo:hover img {
+  filter: brightness(0.84);
+  transition: filter 180ms ease;
+}
+
+.mensaje {
+  font-style: italic;
+  padding: 10px;
+  grid-column: 1 / -1;
+}
+
+/* --- Media Queries --- */
+
+@media (max-width: 1350px) {
+  .album-ad-wrapper {
+    display: none;
+  }
+}
+
+@media (max-width: 1600px) {
+  .album-ad-wrapper {
+    width: 190px;
+  }
+
+  .album-ad-wrapper-left {
+    left: 10px;
+  }
+
+  .album-ad-wrapper-right {
+    right: 10px;
+  }
+}
+
+@media (max-width: 1027px) {
+  .album-layout {
+    gap: 80px;
+  }
+
+  .progress-container {
+    width: 96%;
+  }
+}
+
+@media (max-width: 993px) {
+  .bandera {
+    width: 220px;
+    height: 350px;
+  }
+
+  .descripcion {
+    width: 180px;
+    height: 280px;
+    font-size: 10px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 901px) {
+  .progress-container {
+    width: 98%;
+  }
+
+  .bandera {
+    width: 180px;
+    height: 280px;
+    margin-right: 15px;
+  }
+
+  .descripcion {
+    width: 130px;
+    height: 240px;
+    font-size: 8px;
+    padding: 8px;
+  }
+}
+
+@media (max-width: 857px) {
+  .album-layout {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 790px) {
+  .progress-container {
+    width: 99%;
+  }
+}
+
+@media (max-width: 769px) {
+  .album-layout {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .contenido-album {
+    order: 1;
+    width: 100%;
+  }
+
+  .contenedor-band-desc {
+    margin: -76px;
+    order: 2;
+    transform: rotate(90deg);
+  }
+
+  .contenedor-band-desc .descripcion {
+    margin: 2px;
+    width: 124%;
+    height: 120px;
+    padding: 8px;
+    transform: rotate(270deg);
+  }
+
+  .bandera {
+    width: 150px;
+    height: 300px;
+  }
+
+  .progress-container {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .bandera {
+    margin: 10px;
+    width: 130px;
+    height: 250px;
+  }
+
+  .descripcion {
+    width: 90px;
+    height: 150px;
+    font-size: 6px;
+    padding: 4px;
+  }
+
+  .contenedor-band-desc .descripcion {
+    width: 119%;
+    height: 100px;
+  }
+}
+
+@media (max-width: 360px) {
+  .bandera {
+    margin: 15px;
+    width: 100px;
+    height: 200px;
+  }
+
+  .descripcion {
+    width: 100px;
+    height: 200px;
+    font-size: 4.8px;
+  }
+
+  .contenedor-band-desc .descripcion {
+    width: 110%;
+    height: 80px;
+  }
+}
