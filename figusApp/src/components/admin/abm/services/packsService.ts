@@ -1,6 +1,3 @@
-/**
- * Represents a pack (envelope) entity containing stickers from an album
- */
 export interface Pack {
   id?: number;
   album_id: number;
@@ -11,9 +8,6 @@ export interface Pack {
   cover_image?: string | null;
 }
 
-/**
- * Data transfer object for creating a new pack
- */
 export interface CreatePackDto {
   album_id: number;
   class: string;
@@ -23,9 +17,6 @@ export interface CreatePackDto {
   cover_image?: File;
 }
 
-/**
- * Data transfer object for updating an existing pack with partial fields
- */
 export interface UpdatePackDto {
   album_id?: number;
   class?: string;
@@ -35,17 +26,8 @@ export interface UpdatePackDto {
   cover_image?: File;
 }
 
-const API_URL =
-  import.meta.env.VITE_API_URL ??
-  'http://localhost:3000';
+const API_URL = import.meta.env.VITE_API_BASE;
 
-/**
- * Generic helper function to perform HTTP requests with JSON content type
- * @param path - The API endpoint path (without base URL)
- * @param init - Optional fetch RequestInit configuration (headers, method, body, etc.)
- * @returns Promise resolving to the response data of type T
- * @throws Error if the response is not ok or request fails
- */
 async function request<T>(
   path: string,
   init?: RequestInit,
@@ -53,6 +35,7 @@ async function request<T>(
   const response = await fetch(
     `${API_URL}${path}`,
     {
+      credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
         ...(init?.headers ?? {}),
@@ -63,7 +46,6 @@ async function request<T>(
 
   if (!response.ok) {
     const errorText = await response.text();
-
     throw new Error(
       errorText || `Error ${response.status}`,
     );
@@ -76,54 +58,27 @@ async function request<T>(
   return response.json() as Promise<T>;
 }
 
-/**
- * Fetches all packs from the database
- * @returns Promise resolving to an array of all Pack objects
- * @throws Error if packs cannot be retrieved
- */
 export const getAllPacks = () => {
-  return request<Pack[]>('/api/v1/packs');
+  return request<Pack[]>('/packs');
 };
 
-/**
- * Fetches a pack by its unique identifier
- * @param id - The pack ID to retrieve
- * @returns Promise resolving to the Pack object
- * @throws Error if pack not found or request fails
- */
 export const getPackById = (id: number) => {
   return request<Pack>(
-    `/api/v1/packs/${id}`,
+    `/packs/${id}`,
   );
 };
 
-/**
- * Fetches packs filtered by album ID with optional limit
- * @param albumId - The album ID to filter packs by
- * @param limit - Maximum number of packs to return
- * @returns Promise resolving to an array of Pack objects matching the criteria
- * @throws Error if packs cannot be retrieved
- */
 export const getPacksByAlbumId = async (
   albumId: number,
   limit: number,
 ) => {
   const packs = await getAllPacks();
-
   const filtered = packs.filter(
-    (pack) =>
-      Number(pack.album_id) === albumId,
+    (pack) => Number(pack.album_id) === albumId,
   );
-
   return filtered.slice(0, limit);
 };
 
-/**
- * Creates a new pack with provided data
- * @param data - The pack data (album_id, class, price, stock, capacity, optional cover image)
- * @returns Promise resolving to the created Pack object with generated ID
- * @throws Error if data is invalid, unauthorized, or creation fails
- */
 export const createPack = async (
   data: CreatePackDto,
 ): Promise<Pack> => {
@@ -133,19 +88,15 @@ export const createPack = async (
     'album_id',
     String(data.album_id),
   );
-
   formData.append('class', data.class);
-
   formData.append(
     'price',
     String(data.price),
   );
-
   formData.append(
     'stock',
     String(data.stock),
   );
-
   formData.append(
     'capacity',
     String(data.capacity),
@@ -159,7 +110,7 @@ export const createPack = async (
   }
 
   const response = await fetch(
-    `${API_URL}/api/v1/packs`,
+    `${API_URL}/packs`,
     {
       method: 'POST',
       credentials: 'include',
@@ -171,13 +122,11 @@ export const createPack = async (
     if (response.status === 401) {
       throw new Error('No autorizado');
     }
-
     if (response.status === 400) {
       throw new Error(
         'Datos inválidos para crear el sobre',
       );
     }
-
     throw new Error(
       'No se pudo crear el sobre',
     );
@@ -186,13 +135,6 @@ export const createPack = async (
   return response.json();
 };
 
-/**
- * Updates an existing pack with partial or complete data
- * @param id - The pack ID to update (must be greater than 0)
- * @param data - The pack data to update with (all fields optional)
- * @returns Promise resolving to the updated Pack object
- * @throws Error if ID is invalid, data is invalid, unauthorized, or pack not found
- */
 export const updatePack = async (
   id: number,
   data: UpdatePackDto,
@@ -211,32 +153,27 @@ export const updatePack = async (
       String(data.album_id),
     );
   }
-
   if (data.class !== undefined) {
     formData.append('class', data.class);
   }
-
   if (data.price !== undefined) {
     formData.append(
       'price',
       String(data.price),
     );
   }
-
   if (data.stock !== undefined) {
     formData.append(
       'stock',
       String(data.stock),
     );
   }
-
   if (data.capacity !== undefined) {
     formData.append(
       'capacity',
       String(data.capacity),
     );
   }
-
   if (data.cover_image) {
     formData.append(
       'cover_image',
@@ -245,7 +182,7 @@ export const updatePack = async (
   }
 
   const response = await fetch(
-    `${API_URL}/api/v1/packs/${id}`,
+    `${API_URL}/packs/${id}`,
     {
       method: 'PATCH',
       credentials: 'include',
@@ -257,17 +194,14 @@ export const updatePack = async (
     if (response.status === 401) {
       throw new Error('No autorizado');
     }
-
     if (response.status === 404) {
       throw new Error('Sobre no encontrado');
     }
-
     if (response.status === 400) {
       throw new Error(
         'Datos inválidos para modificar el sobre',
       );
     }
-
     throw new Error(
       'No se pudo modificar el sobre',
     );
@@ -276,12 +210,6 @@ export const updatePack = async (
   return response.json();
 };
 
-/**
- * Deletes a pack by its ID
- * @param id - The pack ID to delete (must be greater than 0)
- * @returns Promise that resolves when deletion is complete
- * @throws Error if ID is invalid, unauthorized, or pack not found
- */
 export const deletePack = async (
   id: number,
 ): Promise<void> => {
@@ -292,7 +220,7 @@ export const deletePack = async (
   }
 
   const response = await fetch(
-    `${API_URL}/api/v1/packs/${id}`,
+    `${API_URL}/packs/${id}`,
     {
       method: 'DELETE',
       credentials: 'include',
@@ -303,11 +231,9 @@ export const deletePack = async (
     if (response.status === 401) {
       throw new Error('No autorizado');
     }
-
     if (response.status === 404) {
       throw new Error('Sobre no encontrado');
     }
-
     throw new Error(
       'No se pudo eliminar el sobre',
     );

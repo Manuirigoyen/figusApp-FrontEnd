@@ -33,7 +33,8 @@ export interface UpdateUserDto {
   profile_picture?: File;
 }
 
-const API_URL = 'http://localhost:3000/api/v1/users';
+const BASE_URL = import.meta.env.VITE_API_BASE;
+const API_URL = `${BASE_URL}/users`;
 
 export const getAllUsers = async (): Promise<User[]> => {
   const response = await fetch(API_URL, {
@@ -76,11 +77,9 @@ export const getUserById = async (id: number): Promise<User> => {
     if (response.status === 401) {
       throw new Error('No autorizado');
     }
-
     if (response.status === 404) {
       throw new Error('Usuario no encontrado');
     }
-
     throw new Error('No se pudo obtener el usuario');
   }
 
@@ -113,11 +112,9 @@ export const createUser = async (data: CreateUserDto): Promise<User> => {
     if (response.status === 400) {
       throw new Error('Datos inválidos para crear el usuario');
     }
-
     if (response.status === 401) {
       throw new Error('No autorizado');
     }
-
     throw new Error('No se pudo crear el usuario');
   }
 
@@ -153,15 +150,12 @@ export const updateUser = async (id: number, data: UpdateUserDto): Promise<User>
     if (response.status === 400) {
       throw new Error('Datos inválidos para modificar el usuario');
     }
-
     if (response.status === 401) {
       throw new Error('No autorizado');
     }
-
     if (response.status === 404) {
       throw new Error('Usuario no encontrado');
     }
-
     throw new Error('No se pudo modificar el usuario');
   }
 
@@ -185,11 +179,9 @@ export const deleteUser = async (id: number): Promise<void> => {
     if (response.status === 401) {
       throw new Error('No autorizado');
     }
-
     if (response.status === 404) {
       throw new Error('Usuario no encontrado');
     }
-
     throw new Error('No se pudo eliminar el usuario');
   }
 };

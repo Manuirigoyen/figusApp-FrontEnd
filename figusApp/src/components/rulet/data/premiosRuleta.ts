@@ -1,30 +1,26 @@
-/**
- * Interfaz que define la estructura de un premio de la ruleta.
- */
+import nadaImg from '../../../assets/img/icons/ruleta/nada.png';
+import giroGratisImg from '../../../assets/img/icons/ruleta/giroGratis.png';
+import sobreBronceImg from '../../../assets/img/icons/ruleta/sobreBronce.png';
+import jugadorSorpresaImg from '../../../assets/img/icons/ruleta/jugadorSorpresa.png';
+import sobrePlateadoImg from '../../../assets/img/icons/ruleta/sobrePlateado.png';
+import sobreDoradoImg from '../../../assets/img/icons/ruleta/sobreDorado.png';
+
 export interface Premio {
   nombre: string;
   img: string;
 }
 
-// Función auxiliar para que Vite detecte, compile y resuelva la ruta real de cada asset
-const resolverImagenVite = (rutaRelativa: string) => {
-  return new URL(rutaRelativa, import.meta.url).href;
-};
-
-/**
- * Array de premios con rutas dinámicas nativas para Vite.
- */
 export const premios: Premio[] = [
-  { nombre: "Nada", img: resolverImagenVite("../../../assets/img/icons/ruleta/nada.png") },
-  { nombre: "Giro Gratis", img: resolverImagenVite("../../../assets/img/icons/ruleta/giroGratis.png") },
-  { nombre: "Nada", img: resolverImagenVite("../../../assets/img/icons/ruleta/nada.png") },
-  { nombre: "Sobre Bronce", img: resolverImagenVite("../../../assets/img/icons/ruleta/sobreBronce.png") },
-  { nombre: "Nada", img: resolverImagenVite("../../../assets/img/icons/ruleta/nada.png") },
-  { nombre: "Figurita Aleatoria", img: resolverImagenVite("../../../assets/img/icons/ruleta/jugadorSorpresa.png") },
-  { nombre: "Nada", img: resolverImagenVite("../../../assets/img/icons/ruleta/nada.png") },
-  { nombre: "Sobre Plateado", img: resolverImagenVite("../../../assets/img/icons/ruleta/sobrePlateado.png") },
-  { nombre: "Sobre Dorado", img: resolverImagenVite("../../../assets/img/icons/ruleta/sobreDorado.png") },
-  { nombre: "Nada", img: resolverImagenVite("../../../assets/img/icons/ruleta/nada.png") },
-  { nombre: "Giro Gratis", img: resolverImagenVite("../../../assets/img/icons/ruleta/giroGratis.png") },
-  { nombre: "Nada", img: resolverImagenVite("../../../assets/img/icons/ruleta/nada.png") },
+  { nombre: "Nada", img: nadaImg },
+  { nombre: "Giro Gratis", img: giroGratisImg },
+  { nombre: "Nada", img: nadaImg },
+  { nombre: "Sobre Bronce", img: sobreBronceImg },
+  { nombre: "Nada", img: nadaImg },
+  { nombre: "Figurita Aleatoria", img: jugadorSorpresaImg },
+  { nombre: "Nada", img: nadaImg },
+  { nombre: "Sobre Plateado", img: sobrePlateadoImg },
+  { nombre: "Sobre Dorado", img: sobreDoradoImg },
+  { nombre: "Nada", img: nadaImg },
+  { nombre: "Giro Gratis", img: giroGratisImg },
+  { nombre: "Nada", img: nadaImg },
 ];
