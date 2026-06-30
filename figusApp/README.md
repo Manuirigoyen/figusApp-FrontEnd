@@ -3,7 +3,7 @@
 
 <p align="center">
   <img src="https://img.shields.io/badge/versión-1.1-blue.svg" />
-  <img src="https://img.shields.io/badge/dependencias-React%20%7C%20Bootstrap%20%7C%20TypeScript%20%7C%20Vercel%20%7C%20Google%20reCAPTCHA-yellow.svg" />
+  <img src="https://img.shields.io/badge/dependencias-React%20%7C%20Bootstrap%20%7C%20TypeScript%20%7C%20Vercel%20%7C%20Cloudflare%20Turnstile-yellow.svg" />
   <img src="https://img.shields.io/badge/actualización-2026--04--16-brightgreen" />
 </p>
 
@@ -19,8 +19,7 @@
 - [2.4 Página del usuario](#24-página-del-usuario)
 - [2.5 Álbum de figuritas](#25-álbum-de-figuritas)
 - [2.6 Billetera de figuritas](#26-billetera-de-figuritas)
-4. [Mejoras futuras](#3-mejoras-futuras)
-5. [Tutorial de instalación](#4-tutorial-de-instalación)
+3. [Tutorial de pruebas locales](#3-tutorial-de-pruebas-locales)
 6. [Documentación adicional](#5-documentación-adicional)
 7. [Autores](#6-autores)
 
@@ -29,14 +28,12 @@
 ## 1. Descripción del proyecto
 
 <p align="justify">
-  FigusApp es una plataforma digital diseñada para revolucionar la forma en que coleccionás figuritas de fútbol.  
-  A diferencia del álbum físico tradicional, esta aplicación ofrece una experiencia más económica, accesible y completa para cualquier aficionado.
+  <strong>FigusApp</strong> es una plataforma digital interactiva diseñada para revolucionar y democratizar la experiencia tradicional del coleccionismo de figuritas de fútbol. Al trasladar el álbum físico al entorno virtual, la aplicación ofrece una alternativa económica, accesible y global para aficionados de todo el mundo, eliminando las barreras de costo y distribución local.
   <br><br>
-  Con FigusApp, los usuarios pueden armar su álbum de figuritas sin depender de los sobres físicos, reduciendo significativamente el gasto asociado a su compra. Al estar digitalizadas, las figuritas y sobres están siempre disponibles, brindando una mayor variedad y eliminando las limitaciones de distribución que suelen existir en tiendas locales.
+  El alcance del ecosistema abarca la digitalización completa de álbumes históricos y actuales de los mundiales, permitiendo a los usuarios gestionar sus inventarios personales (billeteras de figuritas) y abrir sobres digitales siempre disponibles. Para potenciar la interacción y la retención, la plataforma integra un sistema global de intercambio (trade) entre usuarios de diferentes regiones y mecánicas de gamificación, tales como ruletas de premios diarios, recompensas por completitud y una tienda virtual interna.
   <br><br>
-  La aplicación también expande las posibilidades de colección al permitir el intercambio de figuritas con usuarios de diferentes regiones, aumentando el alcance y las oportunidades para completar el álbum. Además, los coleccionistas pueden recibir recompensas especiales al completar álbumes específicos, así como obtener premios diarios a través de una ruleta de premios integrada, lo que añade un componente adicional de diversión y motivación.
+  Desarrollada bajo una arquitectura cliente-servidor robusta, esta aplicación equilibra una experiencia de usuario dinámica y gamificada con un estricto control de calidad técnico, el cual queda respaldado por los requerimientos funcionales y no funcionales detallados en este documento.
 </p>
-
 
 ---
 
@@ -44,63 +41,72 @@
 
 ### 2.1 Álbum de figuritas
 
-La página está centrada en la pantalla y comienza con un título **“Mis Álbumes”** de color amarillo con una sombra negra, que indica que el usuario está viendo sus colecciones.
+La página está centrada en la pantalla y comienza con un título **"Mis álbumes"** en color blanco, sobre un fondo de estadio con un overlay oscuro semitransparente, que indica que el usuario está viendo sus colecciones.
 
-A continuación aparecen tres bloques rectangulares de color blanco con opacidad para que se pueda seguir apreciando el fondo, que es la misma imagen que el logo. Cada bloque corresponde a una selección (Argentina, Brasil y Francia) y contiene:
+A continuación aparecen tres bloques rectangulares de color **azul marino oscuro translúcido** (`rgba(20, 29, 48, 0.8)`), que dejan apreciar el fondo de estadio detrás. Cada bloque corresponde a una selección (Argentina, Brasil y Francia) y contiene:
 
-### 🗂️ Elementos de cada bloque
-- **Encabezado:** El nombre del país y una pequeña bandera al lado.  
-- **Barra de progreso:** Muestra cuántas figuritas se han completado (inicia en **0%**).  
-- **Grid de figuritas:**  
-  - 15 tarjetas por selección.  
-  - La mayoría muestran la foto de una jugada.  
-  - Una tarjeta “especial” tiene un signo de pregunta y, al obtener esa figurita, se revela la leyenda correspondiente (**Maradona, Pelé o Zidane**).  
-  - Las tarjetas están en escala de grises y se colorean cuando se completan.  
-- **Bandera y descripción:**  
-  - A la derecha del grid se ubica la bandera correspondiente en forma perpendicular.  
-  - Encima de la bandera hay una breve reseña de la selección.  
-  - Al completar ese álbum, la bandera recupera el color.
+#### 🗂️ Elementos de cada bloque
 
-### 🎁 Zona promocional
-Al final de la página hay una sección que invita a completar los álbumes para ganar un viaje.  
-Si el usuario ya completó todos, se muestra un **mensaje de felicitación** y un **botón para reclamar el premio**.
+* **Encabezado:** el nombre del país y una pequeña bandera al lado.
+* **Barra de progreso:** muestra cuántas figuritas se han completado (inicia en 0%, color rojo que cambia según el avance).
+* **Grid de figuritas:**
+  * 15 tarjetas por selección, organizadas en una grilla de 5 columnas.
+  * La mayoría muestran la foto del jugador.
+  * Una tarjeta "especial" por selección muestra una imagen genérica de "jugador sorpresa" y, al obtener esa figurita, se revela la leyenda correspondiente (Maradona, Pelé o Zidane).
+  * Las tarjetas están en escala de grises y se colorean (con un borde dorado) cuando se completan.
+* **Bandera y descripción:**
+  * A la derecha del grid se ubica la bandera correspondiente.
+  * Encima de la bandera hay una breve reseña de la selección, en un recuadro claro.
+  * Al completar ese álbum, la bandera recupera el color (deja de estar en escala de grises).
 
-### 📱 Responsividad
+#### 🎁 Zona promocional
+
+Al final de la página hay una sección con una imagen que invita a completar los álbumes para ganar un viaje. Cuando el usuario completó las tres selecciones, la imagen cambia a una versión de "premio ganado" y se vuelve clickeable, llevando a la pantalla de selección de viaje.
+
+#### 📱 Responsividad
+
 El diseño se adapta a distintas pantallas:
-- En móviles, las tarjetas se reducen.  
-- La descripción y la bandera se giran **90°** y se colocan por debajo de las figuritas.  
-- La barra de progreso ocupa todo el ancho disponible.  
-- Se mantiene la legibilidad y funcionalidad en cualquier dispositivo.
 
-### 🧭 Navegación
-En esta sección también se puede navegar mediante el **nav** y el **footer** del sitio.
+* En móviles, las tarjetas se reducen progresivamente de tamaño.
+* La descripción y la bandera se giran 90° y se colocan por debajo de las figuritas.
+* La barra de progreso ocupa todo el ancho disponible.
+* Se mantiene la legibilidad y funcionalidad en cualquier dispositivo.
 
---- 
+#### 🧭 Navegación
+
+En esta sección también se puede navegar mediante el nav y el footer del sitio.
+
+---
 
 ### 2.2 Billetera del usuario
 
-En **billetera.html**, el usuario ve todas sus figuritas repetidas dentro de un recuadro blanco semitransparente, centrado y con sombra, que destaca sobre el fondo de la página.
+En la ruta `/billetera`, el usuario ve todas sus figuritas repetidas dentro de un recuadro **azul marino oscuro translúcido**, centrado y con sombra, que destaca sobre el fondo de estadio de la página.
 
 #### 🏷️ Título y subtítulo
-- **“ACA SE GUARDAN TUS FIGURITAS REPETIDAS”**  
-- Debajo, el subtítulo **“Intercámbialas con amigos!”** en color marrón.
+
+* **"Mi billetera de figuritas repetidas"**
+* Debajo, el subtítulo **"¡Intercámbialas con amigos!"**, en color blanco grisáceo (whitesmoke).
 
 #### 🖼️ Contenedor de figuritas
-- Las figus se insertan dinámicamente.  
-- Cada una muestra:  
-  - La imagen de la figurita.  
-  - Un ícono de billetera en la parte inferior.  
-  - Un contador en la esquina superior derecha indicando cuántas repetidas hay.  
-- Al interactuar con una figurita, aparecen dos botones:  
-  - **Eliminar** (rojo)  
-  - **Intercambiar** (azul)
+
+* Las figus se insertan dinámicamente, en una grilla de hasta 4 columnas (se reduce en pantallas chicas).
+* Cada tarjeta muestra:
+  * La imagen de la figurita.
+  * El nombre de la figurita.
+  * Un contador en la **esquina superior izquierda** indicando cuántas repetidas hay (x stock).
+* Al pasar el mouse (hover) sobre una figurita, aparecen dos botones superpuestos:
+  * **Eliminar** (rojo)
+  * **Intercambiar** (azul)
 
 #### 📱 Responsive
-- Los títulos y el contenedor se reducen según el tamaño de pantalla.  
-- La imagen se adapta para ofrecer una mejor visualización en dispositivos pequeños.
+
+* Los títulos y el contenedor se reducen según el tamaño de pantalla.
+* La grilla pasa de 4 a 3, 2 y finalmente 1 columna en pantallas muy chicas.
+* La imagen se adapta para ofrecer una mejor visualización en dispositivos pequeños.
 
 #### 🧾 Síntesis
-La **Billetera** es un espacio visual y funcional donde el usuario gestiona sus figuritas duplicadas, pudiendo eliminarlas o iniciar intercambios de forma sencilla.
+
+La Billetera es un espacio visual y funcional donde el usuario gestiona sus figuritas duplicadas, pudiendo eliminarlas o iniciar intercambios de forma sencilla.
 
 ---
 
@@ -271,52 +277,71 @@ A la tienda se podra ingresar desde la pantalla de inicio del album , en esta ap
 Cada una de las opciones tienen precios distintos los cuales pueden variar por la cantidad de objetos que el usuario eliga (se mostrara la cantidad de obejtos seleccionados) una vez que el usuario haya termindo de elegir se debera ir a "Finalizar compra".
 
 ---
+## 3. Tutorial de Pruebas Locales
 
-## 3. Mejoras futuras
-
-- Historial de compras para el usuario.
-- Seccion de ofertas para cambio de figuritas.
-- Implementación de react y sistema de enrutamiento.
-
----
-
-## 4. Tutorial de instalación
+Sigue estos pasos para configurar y ejecutar el entorno de desarrollo del front-end en tu máquina local.
 
 ### Pasos de instalación
 
 ### 1. Descargar o clonar el repositorio  
+Clona el proyecto desde el repositorio oficial utilizando Git:
+
+```bash
 git clone https://github.com/Manuirigoyen/FigusApp
+cd FigusApp
+```
 
 ### 2. Abrir el proyecto en un IDE  
-Por ejemplo, Visual Studio Code.
+Abre la carpeta raíz del proyecto en tu editor de código preferido (se recomienda **Visual Studio Code**).
 
-### 3. Acceder a la terminal (desde el IDE o desde la PC) e instalar lo necesario:
+### 3. Instalar las dependencias del proyecto  
+Abre la terminal integrada de tu IDE y ejecuta el siguiente comando para instalar React, Bootstrap, TypeScript y el resto de las librerías necesarias:
 
-//actualizar para react
+```bash
+npm install
+```
 
-### 4. Abrir el proyecto en el navegador
-//actualizar para react
+### 4. Ejecutar el servidor de desarrollo local  
+Para levantar el proyecto en tu entorno local con Vite, ejecuta:
 
+```bash
+npm run dev
+```
+
+### 5. Abrir el proyecto en el navegador  
+Una vez que la terminal indique que el servidor está listo, abre tu navegador web e ingresa a la siguiente dirección URL local:
+
+> 🌐 **http://localhost:5173/**
+
+*(Vite utiliza por defecto el puerto 5173. Si este puerto está ocupado, la misma terminal te indicará cuál se asignó automáticamente).*
 ---
 
 ## 5. Documentación adicional
 
 📄 **Documentación general del proyecto**  
-https://docs.google.com/document/d/1-0PhYzvlWdN7IFiSli9b89q3ODm9jWKi/edit
+https://docs.google.com/document/d/1_eF8AOXlngM9HdVd5pbWEuztdrFrnYR4eiyztqgAXW8/edit?usp=drive_link
 
 🖼️ **Canvas del proyecto**  
-https://canva.link/7nz9bd1u8p3vo09
+https://www.canva.com/design/DAHFpKzI-e8/wa1YyfrFXQhmx5k0m5sEOw/edit?utm_content=DAHFpKzI-e8&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton
 
 ---
 
 ## 6. Autores
 
-### Martín Lorenzi  
-📧 alexmartin9c@gmail.com
+Proyecto desarrollado por Martín Lorenzi y Manuel Irigoyen.
 
 ---
 
-### Manuel Irigoyen  
-📧 manuirigoyen@hotmail.com
+### Martín Lorenzi
+<img src="/figusApp/public/assets/img/martin.png" width="120" style="border-radius: 50%;" />
+
+📧 **Contacto:** [alexmartin9c@gmail.com](mailto:alexmartin9c@gmail.com)
+
+---
+
+### Manuel Irigoyen
+<img src="/figusApp/public/assets/img/manuel.png" width="120" style="border-radius: 50%;" />
+
+📧 **Contacto:** [manuirigoyen@hotmail.com](mailto:manuirigoyen@hotmail.com)
 
 ---
