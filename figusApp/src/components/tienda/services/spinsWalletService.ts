@@ -11,14 +11,12 @@ export interface AddSpinsPayload {
 }
 
 export const acreditarGiros = async (payload: AddSpinsPayload): Promise<void> => {
-  const token = localStorage.getItem('token') || sessionStorage.getItem('token') || '';
-
   const response = await fetch(getUrlDestino('spins-wallet'), {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`,
     },
+    credentials: 'include',
     body: JSON.stringify(payload),
   });
 

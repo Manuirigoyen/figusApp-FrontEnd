@@ -23,4 +23,4 @@ export const premios: Premio[] = [
   { nombre: "Nada", img: nadaImg },
   { nombre: "Giro Gratis", img: giroGratisImg },
   { nombre: "Nada", img: nadaImg },
-];
+];                                                                                                                                                                 

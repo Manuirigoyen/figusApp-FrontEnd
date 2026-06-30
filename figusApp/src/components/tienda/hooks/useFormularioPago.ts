@@ -71,7 +71,6 @@ export const useFormularioPago = () => {
       await purchasesService.registrarCompras(productosAComprar, user.id, verificarDescuentoActivo);
 
       for (const item of productosAComprar) {
-
         if (item.producto.product_type === 'combo' && item.producto.comboItems) {
           const totalGirosCombo = item.producto.comboItems.reduce(
             (acc, combo) => acc + (combo.spin_quantity || 0), 0
@@ -84,10 +83,10 @@ export const useFormularioPago = () => {
             });
           }
         }
-        else if (item.producto.id === 9) {
+        else if (item.producto.product_type === 'spin') {
           await acreditarGiros({
             user_id: user.id,
-            spins: 10 * item.cantidad
+            spins: 1 * item.cantidad
           });
         }
       }

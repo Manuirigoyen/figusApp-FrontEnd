@@ -1,4 +1,3 @@
-// src/components/album/data/teamsData.ts
 import banderaArg from '../../../assets/img/icons/album/banderaArg.png';
 import banderaBra from '../../../assets/img/icons/album/banderaBra.png';
 import banderaFra from '../../../assets/img/icons/album/BanderaFra.png';

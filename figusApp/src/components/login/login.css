@@ -1,28 +1,20 @@
 .main-wrapper {
   flex: 1;
-
   min-height: 100vh;
-
   background-image:
     linear-gradient(rgba(15, 23, 42, 0.50),
       rgba(15, 23, 42, 0.50)),
     url("../src/assets/img/fonts/fondoEstadioDesktop.png");
-
   background-size: cover;
-
   background-position: center;
-
   background-repeat: no-repeat;
-
   background-attachment: fixed;
 }
 
 .login-overlay {
   position: absolute;
   inset: 0;
-
   pointer-events: none;
-
   background:
     linear-gradient(135deg,
       rgba(255, 255, 255, 0.03),
@@ -44,7 +36,7 @@
   border-radius: 26px;
   background-image:
     url('../../assets/img/icons/BackgroundCard.png');
-    
+
   background-repeat: no-repeat !important;
   background-size: cover !important;
   background-position: center !important;

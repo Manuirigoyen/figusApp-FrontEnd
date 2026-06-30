@@ -1,18 +1,24 @@
+import { createContext, useContext } from "react";
+import type { AuthContextType } from "../types/context";
+
+/**
+ * Contexto global de autenticación.
+ * 
+ * Actúa como el canal de comunicación que comparte el estado del usuario,
+ * el flujo de carga y el stock de giros entre los componentes.
+ */
+export const AuthContext = createContext<AuthContextType | undefined>(
+  undefined
+);
+
 /**
  * Hook personalizado para acceder al contexto de autenticación.
  *
- * Permite consumir los datos y funciones del AuthProvider
- * desde cualquier componente de la aplicación.
- */
-
-import { useContext } from "react";
-import { AuthContext } from "../AuthContext";
-
-/**
- * Obtiene el estado global de autenticación.
+ * Facilita el consumo del estado global y sus acciones asociadas (`user`, `logout`, etc.)
+ * desde cualquier componente de la interfaz (como la Ruleta o el Header) sin necesidad de pasar props manualmente.
  *
- * @throws Error si se utiliza fuera de un AuthProvider.
- * @returns Datos y funciones del contexto de autenticación.
+ * @throws {Error} Si el hook se invoca en un componente que no está envuelto por el `AuthProvider`.
+ * @returns {AuthContextType} El objeto de contexto con el estado y funciones de autenticación.
  */
 export const useAuth = () => {
   const context = useContext(AuthContext);

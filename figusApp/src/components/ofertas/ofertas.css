@@ -1,0 +1,122 @@
+@import '../album/variables.css';
+
+.misintercambios-page {
+  min-height: calc(100vh - 80px);
+  padding: var(--spacing-3xl) 1rem;
+  background-image:
+    linear-gradient(rgba(15, 23, 42, 0.62), rgba(15, 23, 42, 0.62)),
+    url('../../assets/img/fonts/fondoEstadioDesktop.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+.misintercambios-panel {
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem;
+  background: rgba(20, 29, 48, 0.86);
+  border-radius: 18px;
+  box-shadow: var(--shadow-lg);
+  color: #fff;
+  text-align: center;
+}
+
+.misintercambios-panel .title {
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  font-size: 40px;
+  color: #fff;
+}
+
+.misintercambios-panel .error {
+  display: inline-block;
+  margin-bottom: 1rem;
+  padding: 0.65rem 1rem;
+  background: rgba(255, 255, 255, 0.92);
+  color: #b00020;
+  border-radius: 10px;
+  font-weight: 700;
+}
+
+.misintercambios-panel .empty {
+  background: rgba(255, 255, 255, 0.92);
+  padding: 1.5rem;
+  border-radius: 10px;
+  color: #555;
+  font-weight: 700;
+  text-align: center;
+}
+
+.misintercambios-panel .loading {
+  font-size: 1.05rem;
+  color: whitesmoke;
+  font-weight: 700;
+}
+
+.misintercambios-table-wrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+}
+
+.misintercambios-table {
+  width: 100%;
+  min-width: 700px;
+  border-collapse: collapse;
+  background: #fff;
+  color: #000;
+  font-weight: 700;
+}
+
+.misintercambios-table th,
+.misintercambios-table td {
+  padding: 0.65rem;
+  border: 3px solid #111;
+  vertical-align: middle;
+  background: #fff;
+  text-align: left;
+}
+
+.misintercambios-table thead th {
+  color: #fff;
+  background: #000;
+}
+
+.misintercambios-table tbody tr:hover td {
+  background: #f2f2f2;
+  transition: background-color 0.2s ease;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.status-pending {
+  background: var(--color-warning-yellow);
+  color: #5c4a00;
+}
+
+.status-accepted {
+  background: var(--color-success-green);
+  color: #fff;
+}
+
+.status-rejected {
+  background: var(--color-error-red);
+  color: #fff;
+}
+
+@media (max-width: 650px) {
+  .misintercambios-panel {
+    padding: 1rem;
+  }
+
+  .misintercambios-panel .title {
+    font-size: 26px;
+  }
+}

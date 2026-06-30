@@ -40,13 +40,12 @@ export const purchasesService = {
     userId: number,
     verificarDescuentoActivo = (producto: ProductoTienda): boolean => Number(producto.discount_active) > 0
   ): Promise<void> => {
-    const token = localStorage.getItem('token') || sessionStorage.getItem('token') || '';
     const urlDestino = getUrlDestino('purchases');
 
     const peticiones = items.map(async (item) => {
       const tieneDescuento = verificarDescuentoActivo(item.producto);
       const descuentoUnitario = tieneDescuento ? item.producto.discount_usd : 0;
-      
+
       const brutoTotal = item.producto.price_usd * item.cantidad;
       const descuentoTotal = descuentoUnitario * item.cantidad;
 
@@ -62,8 +61,8 @@ export const purchasesService = {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`, 
         },
+        credentials: 'include',
         body: JSON.stringify(body),
       });
 

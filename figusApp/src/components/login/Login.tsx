@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useRef, useEffect } from 'react';
 import type { SubmitEvent } from 'react';
 
 import { useNavigate } from 'react-router-dom';
@@ -13,13 +13,12 @@ import { useAuth } from '../../routes/hooks/useAuth';
 import './login.css';
 
 /**
- * Login component that handles user authentication via email and password.
- * Displays login form with CAPTCHA verification and forgot password modal.
- * @returns React component rendering the login page
+ * Componente de Login que maneja la autenticación de usuarios mediante email y contraseña.
+ * Muestra el formulario de inicio de sesión con verificación CAPTCHA y un modal para recuperar la contraseña.
+ * @returns Componente de React que renderiza la página de inicio de sesión
  */
 export const Login = () => {
   const [captchaToken, setCaptchaToken] = useState('');
-  const [showCaptcha, setShowCaptcha] = useState(false); // <-- Añadimos el estado para controlar cuándo mostrarlo
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const [successMessage, setSuccessMessage] = useState('');
@@ -29,82 +28,88 @@ export const Login = () => {
   const [forgotError, setForgotError] = useState('');
   const [isForgotSubmitting, setIsForgotSubmitting] = useState(false);
 
+  const formRef = useRef<HTMLFormElement>(null);
+
   const navigate = useNavigate();
   const { refreshUser } = useAuth();
 
   const turnstileSiteKey = import.meta.env.VITE_TURNSTILE_SITE_KEY as string;
 
+  const executeLogin = useCallback(async (formElement: HTMLFormElement, token: string) => {
+    try {
+      setIsSubmitting(true);
+      setErrorMessage('');
+      setSuccessMessage('');
+
+      const formData = new FormData(formElement);
+      const payload = buildLoginPayload(formData, token);
+
+      const data = await loginUser(payload);
+
+      localStorage.setItem('token', data.access_token);
+
+      if (data.user) {
+        localStorage.setItem('user', JSON.stringify(data.user));
+      }
+
+      await refreshUser();
+
+      setSuccessMessage('Inicio de sesión correcto');
+
+      const role = data.user?.role?.trim().toLowerCase();
+      const redirectPath = role === 'admin' ? '/admin' : '/user';
+
+      navigate(redirectPath, { replace: true });
+    } catch (error) {
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : 'Error al iniciar sesión',
+      );
+      setCaptchaToken('');
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [navigate, refreshUser]);
+
   /**
-   * Handles form submission for user login.
-   * Validates form, checks CAPTCHA, and authenticates user.
-   * @param event Submit event from login form
-   * @throws Displays error message if login fails
+   * Escucha cambios en el captchaToken.
+   * Si el usuario ya llenó el formulario de forma válida y el CAPTCHA se resuelve
+   * después de que hicieron clic, esto enviará el formulario automáticamente.
+   */
+  useEffect(() => {
+    if (captchaToken && formRef.current) {
+      if (formRef.current.checkValidity()) {
+        executeLogin(formRef.current, captchaToken);
+      }
+    }
+  }, [captchaToken, executeLogin]);
+
+  /**
+   * Maneja el evento submit del botón principal
    */
   const handleSubmit = useCallback(
     async (event: SubmitEvent<HTMLFormElement>) => {
       event.preventDefault();
 
-      setErrorMessage('');
-      setSuccessMessage('');
-
       const form = event.currentTarget;
 
-      // 1. Validaciones HTML5 del formulario
       if (!form.checkValidity()) {
         form.reportValidity();
         return;
       }
 
-      // 2. Si es válido pero no hay token de CAPTCHA, lo mostramos y exigimos su resolución
       if (!captchaToken) {
-        setShowCaptcha(true);
-        setErrorMessage('Completá la verificación CAPTCHA.');
+
+        setIsSubmitting(true);
         return;
       }
 
-      // 3. Si ya tenemos el token, procesamos el login normal
-      try {
-        setIsSubmitting(true);
-
-        const formData = new FormData(form);
-        const payload = buildLoginPayload(formData, captchaToken);
-
-        const data = await loginUser(payload);
-
-        localStorage.setItem('token', data.access_token);
-
-        if (data.user) {
-          localStorage.setItem('user', JSON.stringify(data.user));
-        }
-
-        await refreshUser();
-
-        setSuccessMessage('Inicio de sesión correcto');
-
-        const role = data.user?.role?.trim().toLowerCase();
-        const redirectPath = role === 'admin' ? '/admin' : '/user';
-
-        navigate(redirectPath, { replace: true });
-      } catch (error) {
-        setErrorMessage(
-          error instanceof Error
-            ? error.message
-            : 'Error al iniciar sesión',
-        );
-
-        setCaptchaToken('');
-      } finally {
-        setIsSubmitting(false);
-      }
+      await executeLogin(form, captchaToken);
     },
-    [captchaToken, navigate, refreshUser],
+    [captchaToken, executeLogin],
   );
 
-  /**
-   * Handles forgot password request.
-   * Sends password reset email to provided address.
-   * @throws Displays error message if request fails
-   */
   const handleForgotPassword = async () => {
     setForgotError('');
 
@@ -167,7 +172,8 @@ export const Login = () => {
               </div>
 
               <div className="login-body">
-                <form className="login-form" onSubmit={handleSubmit}>
+
+                <form className="login-form" onSubmit={handleSubmit} ref={formRef}>
                   <div className="row g-3">
                     <div className="col-12">
                       <label className="form-label">Email</label>
@@ -193,15 +199,12 @@ export const Login = () => {
                       />
                     </div>
 
-                    {/* El CAPTCHA ahora se renderiza de forma condicional igual que en Register */}
-                    {showCaptcha && (
-                      <div className="col-12 pt-2">
-                        <TurnstileCaptcha
-                          siteKey={turnstileSiteKey}
-                          onTokenChange={setCaptchaToken}
-                        />
-                      </div>
-                    )}
+                    <div className="col-12 pt-2">
+                      <TurnstileCaptcha
+                        siteKey={turnstileSiteKey}
+                        onTokenChange={setCaptchaToken}
+                      />
+                    </div>
 
                     <div className="col-12 pt-2">
                       <button
@@ -222,7 +225,7 @@ export const Login = () => {
                         ¿Olvidaste tu contraseña?
                       </button>
                     </div>
-                
+
                   </div>
                 </form>
               </div>

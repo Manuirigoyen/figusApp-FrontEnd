@@ -1,18 +1,29 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getUserSpinsWallet } from '../../components/rulet/service/walletService';
-import { API_BASE, type authUser } from '../../utils/authUser';
-import { AuthContext } from '../AuthContext';
+import type { authUser } from "../types/context";
+import { AuthContext } from "./useAuth";
+
+const API_BASE = import.meta.env.VITE_API_BASE;
 
 /**
- * Componente raíz de la aplicación que renderiza la estructura principal del layout.
- * Proporciona la arquitectura general con encabezado, rutas principales y pie de página.
- * @returns Componente de React que renderiza el layout de la aplicación con Header, AppRoutes y Footer
+ * Proveedor del Contexto de Autenticación (`AuthProvider`).
+ *
+ * Gestiona el estado global de la sesión del usuario, el flujo de carga (loading) 
+ * y la sincronización de la billetera de giros (spins). Se conecta con el backend 
+ * en Render para validar credenciales y con Supabase para el stock de la ruleta.
+ *
+ * @param props.children - Componentes hijos que tendrán acceso al estado global de autenticación.
+ * @returns Un componente Proveedor de React (`AuthContext.Provider`) que envuelve la aplicación.
  */
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<authUser | null>(null);
   const [loading, setLoading] = useState(true);
   const [spins, setSpins] = useState(0);
 
+  /**
+   * Sincroniza el estado local con la sesión actual del servidor (NestJS en Render).
+   * Envía las credenciales/cookies para validar si el token sigue activo.
+   */
   const refreshUser = useCallback(async () => {
     try {
       const response = await fetch(`${API_BASE}/auth/me`, { credentials: 'include' });
@@ -27,6 +38,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const userId = user?.id;
 
+  /**
+   * Consulta el stock de giros disponibles del usuario en la base de datos (Supabase).
+   * Se dispara automáticamente cada vez que el ID del usuario cambia.
+   */
   const refreshSpins = useCallback(async () => {
     if (!userId) {
       setSpins(0);
@@ -41,6 +56,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [userId]);
 
+  /**
+   * Cierra la sesión del usuario de forma segura.
+   * Remueve el token de acceso, resetea el estado del usuario y vacía los giros.
+   */
   const logout = useCallback(() => {
     localStorage.removeItem('token');
     setUser(null);

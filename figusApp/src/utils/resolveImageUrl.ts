@@ -1,5 +1,5 @@
 /**
- * Utilidad para resolver URLs de imágenes.
+ * Clase utilitaria para resolver URLs de imágenes.
  *
  * Convierte rutas relativas en URLs completas usando la URL base del backend
  * y devuelve imágenes por defecto según el tipo de recurso.
@@ -11,7 +11,7 @@ const API_BASE = import.meta.env.VITE_API_BASE ?? "";
  * Genera la URL final de una imagen.
  *
  * @param path Ruta de la imagen almacenada.
- * @param type Tipo de imagen a resolver (usuario o tienda).
+ * @param type Tipo de imagen a resolver.
  * @returns URL completa de la imagen.
  */
 export const resolveImageUrl = (

@@ -22,6 +22,10 @@ export interface ExchangeOffer {
   request_quantity: number;
   status: 'pending' | 'accepted' | 'rejected' | 'expired';
   isMine: boolean;
+  date_created?: string;
+  date_expires?: string;
+  /** Solo presente en el historial: si fui quien ofreció, quien aceptó, o quien rechazó. */
+  role?: 'offerer' | 'accepter' | 'rejecter';
   offererUser: OfferUser;
   offerWallet: {
     id: number;
@@ -64,6 +68,9 @@ export const getMyStickersWallet = () =>
 
 export const getPendingOffers = () =>
   requestJson<ExchangeOffer[]>(`${API_BASE}/offers/pending`);
+
+export const getMyExchangeHistory = () =>
+  requestJson<ExchangeOffer[]>(`${API_BASE}/offers/my-history`);
 
 export const createOffer = (payload: CreateOfferPayload) =>
   requestJson<ExchangeOffer>(`${API_BASE}/offers`, {

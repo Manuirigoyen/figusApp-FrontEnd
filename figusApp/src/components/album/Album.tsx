@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from './../../routes/hooks/useAuth';
 
 import FiguritaCard from './FiguritaCard';
 import './album.css';
@@ -50,18 +51,6 @@ type AlbumProgress = {
   stickers: BackendSticker[];
 };
 
-function getUserFromToken() {
-  const token = localStorage.getItem('token');
-
-  if (!token) return null;
-
-  try {
-    return JSON.parse(atob(token.split('.')[1]));
-  } catch {
-    return null;
-  }
-}
-
 function getAlbumKey(album: AlbumData) {
   const name = album.name.toLowerCase();
 
@@ -90,19 +79,22 @@ function resolveImageUrl(path: string) {
 
 function Album() {
   const navigate = useNavigate();
+  const { user, loading: authLoading } = useAuth();
 
   const [albumsProgress, setAlbumsProgress] = useState<AlbumProgress[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const tokenUser = getUserFromToken();
-  const userId = Number(tokenUser?.sub || tokenUser?.id || tokenUser?.user_id);
+  const userId = user ? Number(user.id) : null;
 
   useEffect(() => {
     const loadAlbums = async () => {
+      if (authLoading) return;
+
       try {
         if (!userId) {
           setError('No se encontró el usuario logueado.');
+          setIsLoading(false);
           return;
         }
 
@@ -122,7 +114,7 @@ function Album() {
     };
 
     loadAlbums();
-  }, [userId]);
+  }, [userId, authLoading]);
 
   const seccionesRequeridas = ['argentina', 'brasil', 'francia'];
 
@@ -141,7 +133,7 @@ function Album() {
     return total > 0 && total === obtenidas;
   });
 
-  if (isLoading) {
+  if (authLoading || isLoading) {
     return (
       <div className="album-container">
         <h1 className="main-title">Cargando Álbum de Figuritas...</h1>
@@ -162,19 +154,19 @@ function Album() {
     <div className="album" id="album-react">
       <div className="album-page-layout">
         <aside className="album-ad-wrapper album-ad-wrapper-left">
-  <a
-    href="https://play.google.com/store/apps/details?id=com.figusapp&hl=es_AR"  
-    target="_blank"
-    rel="noopener noreferrer"
-    className="album-ad-link"
-  >
-    <img
-      src={adAlbumLeft}
-      alt="Publicidad izquierda"
-      className="album-ad-img"
-    />
-  </a>
-</aside>
+          <a
+            href="https://play.google.com/store/apps/details?id=com.figusapp&hl=es_AR"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="album-ad-link"
+          >
+            <img
+              src={adAlbumLeft}
+              alt="Publicidad izquierda"
+              className="album-ad-img"
+            />
+          </a>
+        </aside>
 
         <div className="album-main-content">
           <h1 className="main-title">Mis álbumes</h1>
@@ -196,26 +188,26 @@ function Album() {
             const teamInfo = TEAMS_INFO[albumKey];
 
             const figuritasAdaptadas: Figurita[] = stickers.map((sticker) => {
-  const imageUrl = resolveImageUrl(sticker.cover_image);
-  const stickerName = sticker.name?.toLowerCase() || '';
+              const imageUrl = resolveImageUrl(sticker.cover_image);
+              const stickerName = sticker.name?.toLowerCase() || '';
 
-  const isJugadorSorpresa =
-    stickerName.includes('maradona') ||
-    stickerName.includes('zidane') ||
-    stickerName.includes('pelé') ||
-    stickerName.includes('pele');
+              const isJugadorSorpresa =
+                stickerName.includes('maradona') ||
+                stickerName.includes('zidane') ||
+                stickerName.includes('pelé') ||
+                stickerName.includes('pele');
 
-  return {
-    id: String(sticker.id),
-    teamId: albumKey,
-    isSpecial: isJugadorSorpresa,
-    isComplete: sticker.obtained,
-    backgroundImageUrl: isJugadorSorpresa ? jugadorSorpresa : imageUrl,
-    specialImageUrl: imageUrl,
-    specialImageAlt: sticker.name,
-    dataJugador: sticker.name,
-  };
-});
+              return {
+                id: String(sticker.id),
+                teamId: albumKey,
+                isSpecial: isJugadorSorpresa,
+                isComplete: sticker.obtained,
+                backgroundImageUrl: isJugadorSorpresa ? jugadorSorpresa : imageUrl,
+                specialImageUrl: imageUrl,
+                specialImageAlt: sticker.name,
+                dataJugador: sticker.name,
+              };
+            });
 
             return (
               <div key={album.id} id={albumKey} className="team">
@@ -305,19 +297,19 @@ function Album() {
         </div>
 
         <aside className="album-ad-wrapper album-ad-wrapper-right">
-  <a
-    href="https://www.farmaonline.com/ena-8129158/p?idsku=8129158"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="album-ad-link"
-  >
-    <img
-      src={adAlbumRight}
-      alt="Publicidad derecha"
-      className="album-ad-img"
-    />
-  </a>
-</aside>
+          <a
+            href="https://www.farmaonline.com/ena-8129158/p?idsku=8129158"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="album-ad-link"
+          >
+            <img
+              src={adAlbumRight}
+              alt="Publicidad derecha"
+              className="album-ad-img"
+            />
+          </a>
+        </aside>
       </div>
     </div>
   );

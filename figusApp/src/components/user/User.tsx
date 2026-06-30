@@ -2,13 +2,14 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Config } from './config/Config';
 import { Compras } from '../compras/Compras';
+import { Ofertas } from '../ofertas/Ofertas'; 
 import { getAuthenticatedUser, logout as logoutService } from './services/authService';
 import { resolveImageUrl } from './utils/resolveImageUrl';
 import { useAuth } from '../../routes/hooks/useAuth';
 import type { UserConfig } from './config/types/UserConfig';
 import './user.css';
 
-type UserTab = 'config' | 'compras';
+type UserTab = 'config' | 'compras' | 'intercambios';
 
 /**
  * Componente contenedor del panel de control del usuario.
@@ -121,9 +122,9 @@ export const User = () => {
             💼 Mis figuritas
           </Link>
 
-          <Link to="/intercambios" className="user-menu-btn" onClick={closeSidebar}>
+          <button type="button" className={`user-menu-btn ${activeTab === 'intercambios' ? 'active' : ''}`} onClick={() => switchTab('intercambios')}>
             🔁 Mis intercambios
-          </Link>
+          </button>
 
           <button type="button" className={`user-menu-btn ${activeTab === 'compras' ? 'active' : ''}`} onClick={() => switchTab('compras')}>
             🛒 Mis compras
@@ -134,6 +135,7 @@ export const User = () => {
       <section className="user-content">
         {user && activeTab === 'config' && <Config user={user} setUser={setUser} />}
         {user && activeTab === 'compras' && <Compras />}
+        {user && activeTab === 'intercambios' && <Ofertas />}
       </section>
     </main>
   );

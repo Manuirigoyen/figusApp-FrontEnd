@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState, useRef, useEffect } from 'react';
 import type { SubmitEvent } from 'react';
 
 import { useNavigate } from 'react-router-dom';
@@ -13,16 +13,16 @@ import { registerUser } from './services/RegisterUser';
 import './register.css';
 
 /**
- * Register component that handles new user account creation.
- * Displays registration form with validation, CAPTCHA, and password confirmation.
- * Enforces minimum age requirement of 12 years.
- * @returns React component rendering the registration page
+ * Componente de Registro que maneja la creación de nuevas cuentas de usuario.
+ * Muestra el formulario de registro con validaciones, CAPTCHA y confirmación de contraseña.
+ * @returns Componente de React que renderiza la página de registro
  */
 export const Register = () => {
   const [captchaToken, setCaptchaToken] = useState('');
-  const [showCaptcha, setShowCaptcha] = useState(false); // <-- Estado para controlar la visibilidad
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  const formRef = useRef<HTMLFormElement>(null);
 
   const navigate = useNavigate();
 
@@ -36,6 +36,52 @@ export const Register = () => {
     return today.toISOString().split('T')[0];
   }, []);
 
+  const executeRegister = useCallback(async (formElement: HTMLFormElement, token: string) => {
+    try {
+      setIsSubmitting(true);
+      setErrorMessage('');
+
+      const formData = new FormData(formElement);
+      const payload = buildRegisterPayload(formData, token);
+
+      await registerUser(payload);
+
+      navigate('/user');
+    } catch (error) {
+      console.error(error);
+
+      setErrorMessage(
+        error instanceof Error
+          ? `Ocurrió un error inesperado, por favor vuelva a intentarlo más tarde. ${error.message}`
+          : 'Ocurrió un error inesperado, por favor vuelva a intentarlo más tarde.',
+      );
+
+      setCaptchaToken('');
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [navigate]);
+
+  /**
+   * Escucha cambios en el captchaToken.
+   * Si las contraseñas coinciden, el formulario es válido y el CAPTCHA se resuelve
+   * después de hacer clic, envía los datos automáticamente sin requerir un segundo clic.
+   */
+  useEffect(() => {
+    if (captchaToken && formRef.current) {
+      const formData = new FormData(formRef.current);
+      const password = String(formData.get('password'));
+      const confirmPassword = String(formData.get('confirm_password'));
+
+      if (formRef.current.checkValidity() && password === confirmPassword) {
+        executeRegister(formRef.current, captchaToken);
+      }
+    }
+  }, [captchaToken, executeRegister]);
+
+  /**
+   * Maneja el evento submit del formulario
+   */
   const handleSubmit = useCallback(
     async (event: SubmitEvent<HTMLFormElement>) => {
       event.preventDefault();
@@ -58,36 +104,13 @@ export const Register = () => {
       }
 
       if (!captchaToken) {
-        setShowCaptcha(true);
-        setErrorMessage('Completá la verificación CAPTCHA.');
+        setIsSubmitting(true);
         return;
       }
 
-      // 4. Si ya tenemos token, procedemos con el registro
-      try {
-        setIsSubmitting(true);
-
-        const payload = buildRegisterPayload(formData, captchaToken);
-
-        await registerUser(payload);
-
-        navigate('/user');
-      } catch (error) {
-        console.error(error);
-
-        setErrorMessage(
-          error instanceof Error
-            ? `Ocurrió un error inesperado, por favor vuelva a intentarlo más tarde. ${error.message}`
-            : 'Ocurrió un error inesperado, por favor vuelva a intentarlo más tarde.',
-        );
-
-        // Reseteamos el token si la petición falla para obligar a verificar de nuevo si es necesario
-        setCaptchaToken('');
-      } finally {
-        setIsSubmitting(false);
-      }
+      await executeRegister(form, captchaToken);
     },
-    [captchaToken, navigate],
+    [captchaToken, executeRegister],
   );
 
   return (
@@ -117,7 +140,7 @@ export const Register = () => {
               </div>
 
               <div className="register-body">
-                <form className="register-form" onSubmit={handleSubmit}>
+                <form className="register-form" onSubmit={handleSubmit} ref={formRef}>
                   <div className="row g-3">
                     <div className="col-12 col-md-6">
                       <label htmlFor="first_name" className="form-label">
@@ -297,15 +320,12 @@ export const Register = () => {
                       />
                     </div>
 
-                    {/* El CAPTCHA sólo se renderiza cuando showCaptcha es true */}
-                    {showCaptcha && (
-                      <div className="col-12 pt-2">
-                        <TurnstileCaptcha
-                          siteKey={turnstileSiteKey}
-                          onTokenChange={setCaptchaToken}
-                        />
-                      </div>
-                    )}
+                    <div className="col-12 pt-2">
+                      <TurnstileCaptcha
+                        siteKey={turnstileSiteKey}
+                        onTokenChange={setCaptchaToken}
+                      />
+                    </div>
 
                     <div className="col-12 pt-2">
                       <button

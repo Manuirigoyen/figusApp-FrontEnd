@@ -1,10 +1,3 @@
-/**
- * Configuración centralizada de rutas de la aplicación.
- *
- * Define las rutas públicas, privadas y protegidas por rol,
- * controlando el acceso mediante guards de autenticación y permisos.
- */
-
 import { Routes, Route } from "react-router-dom";
 
 import { Home } from "../components/home/Home";
@@ -35,13 +28,10 @@ import { Pago } from "../components/tienda/Pago";
 import { Producto } from "../components/tienda/Producto";
 
 /**
- * Componente encargado de declarar todas las rutas disponibles.
+ * Configuración centralizada de rutas de la aplicación.
  *
- * Incluye:
- * - Rutas públicas de acceso general.
- * - Rutas protegidas para usuarios autenticados.
- * - Rutas con validaciones adicionales.
- * - Rutas restringidas por rol.
+ * Define las rutas públicas, privadas y protegidas por rol,
+ * controlando el acceso mediante guards de autenticación y permisos.
  */
 export function AppRoutes() {
   return (
@@ -54,7 +44,6 @@ export function AppRoutes() {
       <Route path={ROUTES.RULETA} element={<Ruleta />} />
       <Route path={ROUTES.OFERTAS} element={<Ofertas />} />
 
-      {/* Tienda y compras públicas */}
       <Route path={ROUTES.TIENDA} element={<Tienda />} />
       <Route path={ROUTES.PRODUCTO} element={<Producto />} />
       <Route path={ROUTES.PAGO} element={<Pago />} />
@@ -68,7 +57,6 @@ export function AppRoutes() {
         <Route path={ROUTES.INTERCAMBIOS} element={<Intercambios />} />
       </Route>
 
-      {/* Validación de álbum completado antes de continuar */}
       <Route element={<AlbumCompleteRoute />}>
         <Route
           path={ROUTES.SELECCIONAR_VIAJE}
