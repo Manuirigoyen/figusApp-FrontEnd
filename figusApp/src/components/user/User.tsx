@@ -97,7 +97,7 @@ export const User = () => {
         aria-label="toggle sidebar"
         aria-expanded={sidebarOpen}
       >
-        {sidebarOpen ? '⮞' : '⮜'}
+        {sidebarOpen ? '>' : '<'}
       </button>
 
       {sidebarOpen ? <div className="sidebar-overlay" onClick={closeSidebar} /> : null}
