@@ -28,6 +28,10 @@
   width: 100%;
 }
 
+.home-ad-wrapper{
+  margin-bottom: 0.4rem;
+}
+
 .home-ad-wrapper,
 .home-video-container {
   width: 100%;
@@ -94,6 +98,18 @@
     max-width: 100%;
     aspect-ratio: auto;
     height: auto;
+  }
+
+  .home-ad-wrapper {
+    max-width: 84%;
+    margin: 0.75rem auto;
+  }
+
+  .home-ad-img {
+    height: 260px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 20px;
   }
   
   .home-video-element {
