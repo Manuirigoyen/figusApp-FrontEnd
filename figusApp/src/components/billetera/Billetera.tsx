@@ -11,6 +11,13 @@ export const Billetera: React.FC = () => {
   const [billetera, setBilletera] = useState<StickerWalletItem[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [isDeletingId, setIsDeletingId] = useState<number | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!deleteError) return;
+    const timer = setTimeout(() => setDeleteError(null), 4000);
+    return () => clearTimeout(timer);
+  }, [deleteError]);
 
   const navigate = useNavigate();
 
@@ -63,10 +70,12 @@ export const Billetera: React.FC = () => {
 
     try {
       setIsDeletingId(walletItemId);
+      setDeleteError(null);
       await decrementStickerWalletItem(walletItemId);
       await cargarBilletera(false);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error al eliminar figurita:', error);
+      setDeleteError(error?.message || 'No se pudo eliminar la figurita.');
     } finally {
       setIsDeletingId(null);
     }
@@ -95,6 +104,19 @@ export const Billetera: React.FC = () => {
 
   return (
     <main className="billetera-page position-relative">
+
+      {deleteError && (
+        <div className="billetera-toast-error">
+          <span>{deleteError}</span>
+          <button
+            className="billetera-toast-close"
+            onClick={() => setDeleteError(null)}
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
       <section className="billetera-section">
         <h2>Mi billetera de figuritas repetidas</h2>
         <h3>¡Intercambialas con amigos!</h3>

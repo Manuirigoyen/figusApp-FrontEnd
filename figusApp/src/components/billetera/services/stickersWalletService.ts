@@ -52,6 +52,7 @@ export const decrementStickerWalletItem = async (
       throw new Error('Figurita no encontrada en billetera');
     }
 
-    throw new Error('No se pudo eliminar una unidad de la figurita.');
+    const data = await response.json().catch(() => null);
+    throw new Error(data?.message || 'No se pudo eliminar una unidad de la figurita.');
   }
 };
