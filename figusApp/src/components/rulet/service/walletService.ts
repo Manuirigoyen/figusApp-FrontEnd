@@ -22,79 +22,53 @@ const parseJson = async <T>(
     return undefined as unknown as T;
   }
 
-
   if (!response.ok) {
 
-    let message =
-      "Error inesperado en el servidor.";
+    let message = "Error inesperado en el servidor.";
 
     try {
-
-      const error =
-        await response.json();
-
-      message =
-        error.message ?? message;
-
+      const error = await response.json();
+      message = error.message ?? message;
     } catch {}
 
     throw new Error(message);
   }
 
-
   return response.json();
 };
-
 
 
 export const getUserSpinsWallet = async (
   userId: number,
 ): Promise<SpinsWallet | null> => {
 
-  const token =
-    localStorage.getItem("token") ||
-    sessionStorage.getItem("token") ||
-    "";
-
-
-  const response =
-    await fetch(
-      getUrlDestino(`spins-wallet/${userId}`),
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+  const response = await fetch(
+    getUrlDestino(`spins-wallet/user/${userId}`),
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
-
+      credentials: "include",
+    },
+  );
 
   return parseJson<SpinsWallet>(response);
 };
 
 
-
 export const executeSecureSpin = async (): Promise<SpinResult> => {
 
-  const token =
-    localStorage.getItem("token") ||
-    sessionStorage.getItem("token") ||
-    "";
-
-
-  const response =
-    await fetch(
-      getUrlDestino("spins-wallet/spin"),
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
+  const response = await fetch(
+    getUrlDestino("spins-wallet/spin"),
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-    );
-
+      credentials: "include",
+    },
+  );
 
   return parseJson<SpinResult>(response);
 };

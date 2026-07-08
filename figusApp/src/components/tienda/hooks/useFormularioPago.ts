@@ -9,7 +9,7 @@ import type { ItemCarrito } from '../types/productos.data';
 
 export const useFormularioPago = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, refreshSpins } = useAuth();
 
   const [captchaToken, setCaptchaToken] = useState<string>('');
   const [isCaptchaVisible, setIsCaptchaVisible] = useState<boolean>(false);
@@ -90,6 +90,8 @@ export const useFormularioPago = () => {
           });
         }
       }
+
+      await refreshSpins();
 
       alert("Pago procesado con éxito y giros acreditados.");
       vaciarCarrito();

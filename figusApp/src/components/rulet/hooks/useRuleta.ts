@@ -6,6 +6,7 @@ import { executeSecureSpin } from '../service/walletService';
 import type { UserConfig } from '../../user/config/types/UserConfig';
 import type { SpinResult } from '../types/SpingResult';
 import { ROTACION_INICIAL } from '../constant/ruleta.constants';
+import { useAuth } from '../../../routes/hooks/useAuth';
 
 const SECTOR = 360 / premios.length;
 
@@ -24,6 +25,8 @@ export const useRuleta = (
     loadSpins,
     setSpins
   } = useUserSpins();
+
+  const { refreshSpins } = useAuth();
 
 
   const rotacionRef = useRef(0);
@@ -210,6 +213,7 @@ export const useRuleta = (
                 disponibles;
 
               setSpins(disponibles);
+              refreshSpins();
 
               premioIndex =
                 Number(
@@ -281,7 +285,8 @@ export const useRuleta = (
         isAutenticado,
         ejecutarAnimacionGiro,
         isGirarndo,
-        setSpins
+        setSpins,
+        refreshSpins,
       ]
     );
 
