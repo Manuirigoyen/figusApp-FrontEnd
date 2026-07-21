@@ -124,47 +124,55 @@ export const Billetera: React.FC = () => {
         <div className="figus-repetidas" id="billetera-contenedor">
           {loading ? (
             <p className="empty-billetera">Cargando billetera...</p>
-          ) : billetera.length === 0 ? (
-            <p className="empty-billetera">
-              Tu billetera está vacía. ¡Consigue más figuritas para repetir!
-            </p>
           ) : (
-            billetera.map((item) => (
-              <div key={item.id} className="billetera-item-wrapper">
-                <div className="figurita-billetera-card">
-                  <img
-                    src={getImageSrc(item.sticker.cover_image)}
-                    alt={item.sticker.name}
-                    className="figurita-billetera-img"
-                  />
+            (() => {
+              const visibles = billetera.filter((item) => item.stock > 0);
 
-                  <h4>{item.sticker.name}</h4>
-                  <p>{item.sticker.nationality}</p>
-                  <p>{item.sticker.class}</p>
+              if (visibles.length === 0) {
+                return (
+                  <p className="empty-billetera">
+                    Tu billetera está vacía. ¡Consigue más figuritas para repetir!
+                  </p>
+                );
+              }
 
-                  <div className="contador">x{item.stock}</div>
+              return visibles.map((item) => (
+                <div key={item.id} className="billetera-item-wrapper">
+                  <div className="figurita-billetera-card">
+                    <img
+                      src={getImageSrc(item.sticker.cover_image)}
+                      alt={item.sticker.name}
+                      className="figurita-billetera-img"
+                    />
 
-                  <div className="botones-billetera">
-                    <button
-                      className="btn-eliminar"
-                      disabled={isDeletingId === item.id}
-                      onClick={(event) =>
-                        handleEliminarFigurita(item.id, event)
-                      }
-                    >
-                      {isDeletingId === item.id ? 'Eliminando...' : 'Eliminar'}
-                    </button>
+                    <h4>{item.sticker.name}</h4>
+                    <p>{item.sticker.nationality}</p>
+                    <p>{item.sticker.class}</p>
 
-                    <button
-                      className="btn-intercambiar"
-                      onClick={(event) => handleIntercambiarFigurita(item, event)}
-                    >
-                      Intercambiar
-                    </button>
+                    <div className="contador">x{item.stock}</div>
+
+                    <div className="botones-billetera">
+                      <button
+                        className="btn-eliminar"
+                        disabled={isDeletingId === item.id}
+                        onClick={(event) =>
+                          handleEliminarFigurita(item.id, event)
+                        }
+                      >
+                        {isDeletingId === item.id ? 'Eliminando...' : 'Eliminar'}
+                      </button>
+
+                      <button
+                        className="btn-intercambiar"
+                        onClick={(event) => handleIntercambiarFigurita(item, event)}
+                      >
+                        Intercambiar
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))
+              ));
+            })()
           )}
         </div>
       </section>

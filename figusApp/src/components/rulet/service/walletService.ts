@@ -50,6 +50,7 @@ export const getUserSpinsWallet = async (
         "Content-Type": "application/json",
       },
       credentials: "include",
+      cache: "no-store",
     },
   );
 

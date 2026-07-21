@@ -32,6 +32,9 @@ export interface ExchangeOffer {
     sticker: StickerOption;
   };
   requestSticker: StickerOption;
+  /** Campos opcionales para preservar nombres aunque el wallet item sea eliminado */
+  offered_sticker_name?: string;
+  request_sticker_name?: string;
 }
 
 export interface CreateOfferPayload {

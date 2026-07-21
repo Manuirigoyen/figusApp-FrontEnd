@@ -119,16 +119,16 @@ export const Ofertas: React.FC = () => {
                                 <tbody>
                                     {ofertasFiltradas.map((o) => (
                                         <tr key={o.id}>
-                                            <td className="fw-bold">
-                                                {o.offererUser.first_name} {o.offererUser.last_name}
-                                            </td>
-                                            <td>{ROLE_LABEL[o.role ?? ''] ?? '—'}</td>
-                                            <td>
-                                                {o.offerWallet.sticker.name} <span className="text-muted">x{o.offered_quantity}</span>
-                                            </td>
-                                            <td>
-                                                {o.requestSticker.name} <span className="text-muted">x{o.request_quantity}</span>
-                                            </td>
+                                                    <td className="fw-bold">
+                                                        {o.offererUser.first_name} {o.offererUser.last_name}
+                                                    </td>
+                                                    <td>{ROLE_LABEL[o.role ?? ''] ?? '—'}</td>
+                                                    <td>
+                                                        {o.offerWallet?.sticker?.name ?? o.offered_sticker_name ?? '—'} <span className="text-muted">x{o.offered_quantity}</span>
+                                                    </td>
+                                                    <td>
+                                                        {o.requestSticker?.name ?? o.request_sticker_name ?? '—'} <span className="text-muted">x{o.request_quantity}</span>
+                                                    </td>
                                             <td>
                                                 <span className={`badge status-badge status-${o.status}`}>
                                                     {STATUS_LABEL[o.status] ?? o.status}

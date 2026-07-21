@@ -1,5 +1,15 @@
+.ruleta-layout-row {
+  gap: 12px;
+  flex-wrap: nowrap;
+}
+
 .ad-lateral-wrapper {
   align-self: flex-start;
+  flex: 0 0 auto;
+}
+
+.ruleta-centro-wrapper {
+  flex: 0 0 auto;
 }
 
 .ruleta-ad-link {
@@ -279,9 +289,111 @@
   }
 }
 
+@media (max-width: 1114.98px) and (min-width: 768px) {
+  .ruleta-layout-row {
+    gap: 8px;
+  }
+
+  .ad-lateral-wrapper {
+    align-self: center;
+    flex: 0 0 170px;
+  }
+
+  .ruleta-centro-wrapper {
+    flex: 0 0 460px;
+  }
+
+  .ad-lateral-wrapper-izquierda {
+    justify-content: flex-end !important;
+    margin-right: 4px;
+  }
+
+  .ad-lateral-wrapper-derecha {
+    justify-content: flex-start !important;
+    margin-left: 4px;
+  }
+
+  .ruleta-ad-link {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .ruleta-lateral-ad {
+    width: 170px;
+    height: 320px;
+  }
+
+  .ruleta-ad-png-render {
+    width: 150px;
+  }
+
+  .ruleta-contenedor-escenario {
+    width: 460px;
+    height: 460px;
+  }
+
+  .ruleta-container {
+    width: 460px;
+    height: 460px;
+  }
+
+  .premios-circle-wrapper {
+    width: 460px;
+    height: 460px;
+  }
+
+  .ruleta-base {
+    width: 460px;
+    bottom: -40px;
+  }
+
+  .triangulo-ruleta-derecha {
+    top: 23%;
+    left: 190px;
+    width: 88%;
+  }
+
+  .premios-circle .premio {
+    width: 70px;
+    height: 70px;
+    margin-top: -30px;
+    margin-left: -24px;
+  }
+
+  .premios-circle .premio:nth-child(1)  { transform: rotate(-10deg) translateY(-135px); }
+  .premios-circle .premio:nth-child(2)  { transform: rotate(17deg)  translateY(-135px); }
+  .premios-circle .premio:nth-child(3)  { transform: rotate(48deg)  translateY(-135px); }
+  .premios-circle .premio:nth-child(4)  { transform: rotate(78deg)  translateY(-135px); }
+  .premios-circle .premio:nth-child(5)  { transform: rotate(112deg) translateY(-130px); }
+
+  .premios-circle .premio:nth-child(6) {
+    transform: rotate(136deg) translateY(-135px);
+    margin-top: -20px;
+    margin-left: -16px;
+    width: 34px;
+    height: 46px;
+  }
+
+  .premios-circle .premio:nth-child(7)  { transform: rotate(174deg) translateY(-130px); }
+  .premios-circle .premio:nth-child(8)  { transform: rotate(204deg) translateY(-132px); }
+  .premios-circle .premio:nth-child(9)  { transform: rotate(233deg) translateY(-134px); }
+  .premios-circle .premio:nth-child(10) { transform: rotate(262deg) translateY(-135px); }
+  .premios-circle .premio:nth-child(11) { transform: rotate(290deg) translateY(-135px); }
+  .premios-circle .premio:nth-child(12) { transform: rotate(321deg) translateY(-135px); }
+}
+
 @media (max-width: 767.98px) {
+  .ruleta-layout-row {
+    flex-wrap: wrap;
+    gap: 0;
+  }
+
   .ad-lateral-wrapper {
     display: none !important;
+  }
+
+  .ruleta-centro-wrapper {
+    width: 100%;
   }
 }
 

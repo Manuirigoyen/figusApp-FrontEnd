@@ -204,11 +204,13 @@ export const Intercambios: React.FC = () => {
                     }
                   >
                     <option value="">Seleccionar figurita</option>
-                    {myWallet.map((item) => (
-                      <option key={item.id} value={item.id}>
-                        {item.sticker.name} - {item.sticker.class} - x{item.stock}
-                      </option>
-                    ))}
+                    {myWallet
+                      .filter((item) => item.stock > 0)
+                      .map((item) => (
+                        <option key={item.id} value={item.id}>
+                          {item.sticker.name} - {item.sticker.class} - x{item.stock}
+                        </option>
+                      ))}
                   </select>
                 </label>
 
@@ -227,7 +229,7 @@ export const Intercambios: React.FC = () => {
                 </label>
               </div>
 
-              {offeredWalletItem && (
+              {offeredWalletItem && offeredWalletItem.stock > 0 && (
                 <div className="trade-sticker-preview">
                   <img
                     src={getImageSrc(offeredWalletItem.sticker.cover_image)}
@@ -318,21 +320,29 @@ export const Intercambios: React.FC = () => {
                         </td>
 
                         <td>
-                          <img
-                            className="offer-sticker-img"
-                            src={getImageSrc(offer.offerWallet.sticker.cover_image)}
-                            alt={offer.offerWallet.sticker.name}
-                          />
+                          {offer.offerWallet?.sticker?.cover_image ? (
+                            <img
+                              className="offer-sticker-img"
+                              src={getImageSrc(offer.offerWallet?.sticker?.cover_image)}
+                              alt={offer.offerWallet?.sticker?.name ?? offer.offered_sticker_name ?? ''}
+                            />
+                          ) : (
+                            <div className="offer-sticker-fallback">{offer.offerWallet?.sticker?.name ?? offer.offered_sticker_name ?? '—'}</div>
+                          )}
                         </td>
 
                         <td>{offer.offered_quantity}</td>
 
                         <td>
-                          <img
-                            className="offer-sticker-img"
-                            src={getImageSrc(offer.requestSticker.cover_image)}
-                            alt={offer.requestSticker.name}
-                          />
+                          {offer.requestSticker?.cover_image ? (
+                            <img
+                              className="offer-sticker-img"
+                              src={getImageSrc(offer.requestSticker?.cover_image)}
+                              alt={offer.requestSticker?.name ?? offer.request_sticker_name ?? ''}
+                            />
+                          ) : (
+                            <div className="offer-sticker-fallback">{offer.requestSticker?.name ?? offer.request_sticker_name ?? '—'}</div>
+                          )}
                         </td>
 
                         <td>{offer.request_quantity}</td>

@@ -39,8 +39,8 @@ export const Ruleta = () => {
           </p>
         </header>
 
-        <section className="row justify-content-center align-items-center my-4">
-          <div className="col-12 col-md-3 d-flex justify-content-center ad-lateral-wrapper">
+        <section className="d-flex justify-content-center align-items-center my-4 ruleta-layout-row">
+          <div className="d-flex justify-content-center ad-lateral-wrapper ad-lateral-wrapper-izquierda">
             <a
               href={AD_IZQUIERDA_URL}
               target="_blank"
@@ -57,7 +57,7 @@ export const Ruleta = () => {
             </a>
           </div>
 
-          <div className="col-12 col-md-6 d-flex justify-content-center">
+          <div className="d-flex justify-content-center ruleta-centro-wrapper">
             <div className="ruleta-contenedor-escenario">
               <div className="ruleta-container">
                 <img
@@ -105,7 +105,7 @@ export const Ruleta = () => {
             </div>
           </div>
 
-          <div className="col-12 col-md-3 d-flex justify-content-center ad-lateral-wrapper">
+          <div className="d-flex justify-content-center ad-lateral-wrapper ad-lateral-wrapper-derecha">
             <a
               href={AD_DERECHA_URL}
               target="_blank"

@@ -30,6 +30,7 @@ export const useRuleta = (
 
 
   const rotacionRef = useRef(0);
+  const isGirandoRef = useRef(false);
 
 
   const girosRestantes =
@@ -128,6 +129,22 @@ export const useRuleta = (
           nuevaRotacion;
 
 
+        // Fuerza un reflow y espera dos frames antes de aplicar el nuevo
+        // transform. Sin esto, si se gira varias veces seguidas muy rápido
+        // (x5/x10, o clicks encadenados), el navegador puede no llegar a
+        // "confirmar" el estilo anterior y saltarse la transición CSS por
+        // completo (la rueda salta directo al final en vez de animar).
+        if (premiumsCircleRef.current) {
+          // Leer una propiedad de layout fuerza el reflow.
+          void premiumsCircleRef.current.offsetHeight;
+        }
+
+        await new Promise<void>((resolve) => {
+          requestAnimationFrame(() => {
+            requestAnimationFrame(() => resolve());
+          });
+        });
+
 
         if (premiumsCircleRef.current) {
 
@@ -167,13 +184,17 @@ export const useRuleta = (
 
         if (
           girosRestantesRef.current <= 0 ||
-          isGirarndo
+          isGirandoRef.current
         ) {
 
           return;
 
         }
 
+        // Se marca de forma SINCRÓNICA (ref), no con setState, para cerrar
+        // la ventana de carrera de un doble click/doble evento antes de que
+        // React vuelva a renderizar y deshabilite el botón.
+        isGirandoRef.current = true;
         setIsGirando(true);
 
         let disponibles =
@@ -215,10 +236,20 @@ export const useRuleta = (
               setSpins(disponibles);
               refreshSpins();
 
-              premioIndex =
+              const rawIndex =
                 Number(
                   resultadoServer.index_wheel
                 );
+
+              // El backend puede tener MÁS combinaciones de premio configuradas
+              // (ej: 15 filas en la tabla "prize") que segmentos visuales tiene
+              // la rueda dibujada acá (12, fijos por CSS). Si no envolvemos el
+              // índice, un valor como 12/13/14 cae fuera del array `premios` y
+              // la animación se salteaba por completo (aunque el giro ya se
+              // había descontado) — eso era el "tilde" intermitente.
+              premioIndex =
+                ((rawIndex % premios.length) + premios.length) %
+                premios.length;
 
               premioObtenido =
                 premios[premioIndex] ?? null;
@@ -278,13 +309,13 @@ export const useRuleta = (
           );
 
         } finally {
+          isGirandoRef.current = false;
           setIsGirando(false);
         }
       },
       [
         isAutenticado,
         ejecutarAnimacionGiro,
-        isGirarndo,
         setSpins,
         refreshSpins,
       ]
