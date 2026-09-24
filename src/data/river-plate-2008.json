@@ -7,6 +7,8 @@
   "recursos": {
     "tapa_frente": "tapa_frente.png",
     "tapa_dorso": "tapa_dorso.png",
+    "contratapa_frente": "contratapa_frente.png",
+    "contratapa_dorso": "contratapa_dorso.png",
     "fondo_desktop": "fondo.png",
     "fondo_mobile": "fondo.png",
     "escudo": "escudo.png",
@@ -17,197 +19,188 @@
   "paginas_album": {
     "1": {
       "figuritas": [
-        "E1.png"
+        {
+          "imagen": "E1.png",
+          "descripcion": null
+        }
       ],
       "frase": "EL MAS\nGRANDE\nLEJOS"
     },
     "2": {
       "figuritas": [
-        "01.png",
-        "02.png",
-        "03.png",
-        "04.png",
-        "05.png",
-        "06.png"
+        { "imagen": "01.png", "descripcion": null },
+        { "imagen": "02.png", "descripcion": null },
+        { "imagen": "03.png", "descripcion": null },
+        { "imagen": "04.png", "descripcion": null },
+        { "imagen": "05.png", "descripcion": null },
+        { "imagen": "06.png", "descripcion": null }
       ],
       "frase": "EL\nMONUMENTAL"
     },
     "3": {
       "figuritas": [
-        "E2.png",
-        "E3.png",
-        "E4.png",
-        "E5.png",
-        "E6.png",
-        "E7.png"
+        { "imagen": "E2.png", "descripcion": null },
+        { "imagen": "E3.png", "descripcion": null },
+        { "imagen": "E4.png", "descripcion": null },
+        { "imagen": "E5.png", "descripcion": null },
+        { "imagen": "E6.png", "descripcion": null },
+        { "imagen": "E7.png", "descripcion": null }
       ],
       "frase": "SIEMPRE SOBRE\nEL PECHO\nNUESTRO GLORIOSO ESCUDO"
     },
     "4": {
       "figuritas": [
-        "C1.png",
-        "C2.png",
-        "C3.png",
-        "C4.png",
-        "C5.png",
-        "C6.png"
+        {
+          "imagen": "C1.png",
+          "descripcion": "1901-1908. La camiseta con la franja roja\nfue siempre el gran orgullo del club."
+        },
+        {
+          "imagen": "C2.png",
+          "descripcion": "1909-1931. Listones blancos, rojos y\nnegros fue la camiseta titular."
+        },
+        {
+          "imagen": "C3.png",
+          "descripcion": "Camiseta alternativa utilizada entre 1932\ny 1944"
+        },
+        {
+          "imagen": "C4.png",
+          "descripcion": "Camiseta alternativa utilizada entre\n1951 y 1965. Realizada en homenaje al \"Club\nTorino de Italia\""
+        },
+        {
+          "imagen": "C5.png",
+          "descripcion": "1964-1969: Camiseta suplementaria roja\ncon mangas y cuello blancos."
+        },
+        {
+          "imagen": "C6.png",
+          "descripcion": "1969-1970, 1975 y 2008: Camiseta alternativa utilizada unicamente en cuatro\npartidos."
+        }
       ],
       "frase": "EL MANTO\nSAGRADO"
     },
     "5": {
       "figuritas": [
-        "C7.png",
-        "C8.png",
-        "C9.png",
-        "C10.png",
-        "C11.png",
-        "C12.png"
+        {
+          "imagen": "C7.png",
+          "descripcion": "Camiseta suplente utilizada entre 1984 y\n1985"
+        },
+        {
+          "imagen": "C8.png",
+          "descripcion": "1986/1989: Camiseta con el escudo de\nleon diseñado por Caloi"
+        },
+        {
+          "imagen": "C9.png",
+          "descripcion": "Camiseta alternativa de mangas largas\nutilizada en el año 1989"
+        },
+        {
+          "imagen": "C10.png",
+          "descripcion": "1991-1954: Camiseta suplenete."
+        },
+        {
+          "imagen": "C11.png",
+          "descripcion": "Camiseta titular con el escudo sobre el\npecho derecho, se utilizo en el año 1993"
+        },
+        {
+          "imagen": "C12.png",
+          "descripcion": "Camiseta suplente utilizada entre 1992 y\n1998."
+        }
       ],
       "frase": "EL MANTO SAGRADO"
     },
     "6": {
       "figuritas": [
-        "C13.png",
-        "C14.png",
-        "C15.png",
-        "C16.png",
-        "C17.png",
-        "C18.png"
+        {
+          "imagen": "C13.png",
+          "descripcion": "Camiseta suplente del año 1999."
+        },
+        {
+          "imagen": "C14.png",
+          "descripcion": "Otra camiseta alaternativa del año 1999"
+        },
+        {
+          "imagen": "C15.png",
+          "descripcion": "Camiseta titular del año 2001."
+        },
+        {
+          "imagen": "C16.png",
+          "descripcion": "Camiseta suplente del año 2007"
+        },
+        {
+          "imagen": "C17.png",
+          "descripcion": "Otra camiseta suplente del año 2007"
+        },
+        {
+          "imagen": "C18.png",
+          "descripcion": "Camiseta titular actual."
+        }
       ],
       "frase": null
     },
     "7": {
       "figuritas": [
-        "07.png",
-        "08.png",
-        "09.png",
-        "10.png",
-        "11.png",
-        "12.png"
+        { "imagen": "07.png", "descripcion": null },
+        { "imagen": "08.png", "descripcion": null },
+        { "imagen": "09.png", "descripcion": null },
+        { "imagen": "10.png", "descripcion": null },
+        { "imagen": "11.png", "descripcion": null },
+        { "imagen": "12.png", "descripcion": null }
       ],
       "frase": "FÚTBOL Y ESPECTÁCULO"
     },
     "8": {
       "figuritas": [
-        "13.png",
-        "14.png",
-        "15.png",
-        "16.png",
-        "17.png",
-        "18.png"
+        { "imagen": "13.png", "descripcion": null },
+        { "imagen": "14.png", "descripcion": null },
+        { "imagen": "15.png", "descripcion": null },
+        { "imagen": "16.png", "descripcion": null },
+        { "imagen": "17.png", "descripcion": null },
+        { "imagen": "18.png", "descripcion": null }
       ],
       "frase": "AYER, HOY Y SIEMPRE"
     },
     "9": {
       "figuritas": [
-        "19.png",
-        "20.png",
-        "21.png",
-        "22.png",
-        "23.png",
-        "24.png"
+        { "imagen": "19.png", "descripcion": null },
+        { "imagen": "20.png", "descripcion": null },
+        { "imagen": "21.png", "descripcion": null },
+        { "imagen": "22.png", "descripcion": null },
+        { "imagen": "23.png", "descripcion": null },
+        { "imagen": "24.png", "descripcion": null }
       ],
       "frase": "FÚTBOL Y ESPECTÁCULO"
     },
     "10": {
       "figuritas": [
-        "25.png",
-        "26.png",
-        "27.png",
-        "28.png",
-        "29.png",
-        "30.png"
+        { "imagen": "25.png", "descripcion": null },
+        { "imagen": "26.png", "descripcion": null },
+        { "imagen": "27.png", "descripcion": null },
+        { "imagen": "28.png", "descripcion": null },
+        { "imagen": "29.png", "descripcion": null },
+        { "imagen": "30.png", "descripcion": null }
       ],
       "frase": "AYER, HOY Y SIEMPRE"
     },
-    "11": {
-      "figuritas": [],
-      "frase": null
-    },
-    "12": {
-      "figuritas": [],
-      "frase": null
-    },
-    "13": {
-      "figuritas": [],
-      "frase": null
-    },
-    "14": {
-      "figuritas": [],
-      "frase": null
-    },
-    "15": {
-      "figuritas": [],
-      "frase": null
-    },
-    "16": {
-      "figuritas": [],
-      "frase": null
-    },
-    "17": {
-      "figuritas": [],
-      "frase": null
-    },
-    "18": {
-      "figuritas": [],
-      "frase": null
-    },
-    "19": {
-      "figuritas": [],
-      "frase": null
-    },
-    "20": {
-      "figuritas": [],
-      "frase": null
-    },
-    "21": {
-      "figuritas": [],
-      "frase": null
-    },
-    "22": {
-      "figuritas": [],
-      "frase": null
-    },
-    "23": {
-      "figuritas": [],
-      "frase": null
-    },
-    "24": {
-      "figuritas": [],
-      "frase": null
-    },
-    "25": {
-      "figuritas": [],
-      "frase": null
-    },
-    "26": {
-      "figuritas": [],
-      "frase": null
-    },
-    "27": {
-      "figuritas": [],
-      "frase": null
-    },
-    "28": {
-      "figuritas": [],
-      "frase": null
-    },
-    "29": {
-      "figuritas": [],
-      "frase": null
-    },
-    "30": {
-      "figuritas": [],
-      "frase": null
-    },
-    "31": {
-      "figuritas": [],
-      "frase": null
-    },
-    "32": {
-      "figuritas": [],
-      "frase": null
-    }
+    "11": { "figuritas": [], "frase": null },
+    "12": { "figuritas": [], "frase": null },
+    "13": { "figuritas": [], "frase": null },
+    "14": { "figuritas": [], "frase": null },
+    "15": { "figuritas": [], "frase": null },
+    "16": { "figuritas": [], "frase": null },
+    "17": { "figuritas": [], "frase": null },
+    "18": { "figuritas": [], "frase": null },
+    "19": { "figuritas": [], "frase": null },
+    "20": { "figuritas": [], "frase": null },
+    "21": { "figuritas": [], "frase": null },
+    "22": { "figuritas": [], "frase": null },
+    "23": { "figuritas": [], "frase": null },
+    "24": { "figuritas": [], "frase": null },
+    "25": { "figuritas": [], "frase": null },
+    "26": { "figuritas": [], "frase": null },
+    "27": { "figuritas": [], "frase": null },
+    "28": { "figuritas": [], "frase": null },
+    "29": { "figuritas": [], "frase": null },
+    "30": { "figuritas": [], "frase": null },
+    "31": { "figuritas": [], "frase": null },
+    "32": { "figuritas": [], "frase": null }
   },
 
   "himno": {
