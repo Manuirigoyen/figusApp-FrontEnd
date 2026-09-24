@@ -1,0 +1,116 @@
+{
+  "album": "River Plate",
+  "año": 2008,
+  "paginas": 32,
+  "figuritas": 131,
+  "tapa_frente": "tapa_frente.png",
+  "tapa_dorso": "tapa_dorso.png",
+
+  "paginas_album": {
+    "1": [
+      "E1.png"
+    ],
+    "2": [
+      "01.png",
+      "02.png",
+      "03.png",
+      "04.png",
+      "05.png",
+      "06.png"
+    ],
+    "3": [
+      "E2.png",
+      "E3.png",
+      "E4.png",
+      "E5.png",
+      "E6.png",
+      "E7.png"
+    ],
+    "4": [
+      "C1.png",
+      "C2.png",
+      "C3.png",
+      "C4.png",
+      "C5.png",
+      "C6.png"
+    ],
+    "5": [
+      "C7.png",
+      "C8.png",
+      "C9.png",
+      "C10.png",
+      "C11.png",
+      "C12.png"
+    ],
+    "6": [
+      "C13.png",
+      "C14.png",
+      "C15.png",
+      "C16.png",
+      "C17.png",
+      "C18.png"
+    ],
+    "7": [
+      "07.png",
+      "08.png",
+      "09.png",
+      "10.png",
+      "11.png",
+      "12.png"
+    ],
+    "8": [
+      "13.png",
+      "14.png",
+      "15.png",
+      "16.png",
+      "17.png",
+      "18.png"
+    ],
+    "9": [
+      "19.png",
+      "20.png",
+      "21.png",
+      "22.png",
+      "23.png",
+      "24.png"
+    ],
+    "10": [
+      "25.png",
+      "26.png",
+      "27.png",
+      "28.png",
+      "29.png",
+      "30.png"
+    ],
+    "11": [],
+    "12": [],
+    "13": [],
+    "14": [],
+    "15": [],
+    "16": [],
+    "17": [],
+    "18": [],
+    "19": [],
+    "20": [],
+    "21": [],
+    "22": [],
+    "23": [],
+    "24": [],
+    "25": [],
+    "26": [],
+    "27": [],
+    "28": [],
+    "29": [],
+    "30": [],
+    "31": [],
+    "32": []
+  },
+
+  "himno": {
+    "titulo": "HIMNO DEL CLUB ATLÉTICO RIVER PLATE",
+    "letra": "El más grande sigue siendo River Plate,\nel campeón más poderoso de la historia,\nel más grande por las glorias\nque alumbraron el ayer\ny que brillan todavía en mi memoria...\n\nEl más grande sigue siendo River Plate\ny será más grande aún en el mañana,\npor el juego, por las ganas y el orgullo\nde tener una banda roja\nque nos cruza el alma...\n\nVuelan las banderas del Monumental,\nse viene River, se viene la alegría.\nY cada hora, cada día River Plate,\nte quiero más,\ncomo te quiere casi toda la Argentina.\n\nEl más grande sigue siendo River Plate,\npor su estilo, sus estrellas y su gente,\nporque River no se vende,\nporque se lleva en la piel\ny en cualquier lugar que esté,\nsiempre va al frente...\n\nVuelan las banderas del Monumental,\nse viene River, se viene la alegría,\ny cada hora, cada día River Plate,\nte quiero más,\ncomo te quiere casi toda la Argentina.\n\nHasta que me muera te voy a alentar\ny si volviera a reencarnarme\nen otra vida,\nno sé por dónde viviría,\nde qué iría a trabajar,\npero seguro que de River yo sería...\n\nEl más grande por las ganas\ny el orgullo de tener\nuna banda roja que nos cruza el alma.",
+    "autor": "Ignacio Copani (1987)"
+  },
+
+  "biografia": "El 25 de mayo de 1935 se colocó la piedra\nfundamental del actual estadio en el predio de\nAv. Centenario y Río de la Plata. El 27\nde septiembre de 1936 comenzó su construcción\nbajo la dirección de los arquitectos José Asián y\nHéctor Ezcurra.\n\nEl partido inaugural fue el 25 de mayo de 1938\n(River Plate vs. Peñarol). Desde entonces se\ntransformó en el gran estadio argentino, el gran\norgullo y templo de todos los hinchas millonarios\nque viven partido tras partido con una emoción\ninigualable. En el año 1978, se realizó una\nreconstrucción con motivo del Mundial de fútbol,\nya que fue la sede central del certamen.\n\nEl 29 de noviembre de 1966 el estadio recibió el\nnombre con el que actualmente se lo conoce:\nANTONIO VESPUCIO LIBERTI.\n\nNombre completo del estadio: ANTONIO VESPUCIO\nLIBERTI - \"EL MONUMENTAL\"\nDirección: Av. Figueroa Alcorta 7597, Núñez, C.A.B.A.\nCapacidad: 65.645 espectadores.\nCapacidad cubierta: 25.568 asientos.\nDimensión del campo de juego: 105 x 70 mts."
+}
