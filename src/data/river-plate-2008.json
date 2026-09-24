@@ -3,107 +3,211 @@
   "año": 2008,
   "paginas": 32,
   "figuritas": 131,
-  "tapa_frente": "tapa_frente.png",
-  "tapa_dorso": "tapa_dorso.png",
+
+  "recursos": {
+    "tapa_frente": "tapa_frente.png",
+    "tapa_dorso": "tapa_dorso.png",
+    "fondo_desktop": "fondo.png",
+    "fondo_mobile": "fondo.png",
+    "escudo": "escudo.png",
+    "contenedor_vertical": "contenedor-vertical.png",
+    "contenedor_horizontal": "contenedor-horizontal.png"
+  },
 
   "paginas_album": {
-    "1": [
-      "E1.png"
-    ],
-    "2": [
-      "01.png",
-      "02.png",
-      "03.png",
-      "04.png",
-      "05.png",
-      "06.png"
-    ],
-    "3": [
-      "E2.png",
-      "E3.png",
-      "E4.png",
-      "E5.png",
-      "E6.png",
-      "E7.png"
-    ],
-    "4": [
-      "C1.png",
-      "C2.png",
-      "C3.png",
-      "C4.png",
-      "C5.png",
-      "C6.png"
-    ],
-    "5": [
-      "C7.png",
-      "C8.png",
-      "C9.png",
-      "C10.png",
-      "C11.png",
-      "C12.png"
-    ],
-    "6": [
-      "C13.png",
-      "C14.png",
-      "C15.png",
-      "C16.png",
-      "C17.png",
-      "C18.png"
-    ],
-    "7": [
-      "07.png",
-      "08.png",
-      "09.png",
-      "10.png",
-      "11.png",
-      "12.png"
-    ],
-    "8": [
-      "13.png",
-      "14.png",
-      "15.png",
-      "16.png",
-      "17.png",
-      "18.png"
-    ],
-    "9": [
-      "19.png",
-      "20.png",
-      "21.png",
-      "22.png",
-      "23.png",
-      "24.png"
-    ],
-    "10": [
-      "25.png",
-      "26.png",
-      "27.png",
-      "28.png",
-      "29.png",
-      "30.png"
-    ],
-    "11": [],
-    "12": [],
-    "13": [],
-    "14": [],
-    "15": [],
-    "16": [],
-    "17": [],
-    "18": [],
-    "19": [],
-    "20": [],
-    "21": [],
-    "22": [],
-    "23": [],
-    "24": [],
-    "25": [],
-    "26": [],
-    "27": [],
-    "28": [],
-    "29": [],
-    "30": [],
-    "31": [],
-    "32": []
+    "1": {
+      "figuritas": [
+        "E1.png"
+      ],
+      "frase": "EL MAS\nGRANDE\nLEJOS"
+    },
+    "2": {
+      "figuritas": [
+        "01.png",
+        "02.png",
+        "03.png",
+        "04.png",
+        "05.png",
+        "06.png"
+      ],
+      "frase": "EL\nMONUMENTAL"
+    },
+    "3": {
+      "figuritas": [
+        "E2.png",
+        "E3.png",
+        "E4.png",
+        "E5.png",
+        "E6.png",
+        "E7.png"
+      ],
+      "frase": "SIEMPRE SOBRE\nEL PECHO\nNUESTRO GLORIOSO ESCUDO"
+    },
+    "4": {
+      "figuritas": [
+        "C1.png",
+        "C2.png",
+        "C3.png",
+        "C4.png",
+        "C5.png",
+        "C6.png"
+      ],
+      "frase": "EL MANTO\nSAGRADO"
+    },
+    "5": {
+      "figuritas": [
+        "C7.png",
+        "C8.png",
+        "C9.png",
+        "C10.png",
+        "C11.png",
+        "C12.png"
+      ],
+      "frase": "EL MANTO SAGRADO"
+    },
+    "6": {
+      "figuritas": [
+        "C13.png",
+        "C14.png",
+        "C15.png",
+        "C16.png",
+        "C17.png",
+        "C18.png"
+      ],
+      "frase": null
+    },
+    "7": {
+      "figuritas": [
+        "07.png",
+        "08.png",
+        "09.png",
+        "10.png",
+        "11.png",
+        "12.png"
+      ],
+      "frase": "FÚTBOL Y ESPECTÁCULO"
+    },
+    "8": {
+      "figuritas": [
+        "13.png",
+        "14.png",
+        "15.png",
+        "16.png",
+        "17.png",
+        "18.png"
+      ],
+      "frase": "AYER, HOY Y SIEMPRE"
+    },
+    "9": {
+      "figuritas": [
+        "19.png",
+        "20.png",
+        "21.png",
+        "22.png",
+        "23.png",
+        "24.png"
+      ],
+      "frase": "FÚTBOL Y ESPECTÁCULO"
+    },
+    "10": {
+      "figuritas": [
+        "25.png",
+        "26.png",
+        "27.png",
+        "28.png",
+        "29.png",
+        "30.png"
+      ],
+      "frase": "AYER, HOY Y SIEMPRE"
+    },
+    "11": {
+      "figuritas": [],
+      "frase": null
+    },
+    "12": {
+      "figuritas": [],
+      "frase": null
+    },
+    "13": {
+      "figuritas": [],
+      "frase": null
+    },
+    "14": {
+      "figuritas": [],
+      "frase": null
+    },
+    "15": {
+      "figuritas": [],
+      "frase": null
+    },
+    "16": {
+      "figuritas": [],
+      "frase": null
+    },
+    "17": {
+      "figuritas": [],
+      "frase": null
+    },
+    "18": {
+      "figuritas": [],
+      "frase": null
+    },
+    "19": {
+      "figuritas": [],
+      "frase": null
+    },
+    "20": {
+      "figuritas": [],
+      "frase": null
+    },
+    "21": {
+      "figuritas": [],
+      "frase": null
+    },
+    "22": {
+      "figuritas": [],
+      "frase": null
+    },
+    "23": {
+      "figuritas": [],
+      "frase": null
+    },
+    "24": {
+      "figuritas": [],
+      "frase": null
+    },
+    "25": {
+      "figuritas": [],
+      "frase": null
+    },
+    "26": {
+      "figuritas": [],
+      "frase": null
+    },
+    "27": {
+      "figuritas": [],
+      "frase": null
+    },
+    "28": {
+      "figuritas": [],
+      "frase": null
+    },
+    "29": {
+      "figuritas": [],
+      "frase": null
+    },
+    "30": {
+      "figuritas": [],
+      "frase": null
+    },
+    "31": {
+      "figuritas": [],
+      "frase": null
+    },
+    "32": {
+      "figuritas": [],
+      "frase": null
+    }
   },
 
   "himno": {
