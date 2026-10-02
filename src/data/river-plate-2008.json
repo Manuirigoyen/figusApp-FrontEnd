@@ -155,7 +155,8 @@
         { "imagen": "17.png", "descripcion": null },
         { "imagen": "18.png", "descripcion": null }
       ],
-      "frase": "AYER, HOY Y SIEMPRE"
+      "frase": "AYER, HOY Y SIEMPRE",
+      "descripcion": "El Club Atletico River Plate logro en 2008 su titulo local numero 33 reforzando asi la\nposicion del equipo de futbol argentino con mayor cantidad de campeonatos obtenidos\nEntre otros logros, consiguio dos Copas libertadores (1985 y 1996) una copa\nIntercontinental (1986), una Copa Interamericana (1987) y una Supercopa (1997)."
     },
     "9": {
       "figuritas": [
@@ -187,19 +188,135 @@
     "16": { "figuritas": [], "frase": null },
     "17": { "figuritas": [], "frase": null },
     "18": { "figuritas": [], "frase": null },
-    "19": { "figuritas": [], "frase": null },
-    "20": { "figuritas": [], "frase": null },
-    "21": { "figuritas": [], "frase": null },
-    "22": { "figuritas": [], "frase": null },
-    "23": { "figuritas": [], "frase": null },
-    "24": { "figuritas": [], "frase": null },
-    "25": { "figuritas": [], "frase": null },
+    "19": {
+      "figuritas": [
+        {
+          "imagen": "T1.png",
+          "descripcion": "Trofeo de la Gira Eurocopa\ndel año 1959"
+        },
+        {
+          "imagen": "T2.png",
+          "descripcion": "Copa IV Centenario, obtenida en\nel Campeonato Metropolitano\nde 1980."
+        },
+        {
+          "imagen": "T3.png",
+          "descripcion": "Copa Libertadores de America\nobtenida en 1986 y 1996"
+        },
+        {
+          "imagen": "T4.png",
+          "descripcion": "Copa Toyota obtenida en 1986."
+        },
+        {
+          "imagen": "T5.png",
+          "descripcion": "Copa Intercontinental obtenida\nen 1986."
+        },
+        {
+          "imagen": "T6.png",
+          "descripcion": "Copa AFA."
+        },
+        {
+          "imagen": "T7.png",
+          "descripcion": "Copa Interamericana obtenida\nen 1987 (trofeo conservado en el\nclub)"
+        }
+      ],
+      "frase": "Las huellas del exito"
+    },
+    "20": {
+      "figuritas": [
+        {
+          "imagen": "T8.png",
+          "descripcion": "Copa Interamericana"
+        },
+        {
+          "imagen": "T9.png",
+          "descripcion": "Copa del Campeonato Apertura\nobtenida en 1991, 1993, 1994,\n1996, 1997 y 1999."
+        },
+        {
+          "imagen": "T10.png",
+          "descripcion": "Supercopa obtenida en 1997."
+        },
+        {
+          "imagen": "T11.png",
+          "descripcion": "Copa Cablevision obtenida por\nel Campeonato Clausura 2008."
+        }
+      ],
+      "frase": "los grandes trofeos"
+    },
+    "21": {
+      "figuritas": [
+        { "imagen": "79.png", "descripcion": "1975 - Metropolitano" },
+        { "imagen": "80.png", "descripcion": "1979 - Metropolitano" },
+        { "imagen": "81.png", "descripcion": "1985/1986" },
+        { "imagen": "82.png", "descripcion": "1991 Apertura" },
+        { "imagen": "83.png", "descripcion": "1986 - INTERCONTINENTAL" },
+        { "imagen": "84.png", "descripcion": "1996 - LIBERTADORES" }
+      ],
+      "frase": "Momentos de gloria"
+    },
+    "22": {
+      "figuritas": [
+        { "imagen": "85.png", "descripcion": "19     - Libertadores" },
+        { "imagen": "86.png", "descripcion": "19   - Apertura" },
+        { "imagen": "87.png", "descripcion": "2003 - SUPERCOPA" },
+        { "imagen": "88.png", "descripcion": "1997 - Clausura" }
+      ],
+      "frase": null
+    },
+    "23": {
+      "figuritas": [
+        { "imagen": "92.png", "descripcion": "Formacion 1932" },
+        { "imagen": "93.png", "descripcion": "Formacion 1937" },
+        { "imagen": "94.png", "descripcion": "Formacion 1947" },
+        { "imagen": "95.png", "descripcion": "Formacion 1975/76" },
+        { "imagen": "96.png", "descripcion": "Formacion 1977" },
+        { "imagen": "97.png", "descripcion": "Formacion 1979" }
+      ],
+      "frase": "equipos que nos hicieron grandes"
+    },
+    "24": {
+      "figuritas": [
+        { "imagen": "97.png", "descripcion": "Formacion 1980" },
+        { "imagen": "98.png", "descripcion": "Formacion 1981" },
+        { "imagen": "99.png", "descripcion": "Formacion 1985/86" },
+        { "imagen": "100.png", "descripcion": "Formacion 1986\nLIBERTADORES" },
+        { "imagen": "101.png", "descripcion": "Formacion 1986 - INTERCONTINENTAL" },
+        { "imagen": "102.png", "descripcion": "Formacion 1986 - INTERCONTINENTAL" },
+        { "imagen": "103.png", "descripcion": "Formacion 1986/89" },
+        { "imagen": "104.png", "descripcion": "Formacion 1985/90" },
+        { "imagen": "105.png", "descripcion": "Formacion 1991 - Argentina" },
+        { "imagen": "106.png", "descripcion": "Formacion 1954\nApertura - !INVICTO!" },
+        { "imagen": "107.png", "descripcion": "fORMACION 1990\nLIBERTADORES" },
+        { "imagen": "108.png", "descripcion": "Formacion 1967 - Clausura" }
+      ],
+      "frase": "momentos de gloria"
+    },
+    "25": {
+      "figuritas": [
+        { "imagen": "109.png", "descripcion": "Formacion 1997\nSUPERCOPA" },
+        { "imagen": "110.png", "descripcion": "Formacion 1999 - Apertura" },
+        { "imagen": "111.png", "descripcion": "Formacion 2002 Clausura" },
+        { "imagen": "112.png", "descripcion": "Formacion 2003 - Clausura" },
+        { "imagen": "113.png", "descripcion": "Formacion 2004 - Clausura" },
+        { "imagen": "114.png", "descripcion": "Formacion 2008 - Clausura" }
+      ],
+      "frase": null
+    },
     "26": { "figuritas": [], "frase": null },
     "27": { "figuritas": [], "frase": null },
     "28": { "figuritas": [], "frase": null },
     "29": { "figuritas": [], "frase": null },
     "30": { "figuritas": [], "frase": null },
-    "31": { "figuritas": [], "frase": null },
+    "31": {
+      "figuritas": [
+        { "imagen": "151.png", "descripcion": null },
+        { "imagen": "152.png", "descripcion": null },
+        { "imagen": "153.png", "descripcion": null },
+        { "imagen": "154.png", "descripcion": null },
+        { "imagen": "155.png", "descripcion": null },
+        { "imagen": "156.png", "descripcion": null }
+      ],
+      "frase": "es siempre presentes"
+    },
     "32": { "figuritas": [], "frase": null }
   },
 
