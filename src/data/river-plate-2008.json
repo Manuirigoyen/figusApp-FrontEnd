@@ -3,7 +3,6 @@
   "año": 2008,
   "paginas": 32,
   "figuritas": 131,
-
   "recursos": {
     "tapa_frente": "tapa_frente.png",
     "tapa_dorso": "tapa_dorso.png",
@@ -11,11 +10,8 @@
     "contratapa_dorso": "contratapa_dorso.png",
     "fondo_desktop": "fondo.png",
     "fondo_mobile": "fondo.png",
-    "escudo": "escudo.png",
-    "contenedor_vertical": "contenedor-vertical.png",
-    "contenedor_horizontal": "contenedor-horizontal.png"
+    "escudo": "albums/river-plate-2008/extras/escudo.png"
   },
-
   "paginas_album": {
     "1": {
       "figuritas": [
@@ -28,50 +24,110 @@
     },
     "2": {
       "figuritas": [
-        { "imagen": "01.png", "descripcion": null },
-        { "imagen": "02.png", "descripcion": null },
-        { "imagen": "03.png", "descripcion": null },
-        { "imagen": "04.png", "descripcion": null },
-        { "imagen": "05.png", "descripcion": null },
-        { "imagen": "06.png", "descripcion": null }
+        {
+          "imagen": "albums/river-plate-2008/1.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "albums/river-plate-2008/2.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "albums/river-plate-2008/3.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "albums/river-plate-2008/4.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "albums/river-plate-2008/5.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "albums/river-plate-2008/6.png",
+          "descripcion": null
+        }
       ],
       "frase": "EL\nMONUMENTAL"
     },
     "3": {
       "figuritas": [
-        { "imagen": "E2.png", "descripcion": null },
-        { "imagen": "E3.png", "descripcion": null },
-        { "imagen": "E4.png", "descripcion": null },
-        { "imagen": "E5.png", "descripcion": null },
-        { "imagen": "E6.png", "descripcion": null },
-        { "imagen": "E7.png", "descripcion": null }
+        {
+          "imagen": "albums/river-plate-2008/E2.png",
+          "dorso": "albums/river-plate-2008/extras/dorso-cuadrado.png",
+          "contenedor": "albums/river-plate-2008/extras/contenedor-cuadrado.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "albums/river-plate-2008/E3.png",
+          "dorso": "albums/river-plate-2008/extras/dorso-cuadrado.png",
+          "contenedor": "albums/river-plate-2008/extras/contenedor-cuadrado.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "albums/river-plate-2008/E4.png",
+          "dorso": "albums/river-plate-2008/extras/dorso-cuadrado.png",
+          "contenedor": "albums/river-plate-2008/extras/contenedor-cuadrado.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "albums/river-plate-2008/E5.png",
+          "dorso": "albums/river-plate-2008/extras/dorso-cuadrado.png",
+          "contenedor": "albums/river-plate-2008/extras/contenedor-cuadrado.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "albums/river-plate-2008/E6.png",
+          "dorso": "albums/river-plate-2008/extras/dorso-cuadrado.png",
+          "contenedor": "albums/river-plate-2008/extras/contenedor-cuadrado.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "albums/river-plate-2008/E7.png",
+          "dorso": "albums/river-plate-2008/extras/dorso-cuadrado.png",
+          "contenedor": "albums/river-plate-2008/extras/contenedor-cuadrado.png",
+          "descripcion": null
+        }
       ],
       "frase": "SIEMPRE SOBRE\nEL PECHO\nNUESTRO GLORIOSO ESCUDO"
     },
     "4": {
       "figuritas": [
         {
-          "imagen": "C1.png",
+          "imagen": "albums/river-plate-2008/C1.png",
+          "dorso": "albums/river-plate-2008/extras/dorso-vertical.png",
+          "contenedor": "albums/river-plate-2008/extras/contenedor-vertical.png",
           "descripcion": "1901-1908. La camiseta con la franja roja\nfue siempre el gran orgullo del club."
         },
         {
-          "imagen": "C2.png",
+          "imagen": "albums/river-plate-2008/C2.png",
+          "dorso": "albums/river-plate-2008/extras/dorso-vertical.png",
+          "contenedor": "albums/river-plate-2008/extras/contenedor-vertical.png",
           "descripcion": "1909-1931. Listones blancos, rojos y\nnegros fue la camiseta titular."
         },
         {
-          "imagen": "C3.png",
+          "imagen": "albums/river-plate-2008/C3.png",
+          "dorso": "albums/river-plate-2008/extras/dorso-vertical.png",
+          "contenedor": "albums/river-plate-2008/extras/contenedor-vertical.png",
           "descripcion": "Camiseta alternativa utilizada entre 1932\ny 1944"
         },
         {
-          "imagen": "C4.png",
+          "imagen": "albums/river-plate-2008/C4.png",
+          "dorso": "albums/river-plate-2008/extras/dorso-vertical.png",
+          "contenedor": "albums/river-plate-2008/extras/contenedor-vertical.png",
           "descripcion": "Camiseta alternativa utilizada entre\n1951 y 1965. Realizada en homenaje al \"Club\nTorino de Italia\""
         },
         {
-          "imagen": "C5.png",
+          "imagen": "albums/river-plate-2008/C5.png",
+          "dorso": "albums/river-plate-2008/extras/dorso-vertical.png",
+          "contenedor": "albums/river-plate-2008/extras/contenedor-vertical.png",
           "descripcion": "1964-1969: Camiseta suplementaria roja\ncon mangas y cuello blancos."
         },
         {
-          "imagen": "C6.png",
+          "imagen": "albums/river-plate-2008/C6.png",
+          "dorso": "albums/river-plate-2008/extras/dorso-vertical.png",
+          "contenedor": "albums/river-plate-2008/extras/contenedor-vertical.png",
           "descripcion": "1969-1970, 1975 y 2008: Camiseta alternativa utilizada unicamente en cuatro\npartidos."
         }
       ],
@@ -137,57 +193,153 @@
     },
     "7": {
       "figuritas": [
-        { "imagen": "07.png", "descripcion": null },
-        { "imagen": "08.png", "descripcion": null },
-        { "imagen": "09.png", "descripcion": null },
-        { "imagen": "10.png", "descripcion": null },
-        { "imagen": "11.png", "descripcion": null },
-        { "imagen": "12.png", "descripcion": null }
+        {
+          "imagen": "07.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "08.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "09.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "10.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "11.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "12.png",
+          "descripcion": null
+        }
       ],
       "frase": "FÚTBOL Y ESPECTÁCULO"
     },
     "8": {
       "figuritas": [
-        { "imagen": "13.png", "descripcion": null },
-        { "imagen": "14.png", "descripcion": null },
-        { "imagen": "15.png", "descripcion": null },
-        { "imagen": "16.png", "descripcion": null },
-        { "imagen": "17.png", "descripcion": null },
-        { "imagen": "18.png", "descripcion": null }
+        {
+          "imagen": "13.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "14.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "15.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "16.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "17.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "18.png",
+          "descripcion": null
+        }
       ],
       "frase": "AYER, HOY Y SIEMPRE",
       "descripcion": "El Club Atletico River Plate logro en 2008 su titulo local numero 33 reforzando asi la\nposicion del equipo de futbol argentino con mayor cantidad de campeonatos obtenidos\nEntre otros logros, consiguio dos Copas libertadores (1985 y 1996) una copa\nIntercontinental (1986), una Copa Interamericana (1987) y una Supercopa (1997)."
     },
     "9": {
       "figuritas": [
-        { "imagen": "19.png", "descripcion": null },
-        { "imagen": "20.png", "descripcion": null },
-        { "imagen": "21.png", "descripcion": null },
-        { "imagen": "22.png", "descripcion": null },
-        { "imagen": "23.png", "descripcion": null },
-        { "imagen": "24.png", "descripcion": null }
+        {
+          "imagen": "19.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "20.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "21.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "22.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "23.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "24.png",
+          "descripcion": null
+        }
       ],
       "frase": "FÚTBOL Y ESPECTÁCULO"
     },
     "10": {
       "figuritas": [
-        { "imagen": "25.png", "descripcion": null },
-        { "imagen": "26.png", "descripcion": null },
-        { "imagen": "27.png", "descripcion": null },
-        { "imagen": "28.png", "descripcion": null },
-        { "imagen": "29.png", "descripcion": null },
-        { "imagen": "30.png", "descripcion": null }
+        {
+          "imagen": "25.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "26.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "27.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "28.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "29.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "30.png",
+          "descripcion": null
+        }
       ],
       "frase": "AYER, HOY Y SIEMPRE"
     },
-    "11": { "figuritas": [], "frase": null },
-    "12": { "figuritas": [], "frase": null },
-    "13": { "figuritas": [], "frase": null },
-    "14": { "figuritas": [], "frase": null },
-    "15": { "figuritas": [], "frase": null },
-    "16": { "figuritas": [], "frase": null },
-    "17": { "figuritas": [], "frase": null },
-    "18": { "figuritas": [], "frase": null },
+    "11": {
+      "figuritas": [],
+      "frase": null
+    },
+    "12": {
+      "figuritas": [],
+      "frase": null
+    },
+    "13": {
+      "figuritas": [],
+      "frase": null
+    },
+    "14": {
+      "figuritas": [],
+      "frase": null
+    },
+    "15": {
+      "figuritas": [],
+      "frase": null
+    },
+    "16": {
+      "figuritas": [],
+      "frase": null
+    },
+    "17": {
+      "figuritas": [],
+      "frase": null
+    },
+    "18": {
+      "figuritas": [],
+      "frase": null
+    },
     "19": {
       "figuritas": [
         {
@@ -244,87 +396,223 @@
     },
     "21": {
       "figuritas": [
-        { "imagen": "79.png", "descripcion": "1975 - Metropolitano" },
-        { "imagen": "80.png", "descripcion": "1979 - Metropolitano" },
-        { "imagen": "81.png", "descripcion": "1985/1986" },
-        { "imagen": "82.png", "descripcion": "1991 Apertura" },
-        { "imagen": "83.png", "descripcion": "1986 - INTERCONTINENTAL" },
-        { "imagen": "84.png", "descripcion": "1996 - LIBERTADORES" }
+        {
+          "imagen": "79.png",
+          "descripcion": "1975 - Metropolitano"
+        },
+        {
+          "imagen": "80.png",
+          "descripcion": "1979 - Metropolitano"
+        },
+        {
+          "imagen": "81.png",
+          "descripcion": "1985/1986"
+        },
+        {
+          "imagen": "82.png",
+          "descripcion": "1991 Apertura"
+        },
+        {
+          "imagen": "83.png",
+          "descripcion": "1986 - INTERCONTINENTAL"
+        },
+        {
+          "imagen": "84.png",
+          "descripcion": "1996 - LIBERTADORES"
+        }
       ],
       "frase": "Momentos de gloria"
     },
     "22": {
       "figuritas": [
-        { "imagen": "85.png", "descripcion": "19     - Libertadores" },
-        { "imagen": "86.png", "descripcion": "19   - Apertura" },
-        { "imagen": "87.png", "descripcion": "2003 - SUPERCOPA" },
-        { "imagen": "88.png", "descripcion": "1997 - Clausura" }
+        {
+          "imagen": "85.png",
+          "descripcion": "19     - Libertadores"
+        },
+        {
+          "imagen": "86.png",
+          "descripcion": "19   - Apertura"
+        },
+        {
+          "imagen": "87.png",
+          "descripcion": "2003 - SUPERCOPA"
+        },
+        {
+          "imagen": "88.png",
+          "descripcion": "1997 - Clausura"
+        }
       ],
       "frase": null
     },
     "23": {
       "figuritas": [
-        { "imagen": "92.png", "descripcion": "Formacion 1932" },
-        { "imagen": "93.png", "descripcion": "Formacion 1937" },
-        { "imagen": "94.png", "descripcion": "Formacion 1947" },
-        { "imagen": "95.png", "descripcion": "Formacion 1975/76" },
-        { "imagen": "96.png", "descripcion": "Formacion 1977" },
-        { "imagen": "97.png", "descripcion": "Formacion 1979" }
+        {
+          "imagen": "92.png",
+          "descripcion": "Formacion 1932"
+        },
+        {
+          "imagen": "93.png",
+          "descripcion": "Formacion 1937"
+        },
+        {
+          "imagen": "94.png",
+          "descripcion": "Formacion 1947"
+        },
+        {
+          "imagen": "95.png",
+          "descripcion": "Formacion 1975/76"
+        },
+        {
+          "imagen": "96.png",
+          "descripcion": "Formacion 1977"
+        },
+        {
+          "imagen": "97.png",
+          "descripcion": "Formacion 1979"
+        }
       ],
       "frase": "equipos que nos hicieron grandes"
     },
     "24": {
       "figuritas": [
-        { "imagen": "97.png", "descripcion": "Formacion 1980" },
-        { "imagen": "98.png", "descripcion": "Formacion 1981" },
-        { "imagen": "99.png", "descripcion": "Formacion 1985/86" },
-        { "imagen": "100.png", "descripcion": "Formacion 1986\nLIBERTADORES" },
-        { "imagen": "101.png", "descripcion": "Formacion 1986 - INTERCONTINENTAL" },
-        { "imagen": "102.png", "descripcion": "Formacion 1986 - INTERCONTINENTAL" },
-        { "imagen": "103.png", "descripcion": "Formacion 1986/89" },
-        { "imagen": "104.png", "descripcion": "Formacion 1985/90" },
-        { "imagen": "105.png", "descripcion": "Formacion 1991 - Argentina" },
-        { "imagen": "106.png", "descripcion": "Formacion 1954\nApertura - !INVICTO!" },
-        { "imagen": "107.png", "descripcion": "fORMACION 1990\nLIBERTADORES" },
-        { "imagen": "108.png", "descripcion": "Formacion 1967 - Clausura" }
+        {
+          "imagen": "97.png",
+          "descripcion": "Formacion 1980"
+        },
+        {
+          "imagen": "98.png",
+          "descripcion": "Formacion 1981"
+        },
+        {
+          "imagen": "99.png",
+          "descripcion": "Formacion 1985/86"
+        },
+        {
+          "imagen": "100.png",
+          "descripcion": "Formacion 1986\nLIBERTADORES"
+        },
+        {
+          "imagen": "101.png",
+          "descripcion": "Formacion 1986 - INTERCONTINENTAL"
+        },
+        {
+          "imagen": "102.png",
+          "descripcion": "Formacion 1986 - INTERCONTINENTAL"
+        },
+        {
+          "imagen": "103.png",
+          "descripcion": "Formacion 1986/89"
+        },
+        {
+          "imagen": "104.png",
+          "descripcion": "Formacion 1985/90"
+        },
+        {
+          "imagen": "105.png",
+          "descripcion": "Formacion 1991 - Argentina"
+        },
+        {
+          "imagen": "106.png",
+          "descripcion": "Formacion 1954\nApertura - !INVICTO!"
+        },
+        {
+          "imagen": "107.png",
+          "descripcion": "fORMACION 1990\nLIBERTADORES"
+        },
+        {
+          "imagen": "108.png",
+          "descripcion": "Formacion 1967 - Clausura"
+        }
       ],
       "frase": "momentos de gloria"
     },
     "25": {
       "figuritas": [
-        { "imagen": "109.png", "descripcion": "Formacion 1997\nSUPERCOPA" },
-        { "imagen": "110.png", "descripcion": "Formacion 1999 - Apertura" },
-        { "imagen": "111.png", "descripcion": "Formacion 2002 Clausura" },
-        { "imagen": "112.png", "descripcion": "Formacion 2003 - Clausura" },
-        { "imagen": "113.png", "descripcion": "Formacion 2004 - Clausura" },
-        { "imagen": "114.png", "descripcion": "Formacion 2008 - Clausura" }
+        {
+          "imagen": "109.png",
+          "descripcion": "Formacion 1997\nSUPERCOPA"
+        },
+        {
+          "imagen": "110.png",
+          "descripcion": "Formacion 1999 - Apertura"
+        },
+        {
+          "imagen": "111.png",
+          "descripcion": "Formacion 2002 Clausura"
+        },
+        {
+          "imagen": "112.png",
+          "descripcion": "Formacion 2003 - Clausura"
+        },
+        {
+          "imagen": "113.png",
+          "descripcion": "Formacion 2004 - Clausura"
+        },
+        {
+          "imagen": "114.png",
+          "descripcion": "Formacion 2008 - Clausura"
+        }
       ],
       "frase": null
     },
-    "26": { "figuritas": [], "frase": null },
-    "27": { "figuritas": [], "frase": null },
-    "28": { "figuritas": [], "frase": null },
-    "29": { "figuritas": [], "frase": null },
-    "30": { "figuritas": [], "frase": null },
+    "26": {
+      "figuritas": [],
+      "frase": null
+    },
+    "27": {
+      "figuritas": [],
+      "frase": null
+    },
+    "28": {
+      "figuritas": [],
+      "frase": null
+    },
+    "29": {
+      "figuritas": [],
+      "frase": null
+    },
+    "30": {
+      "figuritas": [],
+      "frase": null
+    },
     "31": {
       "figuritas": [
-        { "imagen": "151.png", "descripcion": null },
-        { "imagen": "152.png", "descripcion": null },
-        { "imagen": "153.png", "descripcion": null },
-        { "imagen": "154.png", "descripcion": null },
-        { "imagen": "155.png", "descripcion": null },
-        { "imagen": "156.png", "descripcion": null }
+        {
+          "imagen": "151.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "152.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "153.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "154.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "155.png",
+          "descripcion": null
+        },
+        {
+          "imagen": "156.png",
+          "descripcion": null
+        }
       ],
       "frase": "es siempre presentes"
     },
-    "32": { "figuritas": [], "frase": null }
+    "32": {
+      "figuritas": [],
+      "frase": null
+    }
   },
-
   "himno": {
     "titulo": "HIMNO DEL CLUB ATLÉTICO RIVER PLATE",
     "letra": "El más grande sigue siendo River Plate,\nel campeón más poderoso de la historia,\nel más grande por las glorias\nque alumbraron el ayer\ny que brillan todavía en mi memoria...\n\nEl más grande sigue siendo River Plate\ny será más grande aún en el mañana,\npor el juego, por las ganas y el orgullo\nde tener una banda roja\nque nos cruza el alma...\n\nVuelan las banderas del Monumental,\nse viene River, se viene la alegría.\nY cada hora, cada día River Plate,\nte quiero más,\ncomo te quiere casi toda la Argentina.\n\nEl más grande sigue siendo River Plate,\npor su estilo, sus estrellas y su gente,\nporque River no se vende,\nporque se lleva en la piel\ny en cualquier lugar que esté,\nsiempre va al frente...\n\nVuelan las banderas del Monumental,\nse viene River, se viene la alegría,\ny cada hora, cada día River Plate,\nte quiero más,\ncomo te quiere casi toda la Argentina.\n\nHasta que me muera te voy a alentar\ny si volviera a reencarnarme\nen otra vida,\nno sé por dónde viviría,\nde qué iría a trabajar,\npero seguro que de River yo sería...\n\nEl más grande por las ganas\ny el orgullo de tener\nuna banda roja que nos cruza el alma.",
     "autor": "Ignacio Copani (1987)"
   },
-
   "biografia": "El 25 de mayo de 1935 se colocó la piedra\nfundamental del actual estadio en el predio de\nAv. Centenario y Río de la Plata. El 27\nde septiembre de 1936 comenzó su construcción\nbajo la dirección de los arquitectos José Asián y\nHéctor Ezcurra.\n\nEl partido inaugural fue el 25 de mayo de 1938\n(River Plate vs. Peñarol). Desde entonces se\ntransformó en el gran estadio argentino, el gran\norgullo y templo de todos los hinchas millonarios\nque viven partido tras partido con una emoción\ninigualable. En el año 1978, se realizó una\nreconstrucción con motivo del Mundial de fútbol,\nya que fue la sede central del certamen.\n\nEl 29 de noviembre de 1966 el estadio recibió el\nnombre con el que actualmente se lo conoce:\nANTONIO VESPUCIO LIBERTI.\n\nNombre completo del estadio: ANTONIO VESPUCIO\nLIBERTI - \"EL MONUMENTAL\"\nDirección: Av. Figueroa Alcorta 7597, Núñez, C.A.B.A.\nCapacidad: 65.645 espectadores.\nCapacidad cubierta: 25.568 asientos.\nDimensión del campo de juego: 105 x 70 mts."
 }

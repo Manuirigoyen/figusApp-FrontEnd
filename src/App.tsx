@@ -1,122 +1,57 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import React from 'react';
+import { FiguritaCard } from './components/album/Figurita';
+import type { SeccionAlbum } from './types/figurita';
+import albumJson from './data/river-plate-2008.json';
 
-function App() {
-  const [count, setCount] = useState(0)
+const seccion3: SeccionAlbum = albumJson.paginas_album['3'];
+const seccion4: SeccionAlbum = albumJson.paginas_album['4'];
+
+export function App(): React.ReactElement {
+  const figuritasPagina4 = seccion4.figuritas.slice(0, 6);
+  const fila1Pag4 = figuritasPagina4.slice(0, 3);
+  const fila2Pag4 = figuritasPagina4.slice(3, 6);
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
+    <main className="min-h-screen flex justify-center items-center p-6">
+      <div className="w-[920px] h-[700px] bg-[url('/albums/river-plate-2008/extras/fondo.png')] bg-[length:100%_100%] bg-center bg-no-repeat grid grid-cols-2 box-border relative shadow-2xl">
+        <div className="w-full h-full flex flex-col justify-center items-center px-[45px] py-[40px] box-border relative">
+          <div className="grid grid-cols-2 gap-0 w-full max-w-[280px] items-center justify-items-center">
+            {seccion3.figuritas.map((figurita) => (
+              <FiguritaCard
+                key={figurita.imagen}
+                figurita={figurita}
+              />
+            ))}
+          </div>
         </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
 
-      <div className="ticks"></div>
+        <div className="w-full h-full flex flex-col justify-center items-center gap-8 px-[45px] py-[50px] box-border relative">
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+          <div className="grid grid-cols-3 gap-6 w-full items-center justify-items-center">
+            {fila1Pag4.map((figurita, index) => (
+              <div
+                key={figurita.imagen}
+                className={`transition-transform duration-300 ease-in-out ${index === 1 ? '-translate-y-[18px]' : 'translate-y-0'
+                  }`}
+              >
+                <FiguritaCard figurita={figurita} />
+              </div>
+            ))}
+          </div>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+          <div className="grid grid-cols-3 gap-6 w-full items-center justify-items-center">
+            {fila2Pag4.map((figurita, index) => (
+              <div
+                key={figurita.imagen}
+                className={`transition-transform duration-300 ease-in-out ${index === 1 ? 'translate-y-[18px]' : 'translate-y-0'
+                  }`}
+              >
+                <FiguritaCard figurita={figurita} />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </main>
+  );
 }
-
-export default App
